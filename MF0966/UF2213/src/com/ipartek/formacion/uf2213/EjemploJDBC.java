@@ -9,6 +9,8 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.Scanner;
 
+import static com.ipartek.formacion.bibliotecas.Consola.*;
+
 public class EjemploJDBC {
 	private static final String URL = "jdbc:mysql://localhost:3306/manana_tienda";
 	private static final String USER = "root";
@@ -22,27 +24,28 @@ public class EjemploJDBC {
 	private static final String SQL_INSERT = "INSERT INTO clientes (" + SQL_CAMPOS + ") VALUES (?,?,?,?,?)";
 	private static final String SQL_UPDATE = "UPDATE clientes SET dni=?, dni_diferencial=?, nombre=?, apellidos=?, fecha_nacimiento=? WHERE id=?";
 	private static final String SQL_DELETE = "DELETE FROM clientes WHERE id=?";
+	private static final int SALIR = 0;
+	private static final int LISTADO = 1;
+	private static final int BUSCAR = 2;
+	private static final int INSERTAR = 3;
+	private static final int MODIFICAR = 4;
+	private static final int BORRAR = 5;
 
 	private static Connection con;
-	
+
 	private static Scanner sc = new Scanner(System.in);
 
 	public static void main(String[] args) {
 		try {
 			con = DriverManager.getConnection(URL, USER, PASS);
 
-			System.out.print("Dime el id a buscar: ");
-			long id = sc.nextLong();
-			
-			obtenerPorId(id);
+			int opcion;
+			do {
+				mostrarMenu();
+				opcion = pedirOpcion();
+				ejecutar(opcion);
+			} while (opcion != SALIR);
 
-			insertar("25263748A", 8, "Nuevo", "Nuevez", LocalDate.of(2000, 1, 2));
-
-			modificar(7, "45263748A", 9, "Modificado", "Modificadez", LocalDate.of(2000, 1, 2));
-
-			borrar(3);
-
-			listado();
 		} catch (SQLException e) {
 			System.err.println("Error al conectar a la base de datos");
 			System.err.println(e.getMessage());
@@ -59,19 +62,113 @@ public class EjemploJDBC {
 		}
 	}
 
-	private static void listado() {
-		try (Statement st = con.createStatement(); ResultSet rs = st.executeQuery(SQL_SELECT)) {
-			while (rs.next()) {
-				// System.out.printf("%s;%s;%s;%s;%s;%s\n",
-				System.out.printf("%2s %s %3s %-10s %-20s %s\n", rs.getString("id"), rs.getString("dni"),
-						rs.getString("dni_diferencial"), rs.getString("nombre"), rs.getString("apellidos"),
-						rs.getString("fecha_nacimiento"));
-			}
-		} catch (SQLException e) {
-			System.err.println("Error en el listado");
-			System.err.println(e.getMessage());
-//			e.printStackTrace();
+	private static void mostrarMenu() {
+		System.out.println("""
+				MENU
+				----
+
+				1. LISTADO
+				2. BUSCAR POR ID
+				3. INSERTAR
+				4. MODIFICAR
+				5. BORRAR
+
+				0. SALIR
+				""");
+	}
+
+	private static int pedirOpcion() {
+		System.out.print("Introduce la opción elegida: ");
+
+		return sc.nextInt();
+	}
+
+	private static void ejecutar(int opcion) {
+		System.out.println("Ejecutando opción " + opcion);
+
+		switch (opcion) {
+		case LISTADO:
+			listado();
+			break;
+		case BUSCAR:
+			buscar();
+			break;
+		case INSERTAR:
+			insertar();
+			break;
+		case MODIFICAR:
+			modificar();
+			break;
+		case BORRAR:
+			borrar();
+			break;
+		case SALIR:
+			System.out.println("Gracias por utilizar esta aplicación");
+			break;
+		default:
+			System.out.println("No conozco esa opción");
 		}
+	}
+
+	private static void listado() {
+			try (Statement st = con.createStatement(); ResultSet rs = st.executeQuery(SQL_SELECT)) {
+				while (rs.next()) {
+					// System.out.printf("%s;%s;%s;%s;%s;%s\n",
+					System.out.printf("%2s %s %3s %-10s %-20s %s\n", rs.getString("id"), rs.getString("dni"),
+							rs.getString("dni_diferencial"), rs.getString("nombre"), rs.getString("apellidos"),
+							rs.getString("fecha_nacimiento"));
+				}
+			} catch (SQLException e) {
+				System.err.println("Error en el listado");
+				System.err.println(e.getMessage());
+	//			e.printStackTrace();
+			}
+		}
+
+	private static void buscar() {
+		System.out.print("Introduce el id a buscar: ");
+		long id = sc.nextLong();
+		obtenerPorId(id);
+	}
+
+	private static void insertar() {
+		String dni;
+		int dniDiferencial;
+		String nombre;
+		String apellidos;
+		LocalDate fechaNacimiento;
+		
+		dni = leerString("DNI");
+		dniDiferencial = leerInt("DNI diferencial");
+		nombre = leerString("Nombre");
+		apellidos = leerString("Apellidos");
+		fechaNacimiento = leerFecha("Fecha de nacimiento");
+		
+		insertar(dni, dniDiferencial, nombre, apellidos, fechaNacimiento);
+	}
+
+	private static void modificar() {
+		long id;
+		String dni;
+		int dniDiferencial;
+		String nombre;
+		String apellidos;
+		LocalDate fechaNacimiento;
+		
+		id = leerLong("Introduce el id a modificar"); //NUEVA
+		dni = leerString("DNI");
+		dniDiferencial = leerInt("DNI diferencial");
+		nombre = leerString("Nombre");
+		apellidos = leerString("Apellidos");
+		fechaNacimiento = leerFecha("Fecha de nacimiento");
+		
+		modificar(id, dni, dniDiferencial, nombre, apellidos, fechaNacimiento); //NUEVA
+	}
+
+	private static void borrar() {
+		System.out.print("Introduce el id a borrar: ");
+		long id = sc.nextLong();
+		borrar(id);
 	}
 
 	private static void obtenerPorId(long id) {
