@@ -1,5 +1,10 @@
 package com.ipartek.formacion.uf2213;
 
+import static com.ipartek.formacion.bibliotecas.Consola.leerFecha;
+import static com.ipartek.formacion.bibliotecas.Consola.leerInt;
+import static com.ipartek.formacion.bibliotecas.Consola.leerLong;
+import static com.ipartek.formacion.bibliotecas.Consola.leerString;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -7,9 +12,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
-import java.util.Scanner;
-
-import static com.ipartek.formacion.bibliotecas.Consola.*;
 
 public class EjemploJDBC {
 	private static final String URL = "jdbc:mysql://localhost:3306/manana_tienda";
@@ -32,8 +34,6 @@ public class EjemploJDBC {
 	private static final int BORRAR = 5;
 
 	private static Connection con;
-
-	private static Scanner sc = new Scanner(System.in);
 
 	public static void main(String[] args) {
 		try {
@@ -78,9 +78,7 @@ public class EjemploJDBC {
 	}
 
 	private static int pedirOpcion() {
-		System.out.print("Introduce la opción elegida: ");
-
-		return sc.nextInt();
+		return leerInt("Introduce la opción elegida");
 	}
 
 	private static void ejecutar(int opcion) {
@@ -126,8 +124,7 @@ public class EjemploJDBC {
 		}
 
 	private static void buscar() {
-		System.out.print("Introduce el id a buscar: ");
-		long id = sc.nextLong();
+		long id = leerLong("Introduce el id a buscar");
 		obtenerPorId(id);
 	}
 
@@ -166,8 +163,7 @@ public class EjemploJDBC {
 	}
 
 	private static void borrar() {
-		System.out.print("Introduce el id a borrar: ");
-		long id = sc.nextLong();
+		long id = leerLong("Introduce el id a borrar");
 		borrar(id);
 	}
 
