@@ -6,19 +6,26 @@ import java.util.Scanner;
 
 public class Consola {
 	private static final Scanner sc = new Scanner(System.in);
+	public static final boolean OPCIONAL = true;
+	public static final boolean OBLIGATORIO = false;
 
 	public static String leerString(String mensaje) {
 		System.out.print(mensaje + ": ");
 		return sc.nextLine();
 	}
 
-	public static long leerLong(String mensaje) {
+	public static Long leerLong(String mensaje) {
 		boolean hayError = true;
 		long l = 0;
 		
 		do {
 			try {
 				String dato = leerString(mensaje);
+
+				if(dato.trim().length() == 0) {
+					return null; 
+				}
+				
 				l = Long.parseLong(dato);
 				hayError = false;
 			} catch (NumberFormatException e) {
@@ -28,14 +35,22 @@ public class Consola {
 
 		return l;
 	}
-
-	public static int leerInt(String mensaje) {
+	public static Integer leerInt(String mensaje) {
+		return leerInt(mensaje, false);
+	}
+	
+	public static Integer leerInt(String mensaje, boolean opcional) {
 		boolean hayError = true;
 		int i = 0;
 		
 		do {
 			try {
 				String dato = leerString(mensaje);
+				
+				if(opcional && dato.trim().length() == 0) {
+					return null; 
+				}
+				
 				i = Integer.parseInt(dato);
 				hayError = false;
 			} catch (NumberFormatException e) {
@@ -52,7 +67,12 @@ public class Consola {
 		
 		do {
 			try {
-				String dato = leerString(mensaje + " [AAAA-MM-DD] ");				
+				String dato = leerString(mensaje + " [AAAA-MM-DD] ");
+
+				if(dato.trim().length() == 0) {
+					return null; 
+				}
+				
 				fecha = LocalDate.parse(dato);
 				hayError = false;
 			} catch (DateTimeParseException e) {

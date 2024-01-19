@@ -1,9 +1,6 @@
 package com.ipartek.formacion.uf2213;
 
-import static com.ipartek.formacion.bibliotecas.Consola.leerFecha;
-import static com.ipartek.formacion.bibliotecas.Consola.leerInt;
-import static com.ipartek.formacion.bibliotecas.Consola.leerLong;
-import static com.ipartek.formacion.bibliotecas.Consola.leerString;
+import static com.ipartek.formacion.bibliotecas.Consola.*;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -130,13 +127,13 @@ public class EjemploJDBC {
 
 	private static void insertar() {
 		String dni;
-		int dniDiferencial;
+		Integer dniDiferencial;
 		String nombre;
 		String apellidos;
 		LocalDate fechaNacimiento;
 		
 		dni = leerString("DNI");
-		dniDiferencial = leerInt("DNI diferencial");
+		dniDiferencial = leerInt("DNI diferencial", OPCIONAL);
 		nombre = leerString("Nombre");
 		apellidos = leerString("Apellidos");
 		fechaNacimiento = leerFecha("Fecha de nacimiento");
@@ -192,10 +189,15 @@ public class EjemploJDBC {
 		}
 	}
 
-	private static void insertar(String dni, int dniDiferencial, String nombre, String apellidos,
+	private static void insertar(String dni, Integer dniDiferencial, String nombre, String apellidos,
 			LocalDate fechaNacimiento) {
 		try (PreparedStatement pst = con.prepareStatement(SQL_INSERT)) {
 			pst.setString(1, dni);
+			
+			if(dniDiferencial == null) {
+				dniDiferencial = 0;
+			}
+			
 			pst.setInt(2, dniDiferencial);
 			pst.setString(3, nombre);
 			pst.setString(4, apellidos);
