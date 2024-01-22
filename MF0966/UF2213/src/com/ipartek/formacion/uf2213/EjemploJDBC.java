@@ -106,19 +106,19 @@ public class EjemploJDBC {
 	}
 
 	private static void listado() {
-			try (Statement st = con.createStatement(); ResultSet rs = st.executeQuery(SQL_SELECT)) {
-				while (rs.next()) {
-					// System.out.printf("%s;%s;%s;%s;%s;%s\n",
-					System.out.printf("%2s %s %3s %-10s %-20s %s\n", rs.getString("id"), rs.getString("dni"),
-							rs.getString("dni_diferencial"), rs.getString("nombre"), rs.getString("apellidos"),
-							rs.getString("fecha_nacimiento"));
-				}
-			} catch (SQLException e) {
-				System.err.println("Error en el listado");
-				System.err.println(e.getMessage());
-	//			e.printStackTrace();
+		try (Statement st = con.createStatement(); ResultSet rs = st.executeQuery(SQL_SELECT)) {
+			while (rs.next()) {
+				// System.out.printf("%s;%s;%s;%s;%s;%s\n",
+				System.out.printf("%2s %9s %3s %-20s %-40s %s\n", rs.getString("id"), rs.getString("dni"),
+						rs.getString("dni_diferencial"), rs.getString("nombre"), rs.getString("apellidos"),
+						rs.getString("fecha_nacimiento"));
 			}
+		} catch (SQLException e) {
+			System.err.println("Error en el listado");
+			System.err.println(e.getMessage());
+			// e.printStackTrace();
 		}
+	}
 
 	private static void buscar() {
 		long id = leerLong("Introduce el id a buscar");
@@ -126,37 +126,25 @@ public class EjemploJDBC {
 	}
 
 	private static void insertar() {
-		String dni;
-		Integer dniDiferencial;
-		String nombre;
-		String apellidos;
-		LocalDate fechaNacimiento;
-		
-		dni = leerString("DNI");
-		dniDiferencial = leerInt("DNI diferencial", OPCIONAL);
-		nombre = leerString("Nombre");
-		apellidos = leerString("Apellidos");
-		fechaNacimiento = leerFecha("Fecha de nacimiento");
-		
+		String dni = leerString("DNI");
+		Integer dniDiferencial = leerInt("DNI diferencial", OPCIONAL);
+		String nombre = leerString("Nombre");
+		String apellidos = leerString("Apellidos", OPCIONAL);
+		LocalDate fechaNacimiento = leerFecha("Fecha de nacimiento", OPCIONAL);
+
 		insertar(dni, dniDiferencial, nombre, apellidos, fechaNacimiento);
 	}
 
 	private static void modificar() {
-		long id;
-		String dni;
-		int dniDiferencial;
-		String nombre;
-		String apellidos;
-		LocalDate fechaNacimiento;
-		
-		id = leerLong("Introduce el id a modificar"); //NUEVA
-		dni = leerString("DNI");
-		dniDiferencial = leerInt("DNI diferencial");
-		nombre = leerString("Nombre");
-		apellidos = leerString("Apellidos");
-		fechaNacimiento = leerFecha("Fecha de nacimiento");
-		
-		modificar(id, dni, dniDiferencial, nombre, apellidos, fechaNacimiento); //NUEVA
+		long id = leerLong("Introduce el id a modificar"); // NUEVA
+
+		String dni = leerString("DNI");
+		Integer dniDiferencial = leerInt("DNI diferencial", OPCIONAL);
+		String nombre = leerString("Nombre");
+		String apellidos = leerString("Apellidos", OPCIONAL);
+		LocalDate fechaNacimiento = leerFecha("Fecha de nacimiento", OPCIONAL);
+
+		modificar(id, dni, dniDiferencial, nombre, apellidos, fechaNacimiento); // NUEVA
 	}
 
 	private static void borrar() {
@@ -180,6 +168,8 @@ public class EjemploJDBC {
 							// System.out.printf("%2s %s %3s %-3s %-20s %s\n",
 							rs.getString("id"), rs.getString("dni"), rs.getString("dni_diferencial"),
 							rs.getString("nombre"), rs.getString("apellidos"), rs.getString("fecha_nacimiento"));
+				} else {
+					System.out.println("No se ha encontrado el cliente cuyo id es " + id);
 				}
 			}
 		} catch (SQLException e) {
@@ -193,15 +183,15 @@ public class EjemploJDBC {
 			LocalDate fechaNacimiento) {
 		try (PreparedStatement pst = con.prepareStatement(SQL_INSERT)) {
 			pst.setString(1, dni);
-			
-			if(dniDiferencial == null) {
+
+			if (dniDiferencial == null) {
 				dniDiferencial = 0;
 			}
-			
+
 			pst.setInt(2, dniDiferencial);
 			pst.setString(3, nombre);
 			pst.setString(4, apellidos);
-			pst.setDate(5, java.sql.Date.valueOf(fechaNacimiento));
+			pst.setDate(5, fechaNacimiento != null ? java.sql.Date.valueOf(fechaNacimiento) : null);
 
 			int numeroRegistrosModificados = pst.executeUpdate();
 
@@ -213,14 +203,19 @@ public class EjemploJDBC {
 		}
 	}
 
-	private static void modificar(long id, String dni, int dniDiferencial, String nombre, String apellidos,
+	private static void modificar(long id, String dni, Integer dniDiferencial, String nombre, String apellidos,
 			LocalDate fechaNacimiento) {
 		try (PreparedStatement pst = con.prepareStatement(SQL_UPDATE)) {
 			pst.setString(1, dni);
+			
+			if (dniDiferencial == null) {
+				dniDiferencial = 0;
+			}
+			
 			pst.setInt(2, dniDiferencial);
 			pst.setString(3, nombre);
 			pst.setString(4, apellidos);
-			pst.setDate(5, java.sql.Date.valueOf(fechaNacimiento));
+			pst.setDate(5, fechaNacimiento != null ? java.sql.Date.valueOf(fechaNacimiento) : null);
 
 			pst.setLong(6, id);
 
