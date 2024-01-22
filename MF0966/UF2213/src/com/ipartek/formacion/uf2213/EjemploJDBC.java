@@ -127,10 +127,10 @@ public class EjemploJDBC {
 
 	private static void insertar() {
 		String dni = leerString("DNI");
-		Integer dniDiferencial = leerInt("DNI diferencial", OPCIONAL);
+		Integer dniDiferencial = leerInt("DNI diferencial", OPCIONAL, 0, 127);
 		String nombre = leerString("Nombre");
 		String apellidos = leerString("Apellidos", OPCIONAL);
-		LocalDate fechaNacimiento = leerFecha("Fecha de nacimiento", OPCIONAL);
+		LocalDate fechaNacimiento = leerFecha("Fecha de nacimiento", OPCIONAL, LocalDate.of(1900, 1, 1), LocalDate.now().minusYears(18));
 
 		insertar(dni, dniDiferencial, nombre, apellidos, fechaNacimiento);
 	}
@@ -139,10 +139,10 @@ public class EjemploJDBC {
 		long id = leerLong("Introduce el id a modificar"); // NUEVA
 
 		String dni = leerString("DNI");
-		Integer dniDiferencial = leerInt("DNI diferencial", OPCIONAL);
+		Integer dniDiferencial = leerInt("DNI diferencial", OPCIONAL, 0, 127);
 		String nombre = leerString("Nombre");
 		String apellidos = leerString("Apellidos", OPCIONAL);
-		LocalDate fechaNacimiento = leerFecha("Fecha de nacimiento", OPCIONAL);
+		LocalDate fechaNacimiento = leerFecha("Fecha de nacimiento", OPCIONAL, LocalDate.of(1900, 1, 1), LocalDate.now().minusYears(18));
 
 		modificar(id, dni, dniDiferencial, nombre, apellidos, fechaNacimiento); // NUEVA
 	}
