@@ -126,7 +126,7 @@ public class EjemploJDBC {
 	}
 
 	private static void insertar() {
-		String dni = leerString("DNI");
+		String dni = leerDni("DNI");
 		Integer dniDiferencial = leerInt("DNI diferencial", OPCIONAL, 0, 127);
 		String nombre = leerString("Nombre");
 		String apellidos = leerString("Apellidos", OPCIONAL);
@@ -138,7 +138,7 @@ public class EjemploJDBC {
 	private static void modificar() {
 		long id = leerLong("Introduce el id a modificar"); // NUEVA
 
-		String dni = leerString("DNI");
+		String dni = leerDni("DNI");
 		Integer dniDiferencial = leerInt("DNI diferencial", OPCIONAL, 0, 127);
 		String nombre = leerString("Nombre");
 		String apellidos = leerString("Apellidos", OPCIONAL);

@@ -144,4 +144,25 @@ public class Consola {
 
 		return fecha;
 	}
+	
+	public static String leerDni(String mensaje) {
+		return leerDni(mensaje, OBLIGATORIO);
+	}
+	
+	public static String leerDni(String mensaje, boolean opcional) {
+		String texto;
+		boolean repetir = true;
+
+		do {
+			texto = leerString(mensaje, opcional);
+			
+			if (texto != null && !Dni.validarDni(texto)) {
+				System.out.println("El DNI no es conforme a la validación");
+			} else {
+				repetir = false;
+			}
+		} while (repetir);
+
+		return texto == null ? null : texto.toUpperCase();
+	}
 }
