@@ -2,6 +2,7 @@ package com.ipartek.formacion.uf2213;
 
 import static com.ipartek.formacion.bibliotecas.Consola.*;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -29,17 +30,51 @@ public class EjemploJDBC {
 			WHERE
 			    clientes_id = ?
 			""";
+	private static final String SQL_SELECT_ID_FACTURAS_PRODUCTOS = """
+			SELECT
+			    c.id,
+			    c.dni,
+			    c.dni_diferencial,
+			    c.nombre,
+			    c.apellidos,
+			    c.fecha_nacimiento,
+
+			    f.id,
+			    f.numero,
+			    f.fecha,
+
+			    fp.cantidad,
+
+			    p.id,
+			    p.nombre,
+			    p.precio,
+
+			    fp.cantidad * p.precio AS total
+			FROM
+			    clientes c
+			        JOIN
+			    facturas f ON f.clientes_id = c.id
+			        JOIN
+			    facturas_has_productos fp ON fp.facturas_id = f.id
+			        JOIN
+			    productos p ON fp.productos_id = p.id
+			WHERE c.id = ?
+			ORDER BY f.id, p.id
+				""";
 
 	private static final String SQL_INSERT = "INSERT INTO clientes (" + SQL_CAMPOS + ") VALUES (?,?,?,?,?)";
 	private static final String SQL_UPDATE = "UPDATE clientes SET dni=?, dni_diferencial=?, nombre=?, apellidos=?, fecha_nacimiento=? WHERE id=?";
 	private static final String SQL_DELETE = "DELETE FROM clientes WHERE id=?";
+
 	private static final int SALIR = 0;
+
 	private static final int LISTADO = 1;
 	private static final int BUSCAR = 2;
 	private static final int INSERTAR = 3;
 	private static final int MODIFICAR = 4;
 	private static final int BORRAR = 5;
 	private static final int FACTURAS = 6;
+	private static final int FACTURAS_COMPLETAS = 7;
 
 	private static Connection con;
 
@@ -81,6 +116,7 @@ public class EjemploJDBC {
 				4. MODIFICAR
 				5. BORRAR
 				6. FACTURAS
+				7. FACTURAS CON PRODUCTOS
 
 				0. SALIR
 				""");
@@ -92,6 +128,7 @@ public class EjemploJDBC {
 
 	private static void ejecutar(int opcion) {
 		System.out.println("Ejecutando opción " + opcion);
+		System.out.println();
 
 		switch (opcion) {
 		case LISTADO:
@@ -112,12 +149,17 @@ public class EjemploJDBC {
 		case FACTURAS:
 			facturas();
 			break;
+		case FACTURAS_COMPLETAS:
+			facturasCompletas();
+			break;
 		case SALIR:
 			System.out.println("Gracias por utilizar esta aplicación");
 			break;
 		default:
 			System.out.println("No conozco esa opción");
 		}
+
+		System.out.println();
 	}
 
 	private static void listado() {
@@ -172,6 +214,11 @@ public class EjemploJDBC {
 	private static void facturas() {
 		long id = leerLong("Introduce el id del cliente para ver sus facturas");
 		obtenerPorIdConFacturas(id);
+	}
+
+	private static void facturasCompletas() {
+		long id = leerLong("Introduce el id del cliente para ver sus facturas con los productos");
+		obtenerPorIdConFacturasConProductos(id);
 	}
 
 	private static void obtenerPorId(long id) {
@@ -298,5 +345,79 @@ public class EjemploJDBC {
 			System.err.println(e.getMessage());
 //			e.printStackTrace();
 		}
+	}
+
+	private static void obtenerPorIdConFacturasConProductos(long id) {
+		boolean fichaClienteMostrada = false;
+		Long idFacturaActual = null;
+		BigDecimal total = BigDecimal.ZERO;
+
+		try (PreparedStatement pst = con.prepareStatement(SQL_SELECT_ID_FACTURAS_PRODUCTOS)) {
+			pst.setLong(1, id);
+
+			try (ResultSet rs = pst.executeQuery()) {
+				while (rs.next()) {
+					if (!fichaClienteMostrada) {
+						System.out.printf("""
+								
+								CLIENTE
+								=======
+								Id:                  %s
+								DNI:                 %s%s
+								Nombre:              %s
+								Apellidos:           %s
+								Fecha de nacimiento: %s
+								
+								""",
+								// System.out.printf("%2s %s %3s %-3s %-20s %s\n",
+								rs.getString("c.id"), rs.getString("c.dni"), rs.getString("c.dni_diferencial"),
+								rs.getString("c.nombre"), rs.getString("c.apellidos"),
+								rs.getString("c.fecha_nacimiento"));
+
+						fichaClienteMostrada = true;
+					}
+
+					Long idFactura = rs.getLong("f.id");
+
+					if (idFactura != idFacturaActual) {
+						if (total != BigDecimal.ZERO) {
+							mostrarTotalFactura(total);
+							total = BigDecimal.ZERO;
+						}
+
+						System.out.printf("""
+								
+								FACTURA
+								-------
+								Id:      %s
+								Número:  %s
+								Fecha:   %s
+								
+									Id Nombre       Precio Cantidad     Total
+									-----------------------------------------
+								""", rs.getString("f.id"), rs.getString("f.numero"), rs.getString("f.fecha"));
+
+						idFacturaActual = idFactura;
+					}
+
+					BigDecimal totalParcial = rs.getBigDecimal("total");
+					total = total.add(totalParcial);
+
+					System.out.printf("\t%2s %-12s %6s %8s %9s\n", rs.getString("p.id"), rs.getString("p.nombre"),
+							rs.getString("p.precio"), rs.getString("fp.cantidad"), totalParcial);
+
+				}
+
+				mostrarTotalFactura(total);
+			}
+		} catch (SQLException e) {
+			System.err.println("Error al obtener por el id " + id);
+			System.err.println(e.getMessage());
+//			e.printStackTrace();
+		}
+	}
+
+	private static void mostrarTotalFactura(BigDecimal total) {
+		System.out.println("\nTotal de factura: " + total + "\n");
 	}
 }
