@@ -19,6 +19,16 @@ public class EjemploJDBC {
 
 	private static final String SQL_SELECT = "SELECT id," + SQL_CAMPOS + " FROM clientes";
 	private static final String SQL_SELECT_ID = "SELECT id," + SQL_CAMPOS + " FROM clientes WHERE id=?";
+	private static final String SQL_SELECT_ID_FACTURAS = """
+			SELECT
+			    f.id, f.numero, f.fecha, c.id, c.dni, c.dni_diferencial, c.nombre, c.apellidos, c.fecha_nacimiento
+			FROM
+			    facturas f
+			        JOIN
+			    clientes c ON f.clientes_id = c.id
+			WHERE
+			    clientes_id = ?
+			""";
 
 	private static final String SQL_INSERT = "INSERT INTO clientes (" + SQL_CAMPOS + ") VALUES (?,?,?,?,?)";
 	private static final String SQL_UPDATE = "UPDATE clientes SET dni=?, dni_diferencial=?, nombre=?, apellidos=?, fecha_nacimiento=? WHERE id=?";
@@ -29,6 +39,7 @@ public class EjemploJDBC {
 	private static final int INSERTAR = 3;
 	private static final int MODIFICAR = 4;
 	private static final int BORRAR = 5;
+	private static final int FACTURAS = 6;
 
 	private static Connection con;
 
@@ -69,6 +80,7 @@ public class EjemploJDBC {
 				3. INSERTAR
 				4. MODIFICAR
 				5. BORRAR
+				6. FACTURAS
 
 				0. SALIR
 				""");
@@ -96,6 +108,9 @@ public class EjemploJDBC {
 			break;
 		case BORRAR:
 			borrar();
+			break;
+		case FACTURAS:
+			facturas();
 			break;
 		case SALIR:
 			System.out.println("Gracias por utilizar esta aplicación");
@@ -130,7 +145,8 @@ public class EjemploJDBC {
 		Integer dniDiferencial = leerInt("DNI diferencial", OPCIONAL, 0, 127);
 		String nombre = leerString("Nombre");
 		String apellidos = leerString("Apellidos", OPCIONAL);
-		LocalDate fechaNacimiento = leerFecha("Fecha de nacimiento", OPCIONAL, LocalDate.of(1900, 1, 1), LocalDate.now().minusYears(18));
+		LocalDate fechaNacimiento = leerFecha("Fecha de nacimiento", OPCIONAL, LocalDate.of(1900, 1, 1),
+				LocalDate.now().minusYears(18));
 
 		insertar(dni, dniDiferencial, nombre, apellidos, fechaNacimiento);
 	}
@@ -142,7 +158,8 @@ public class EjemploJDBC {
 		Integer dniDiferencial = leerInt("DNI diferencial", OPCIONAL, 0, 127);
 		String nombre = leerString("Nombre");
 		String apellidos = leerString("Apellidos", OPCIONAL);
-		LocalDate fechaNacimiento = leerFecha("Fecha de nacimiento", OPCIONAL, LocalDate.of(1900, 1, 1), LocalDate.now().minusYears(18));
+		LocalDate fechaNacimiento = leerFecha("Fecha de nacimiento", OPCIONAL, LocalDate.of(1900, 1, 1),
+				LocalDate.now().minusYears(18));
 
 		modificar(id, dni, dniDiferencial, nombre, apellidos, fechaNacimiento); // NUEVA
 	}
@@ -150,6 +167,11 @@ public class EjemploJDBC {
 	private static void borrar() {
 		long id = leerLong("Introduce el id a borrar");
 		borrar(id);
+	}
+
+	private static void facturas() {
+		long id = leerLong("Introduce el id del cliente para ver sus facturas");
+		obtenerPorIdConFacturas(id);
 	}
 
 	private static void obtenerPorId(long id) {
@@ -207,11 +229,11 @@ public class EjemploJDBC {
 			LocalDate fechaNacimiento) {
 		try (PreparedStatement pst = con.prepareStatement(SQL_UPDATE)) {
 			pst.setString(1, dni);
-			
+
 			if (dniDiferencial == null) {
 				dniDiferencial = 0;
 			}
-			
+
 			pst.setInt(2, dniDiferencial);
 			pst.setString(3, nombre);
 			pst.setString(4, apellidos);
@@ -238,6 +260,41 @@ public class EjemploJDBC {
 			System.out.println(numeroRegistrosModificados);
 		} catch (SQLException e) {
 			System.err.println("Error en el borrado");
+			System.err.println(e.getMessage());
+//			e.printStackTrace();
+		}
+	}
+
+	private static void obtenerPorIdConFacturas(long id) {
+		boolean fichaClienteMostrada = false;
+
+		try (PreparedStatement pst = con.prepareStatement(SQL_SELECT_ID_FACTURAS)) {
+			pst.setLong(1, id);
+
+			try (ResultSet rs = pst.executeQuery()) {
+				while (rs.next()) {
+					if (!fichaClienteMostrada) {
+						System.out.printf("""
+								Id:                  %s
+								DNI:                 %s%s
+								Nombre:              %s
+								Apellidos:           %s
+								Fecha de nacimiento: %s\n
+								""",
+								// System.out.printf("%2s %s %3s %-3s %-20s %s\n",
+								rs.getString("c.id"), rs.getString("c.dni"), rs.getString("c.dni_diferencial"),
+								rs.getString("c.nombre"), rs.getString("c.apellidos"),
+								rs.getString("c.fecha_nacimiento"));
+
+						fichaClienteMostrada = true;
+					}
+
+					System.out.printf("%s, %s, %s\n", rs.getString("f.id"), rs.getString("f.numero"),
+							rs.getString("f.fecha"));
+				}
+			}
+		} catch (SQLException e) {
+			System.err.println("Error al obtener por el id " + id);
 			System.err.println(e.getMessage());
 //			e.printStackTrace();
 		}
