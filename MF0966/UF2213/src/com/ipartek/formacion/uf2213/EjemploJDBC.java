@@ -19,7 +19,7 @@ public class EjemploJDBC {
 	private static final String SQL_CAMPOS = "dni, dni_diferencial, nombre, apellidos, fecha_nacimiento";
 
 	private static final String SQL_SELECT = "SELECT id," + SQL_CAMPOS + " FROM clientes";
-	private static final String SQL_SELECT_ID = "SELECT id," + SQL_CAMPOS + " FROM clientes WHERE id=?";
+	private static final String SQL_SELECT_ID = "SELECT id," + SQL_CAMPOS + " FROM clientes c WHERE id=?";
 	private static final String SQL_SELECT_ID_FACTURAS = """
 			SELECT
 			    f.id, f.numero, f.fecha, c.id, c.dni, c.dni_diferencial, c.nombre, c.apellidos, c.fecha_nacimiento
@@ -227,16 +227,7 @@ public class EjemploJDBC {
 
 			try (ResultSet rs = pst.executeQuery()) {
 				if (rs.next()) {
-					System.out.printf("""
-							Id:                  %s
-							DNI:                 %s%s
-							Nombre:              %s
-							Apellidos:           %s
-							Fecha de nacimiento: %s\n
-							""",
-							// System.out.printf("%2s %s %3s %-3s %-20s %s\n",
-							rs.getString("id"), rs.getString("dni"), rs.getString("dni_diferencial"),
-							rs.getString("nombre"), rs.getString("apellidos"), rs.getString("fecha_nacimiento"));
+					mostrarCliente(rs);
 				} else {
 					System.out.println("No se ha encontrado el cliente cuyo id es " + id);
 				}
@@ -321,17 +312,7 @@ public class EjemploJDBC {
 			try (ResultSet rs = pst.executeQuery()) {
 				while (rs.next()) {
 					if (!fichaClienteMostrada) {
-						System.out.printf("""
-								Id:                  %s
-								DNI:                 %s%s
-								Nombre:              %s
-								Apellidos:           %s
-								Fecha de nacimiento: %s\n
-								""",
-								// System.out.printf("%2s %s %3s %-3s %-20s %s\n",
-								rs.getString("c.id"), rs.getString("c.dni"), rs.getString("c.dni_diferencial"),
-								rs.getString("c.nombre"), rs.getString("c.apellidos"),
-								rs.getString("c.fecha_nacimiento"));
+						mostrarCliente(rs);
 
 						fichaClienteMostrada = true;
 					}
@@ -349,8 +330,8 @@ public class EjemploJDBC {
 
 	private static void obtenerPorIdConFacturasConProductos(long id) {
 		boolean fichaClienteMostrada = false;
-		Long idFacturaActual = null;
-		BigDecimal total = BigDecimal.ZERO;
+		Long idFacturaEnCurso = null;
+		BigDecimal totalFactura = BigDecimal.ZERO;
 
 		try (PreparedStatement pst = con.prepareStatement(SQL_SELECT_ID_FACTURAS_PRODUCTOS)) {
 			pst.setLong(1, id);
@@ -358,63 +339,83 @@ public class EjemploJDBC {
 			try (ResultSet rs = pst.executeQuery()) {
 				while (rs.next()) {
 					if (!fichaClienteMostrada) {
-						System.out.printf("""
-								
-								CLIENTE
-								=======
-								Id:                  %s
-								DNI:                 %s%s
-								Nombre:              %s
-								Apellidos:           %s
-								Fecha de nacimiento: %s
-								
-								""",
-								// System.out.printf("%2s %s %3s %-3s %-20s %s\n",
-								rs.getString("c.id"), rs.getString("c.dni"), rs.getString("c.dni_diferencial"),
-								rs.getString("c.nombre"), rs.getString("c.apellidos"),
-								rs.getString("c.fecha_nacimiento"));
+						mostrarCliente(rs);
 
 						fichaClienteMostrada = true;
 					}
 
 					Long idFactura = rs.getLong("f.id");
 
-					if (idFactura != idFacturaActual) {
-						if (total != BigDecimal.ZERO) {
-							mostrarTotalFactura(total);
-							total = BigDecimal.ZERO;
+					// Si hemos cambiado de factura o es la primera fila de la base de datos
+					if (idFactura != idFacturaEnCurso) {
+
+						// Si ya tenemos un total de factura almacenado, significa que tenemos un total
+						// pendiente de visualizar de la factura anterior
+						if (totalFactura != BigDecimal.ZERO) {
+							mostrarTotalFactura(totalFactura);
+
+							// Una vez mostrado el total de la factura anterior, ponemos a cero para volver
+							// a acumular el total de la factura actual
+							totalFactura = BigDecimal.ZERO;
 						}
 
-						System.out.printf("""
-								
-								FACTURA
-								-------
-								Id:      %s
-								Número:  %s
-								Fecha:   %s
-								
-									Id Nombre       Precio Cantidad     Total
-									-----------------------------------------
-								""", rs.getString("f.id"), rs.getString("f.numero"), rs.getString("f.fecha"));
+						mostrarFactura(rs);
 
-						idFacturaActual = idFactura;
+						// Ahora consideramos factura en curso la nueva que acabamos de recibir
+						idFacturaEnCurso = idFactura;
 					}
 
 					BigDecimal totalParcial = rs.getBigDecimal("total");
-					total = total.add(totalParcial);
+					totalFactura = totalFactura.add(totalParcial);
 
-					System.out.printf("\t%2s %-12s %6s %8s %9s\n", rs.getString("p.id"), rs.getString("p.nombre"),
-							rs.getString("p.precio"), rs.getString("fp.cantidad"), totalParcial);
-
+					mostrarProducto(rs, totalParcial);
 				}
 
-				mostrarTotalFactura(total);
+				// Al terminar la lista, debemos mostrar el total de factura de la última
+				// factura
+				mostrarTotalFactura(totalFactura);
 			}
 		} catch (SQLException e) {
 			System.err.println("Error al obtener por el id " + id);
 			System.err.println(e.getMessage());
 //			e.printStackTrace();
 		}
+	}
+
+	private static void mostrarCliente(ResultSet rs) throws SQLException {
+		System.out.printf("""
+
+				CLIENTE
+				=======
+				Id:                  %s
+				DNI:                 %s%s
+				Nombre:              %s
+				Apellidos:           %s
+				Fecha de nacimiento: %s
+
+				""",
+				// System.out.printf("%2s %s %3s %-3s %-20s %s\n",
+				rs.getString("c.id"), rs.getString("c.dni"), rs.getString("c.dni_diferencial"),
+				rs.getString("c.nombre"), rs.getString("c.apellidos"), rs.getString("c.fecha_nacimiento"));
+	}
+
+	private static void mostrarFactura(ResultSet rs) throws SQLException {
+		System.out.printf("""
+
+				FACTURA
+				-------
+				Id:      %s
+				Número:  %s
+				Fecha:   %s
+
+					Id Nombre       Precio Cantidad     Total
+					-----------------------------------------
+				""", rs.getString("f.id"), rs.getString("f.numero"), rs.getString("f.fecha"));
+	}
+
+	private static void mostrarProducto(ResultSet rs, BigDecimal totalParcial) throws SQLException {
+		System.out.printf("\t%2s %-12s %6s %8s %9s\n", rs.getString("p.id"), rs.getString("p.nombre"),
+				rs.getString("p.precio"), rs.getString("fp.cantidad"), totalParcial);
 	}
 
 	private static void mostrarTotalFactura(BigDecimal total) {
