@@ -13,8 +13,8 @@ import java.time.LocalDate;
 
 public class EjemploJDBC {
 	private static final String URL = "jdbc:mysql://localhost:3306/manana_tienda";
-	private static final String USER = "root";
-	private static final String PASS = "1234";
+	private static final String USER = "mananas";
+	private static final String PASS = "curso";
 
 	private static final String SQL_CAMPOS = "dni, dni_diferencial, nombre, apellidos, fecha_nacimiento";
 
