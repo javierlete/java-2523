@@ -10,22 +10,22 @@ public class Consola {
 	public static final boolean OPCIONAL = true;
 	public static final boolean OBLIGATORIO = false;
 
-	public static String leerString(String mensaje, boolean opcional) {
+	public static String leerString(String mensaje, boolean esOpcional) {
 		String texto;
 		boolean repetir = true;
 
 		do {
 			System.out.print(mensaje + ": ");
-			texto = sc.nextLine();
+			texto = sc.nextLine().trim();
 
-			if (!opcional && texto.trim().length() == 0) {
+			if (!esOpcional && texto.length() == 0) {
 				System.out.println("Este dato es obligatorio");
 			} else {
 				repetir = false;
 			}
 		} while (repetir);
 
-		return texto.trim().length() > 0 ? texto : null;
+		return texto.length() > 0 ? texto : null;
 	}
 
 	public static String leerString(String mensaje) {
