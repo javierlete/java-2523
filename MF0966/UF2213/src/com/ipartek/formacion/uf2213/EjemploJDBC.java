@@ -3,9 +3,9 @@ package com.ipartek.formacion.uf2213;
 import static com.ipartek.formacion.bibliotecas.Consola.*;
 
 import java.math.BigDecimal;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -16,55 +16,14 @@ public class EjemploJDBC {
 	private static final String USER = "mananas";
 	private static final String PASS = "curso";
 
-	private static final String SQL_CAMPOS = "dni, dni_diferencial, nombre, apellidos, fecha_nacimiento";
+	private static final String SQL_SELECT = "CALL clientes_select()";
+	private static final String SQL_SELECT_ID = "CALL clientes_select_id(?)";
+	private static final String SQL_SELECT_ID_FACTURAS = "CALL clientes_facturas(?)";
+	private static final String SQL_SELECT_ID_FACTURAS_PRODUCTOS = "CALL facturas_productos_totales(?)";
 
-	private static final String SQL_SELECT = "SELECT id," + SQL_CAMPOS + " FROM clientes";
-	private static final String SQL_SELECT_ID = "SELECT id," + SQL_CAMPOS + " FROM clientes c WHERE id=?";
-	private static final String SQL_SELECT_ID_FACTURAS = """
-			SELECT
-			    f.id, f.numero, f.fecha, c.id, c.dni, c.dni_diferencial, c.nombre, c.apellidos, c.fecha_nacimiento
-			FROM
-			    facturas f
-			        JOIN
-			    clientes c ON f.clientes_id = c.id
-			WHERE
-			    clientes_id = ?
-			""";
-	private static final String SQL_SELECT_ID_FACTURAS_PRODUCTOS = """
-			SELECT
-			    c.id,
-			    c.dni,
-			    c.dni_diferencial,
-			    c.nombre,
-			    c.apellidos,
-			    c.fecha_nacimiento,
-
-			    f.id,
-			    f.numero,
-			    f.fecha,
-
-			    fp.cantidad,
-
-			    p.id,
-			    p.nombre,
-			    p.precio,
-
-			    fp.cantidad * p.precio AS total
-			FROM
-			    clientes c
-			        JOIN
-			    facturas f ON f.clientes_id = c.id
-			        JOIN
-			    facturas_has_productos fp ON fp.facturas_id = f.id
-			        JOIN
-			    productos p ON fp.productos_id = p.id
-			WHERE c.id = ?
-			ORDER BY f.id, p.id
-				""";
-
-	private static final String SQL_INSERT = "INSERT INTO clientes (" + SQL_CAMPOS + ") VALUES (?,?,?,?,?)";
-	private static final String SQL_UPDATE = "UPDATE clientes SET dni=?, dni_diferencial=?, nombre=?, apellidos=?, fecha_nacimiento=? WHERE id=?";
-	private static final String SQL_DELETE = "DELETE FROM clientes WHERE id=?";
+	private static final String SQL_INSERT = "CALL clientes_insert(?,?,?,?,?)";
+	private static final String SQL_UPDATE = "CALL clientes_update(?,?,?,?,?)";
+	private static final String SQL_DELETE = "CALL clientes_delete(?)";
 
 	private static final int SALIR = 0;
 
@@ -222,10 +181,10 @@ public class EjemploJDBC {
 	}
 
 	private static void obtenerPorId(long id) {
-		try (PreparedStatement pst = con.prepareStatement(SQL_SELECT_ID)) {
-			pst.setLong(1, id);
+		try (CallableStatement cst = con.prepareCall(SQL_SELECT_ID)) {
+			cst.setLong(1, id);
 
-			try (ResultSet rs = pst.executeQuery()) {
+			try (ResultSet rs = cst.executeQuery()) {
 				if (rs.next()) {
 					mostrarCliente(rs);
 				} else {
@@ -241,19 +200,19 @@ public class EjemploJDBC {
 
 	private static void insertar(String dni, Integer dniDiferencial, String nombre, String apellidos,
 			LocalDate fechaNacimiento) {
-		try (PreparedStatement pst = con.prepareStatement(SQL_INSERT)) {
-			pst.setString(1, dni);
+		try (CallableStatement cst = con.prepareCall(SQL_INSERT)) {
+			cst.setString(1, dni);
 
 			if (dniDiferencial == null) {
 				dniDiferencial = 0;
 			}
 
-			pst.setInt(2, dniDiferencial);
-			pst.setString(3, nombre);
-			pst.setString(4, apellidos);
-			pst.setDate(5, fechaNacimiento != null ? java.sql.Date.valueOf(fechaNacimiento) : null);
+			cst.setInt(2, dniDiferencial);
+			cst.setString(3, nombre);
+			cst.setString(4, apellidos);
+			cst.setDate(5, fechaNacimiento != null ? java.sql.Date.valueOf(fechaNacimiento) : null);
 
-			int numeroRegistrosModificados = pst.executeUpdate();
+			int numeroRegistrosModificados = cst.executeUpdate();
 
 			System.out.println(numeroRegistrosModificados);
 		} catch (SQLException e) {
@@ -265,21 +224,21 @@ public class EjemploJDBC {
 
 	private static void modificar(long id, String dni, Integer dniDiferencial, String nombre, String apellidos,
 			LocalDate fechaNacimiento) {
-		try (PreparedStatement pst = con.prepareStatement(SQL_UPDATE)) {
-			pst.setString(1, dni);
+		try (CallableStatement cst = con.prepareCall(SQL_UPDATE)) {
+			cst.setString(1, dni);
 
 			if (dniDiferencial == null) {
 				dniDiferencial = 0;
 			}
 
-			pst.setInt(2, dniDiferencial);
-			pst.setString(3, nombre);
-			pst.setString(4, apellidos);
-			pst.setDate(5, fechaNacimiento != null ? java.sql.Date.valueOf(fechaNacimiento) : null);
+			cst.setInt(2, dniDiferencial);
+			cst.setString(3, nombre);
+			cst.setString(4, apellidos);
+			cst.setDate(5, fechaNacimiento != null ? java.sql.Date.valueOf(fechaNacimiento) : null);
 
-			pst.setLong(6, id);
+			cst.setLong(6, id);
 
-			int numeroRegistrosModificados = pst.executeUpdate();
+			int numeroRegistrosModificados = cst.executeUpdate();
 
 			System.out.println(numeroRegistrosModificados);
 		} catch (SQLException e) {
@@ -290,10 +249,10 @@ public class EjemploJDBC {
 	}
 
 	private static void borrar(long id) {
-		try (PreparedStatement pst = con.prepareStatement(SQL_DELETE)) {
-			pst.setLong(1, id);
+		try (CallableStatement cst = con.prepareCall(SQL_DELETE)) {
+			cst.setLong(1, id);
 
-			int numeroRegistrosModificados = pst.executeUpdate();
+			int numeroRegistrosModificados = cst.executeUpdate();
 
 			System.out.println(numeroRegistrosModificados);
 		} catch (SQLException e) {
@@ -306,10 +265,10 @@ public class EjemploJDBC {
 	private static void obtenerPorIdConFacturas(long id) {
 		boolean fichaClienteMostrada = false;
 
-		try (PreparedStatement pst = con.prepareStatement(SQL_SELECT_ID_FACTURAS)) {
-			pst.setLong(1, id);
+		try (CallableStatement cst = con.prepareCall(SQL_SELECT_ID_FACTURAS)) {
+			cst.setLong(1, id);
 
-			try (ResultSet rs = pst.executeQuery()) {
+			try (ResultSet rs = cst.executeQuery()) {
 				while (rs.next()) {
 					if (!fichaClienteMostrada) {
 						mostrarCliente(rs);
@@ -333,10 +292,11 @@ public class EjemploJDBC {
 		Long idFacturaEnCurso = null;
 		BigDecimal totalFactura = BigDecimal.ZERO;
 
-		try (PreparedStatement pst = con.prepareStatement(SQL_SELECT_ID_FACTURAS_PRODUCTOS)) {
-			pst.setLong(1, id);
+		try (CallableStatement cst = con.prepareCall(SQL_SELECT_ID_FACTURAS_PRODUCTOS)) {
+			cst.setLong(1, id);
 
-			try (ResultSet rs = pst.executeQuery()) {
+			try (ResultSet rs = cst.executeQuery()) {
+				cst.getString(1);
 				while (rs.next()) {
 					if (!fichaClienteMostrada) {
 						mostrarCliente(rs);
