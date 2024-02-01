@@ -247,3 +247,13 @@ CALL manana_tienda.tipos_parametros(@nada, @entrada, @salida, @entrada_salida);
 
 SELECT @nada, @entrada, @salida, @entrada_salida;
 
+CREATE TABLE empleados_triggers LIKE empleados;
+
+SELECT NOW(), USER();
+
+
+
+
+
+
+
