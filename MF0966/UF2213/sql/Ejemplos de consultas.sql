@@ -249,10 +249,71 @@ SELECT @nada, @entrada, @salida, @entrada_salida;
 
 CREATE TABLE empleados_triggers LIKE empleados;
 
-SELECT NOW(), USER();
+SELECT NOW(), sumarUSER();
 
+SELECT 
+    c.id,
+    c.dni,
+    c.dni_diferencial,
+    c.nombre,
+    c.apellidos,
+    c.fecha_nacimiento,
+    f.id,
+    f.numero,
+    f.fecha,
+    (SELECT total FROM totales_facturas WHERE id = f.id) AS total_factura,
+    fp.cantidad,
+    p.id,
+    p.nombre,
+    p.precio,
+    fp.cantidad * p.precio AS total
+FROM
+    clientes c
+        JOIN
+    facturas f ON f.clientes_id = c.id
+        JOIN
+    facturas_has_productos fp ON fp.facturas_id = f.id
+        JOIN
+    productos p ON fp.productos_id = p.id
+WHERE
+    c.id = 1
+ORDER BY f.id , p.id
+;
 
+SELECT 
+    c.id,
+    c.dni,
+    c.dni_diferencial,
+    c.nombre,
+    c.apellidos,
+    c.fecha_nacimiento,
+    f.id,
+    f.numero,
+    f.fecha,
+    total_factura(f.id) AS total_factura,
+    fp.cantidad,
+    p.id,
+    p.nombre,
+    p.precio,
+    fp.cantidad * p.precio AS total
+FROM
+    clientes c
+        JOIN
+    facturas f ON f.clientes_id = c.id
+        JOIN
+    facturas_has_productos fp ON fp.facturas_id = f.id
+        JOIN
+    productos p ON fp.productos_id = p.id
+WHERE
+    c.id = 1
+ORDER BY f.id , p.id
+;
 
+call manana_tienda.prueba_cursores();
+
+SELECT nombre, 'no tiene jefe' AS mensaje FROM empleados WHERE jefe_id IS NULL
+UNION
+SELECT nombre, 'jefe de sí mismo' AS mensaje FROM empleados WHERE id = jefe_id;
 
 
 
