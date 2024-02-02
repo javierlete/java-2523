@@ -296,7 +296,6 @@ public class EjemploJDBC {
 			cst.setLong(1, id);
 
 			try (ResultSet rs = cst.executeQuery()) {
-				cst.getString(1);
 				while (rs.next()) {
 					if (!fichaClienteMostrada) {
 						mostrarCliente(rs);
