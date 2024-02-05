@@ -6,9 +6,9 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
 
-import static com.ipartek.formacion.uf2213.accesodatos.AccesoDatos.*;
+import com.ipartek.formacion.uf2213.dtos.ClienteDTO;
 
-import com.ipartek.formacion.uf2213.entidades.Cliente;
+import static com.ipartek.formacion.uf2213.accesodatos.AccesoDatos.*;
 
 public class ClienteAccesoDatos {
 	private static final String SQL_SELECT = "CALL clientes_select()";
@@ -18,13 +18,13 @@ public class ClienteAccesoDatos {
 	private static final String SQL_UPDATE = "CALL clientes_update(?,?,?,?,?,?)";
 	private static final String SQL_DELETE = "CALL clientes_delete(?)";
 
-	public static LinkedHashSet<Cliente> obtenerTodos() throws SQLException {
+	public static LinkedHashSet<ClienteDTO> obtenerTodos() throws SQLException {
 		CallableStatement cst = con.prepareCall(SQL_SELECT);
 		ResultSet rs = cst.executeQuery();
 
-		var clientes = new LinkedHashSet<Cliente>();
+		var clientes = new LinkedHashSet<ClienteDTO>();
 
-		Cliente cliente;
+		ClienteDTO cliente;
 
 		while (rs.next()) {
 			cliente = filaACliente(rs);
@@ -34,14 +34,14 @@ public class ClienteAccesoDatos {
 		return clientes;
 	}
 
-	public static Cliente obtenerPorId(long id) throws SQLException {
+	public static ClienteDTO obtenerPorId(long id) throws SQLException {
 		CallableStatement cst = con.prepareCall(SQL_SELECT_ID);
 
 		cst.setLong(1, id);
 
 		ResultSet rs = cst.executeQuery();
 
-		Cliente cliente = null;
+		ClienteDTO cliente = null;
 
 		if (rs.next()) {
 			cliente = filaACliente(rs);
@@ -50,7 +50,7 @@ public class ClienteAccesoDatos {
 		return cliente;
 	}
 
-	public static void insertar(Cliente cliente) throws SQLException {
+	public static void insertar(ClienteDTO cliente) throws SQLException {
 		CallableStatement cst = con.prepareCall(SQL_INSERT);
 
 		cst.setString(1, cliente.dni());
@@ -69,7 +69,7 @@ public class ClienteAccesoDatos {
 		cst.executeUpdate();
 	}
 
-	public static void modificar(Cliente cliente) throws SQLException {
+	public static void modificar(ClienteDTO cliente) throws SQLException {
 		CallableStatement cst = con.prepareCall(SQL_UPDATE);
 
 		cst.setLong(1, cliente.id());
@@ -97,13 +97,13 @@ public class ClienteAccesoDatos {
 		cst.executeUpdate();
 	}
 
-	public static Cliente filaACliente(ResultSet rs) throws SQLException {
-		Cliente cliente;
+	public static ClienteDTO filaACliente(ResultSet rs) throws SQLException {
+		ClienteDTO cliente;
 	
 		java.sql.Date fechaBdd = rs.getDate("fecha_nacimiento");
 		LocalDate fechaNacimiento = fechaBdd == null ? null : fechaBdd.toLocalDate();
 	
-		cliente = new Cliente(rs.getLong("id"), rs.getString("dni"), rs.getInt("dni_diferencial"),
+		cliente = new ClienteDTO(rs.getLong("id"), rs.getString("dni"), rs.getInt("dni_diferencial"),
 				rs.getString("nombre"), rs.getString("apellidos"), fechaNacimiento);
 		
 		return cliente;

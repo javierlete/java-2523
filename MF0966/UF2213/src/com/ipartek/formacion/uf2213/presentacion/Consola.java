@@ -10,9 +10,9 @@ import java.time.LocalDate;
 
 import com.ipartek.formacion.uf2213.accesodatos.ClienteAccesoDatos;
 import com.ipartek.formacion.uf2213.accesodatos.FacturaAccesoDatos;
-import com.ipartek.formacion.uf2213.entidades.Cliente;
-import com.ipartek.formacion.uf2213.entidades.Factura;
-import com.ipartek.formacion.uf2213.entidades.Producto;
+import com.ipartek.formacion.uf2213.dtos.ClienteDTO;
+import com.ipartek.formacion.uf2213.dtos.FacturaDTO;
+import com.ipartek.formacion.uf2213.dtos.ProductoDTO;
 
 public class Consola {
 	private static final int SALIR = 0;
@@ -95,7 +95,7 @@ public class Consola {
 	}
 
 	private static void listado() throws Exception {
-		for (Cliente cliente : obtenerTodos()) {
+		for (ClienteDTO cliente : obtenerTodos()) {
 			System.out.printf("%2s %9s %3s %-20s %-20s %s\n", cliente.id(), cliente.dni(), cliente.dniDiferencial(),
 					cliente.nombre(), cliente.apellidos(), cliente.fechaNacimiento());
 		}
@@ -114,7 +114,7 @@ public class Consola {
 		LocalDate fechaNacimiento = leerFecha("Fecha de nacimiento", OPCIONAL, LocalDate.of(1900, 1, 1),
 				LocalDate.now().minusYears(18));
 
-		ClienteAccesoDatos.insertar(new Cliente(null, dni, dniDiferencial, nombre, apellidos, fechaNacimiento));
+		ClienteAccesoDatos.insertar(new ClienteDTO(null, dni, dniDiferencial, nombre, apellidos, fechaNacimiento));
 	}
 
 	private static void modificar() throws Exception {
@@ -127,7 +127,7 @@ public class Consola {
 		LocalDate fechaNacimiento = leerFecha("Fecha de nacimiento", OPCIONAL, LocalDate.of(1900, 1, 1),
 				LocalDate.now().minusYears(18));
 
-		ClienteAccesoDatos.modificar(new Cliente(id, dni, dniDiferencial, nombre, apellidos, fechaNacimiento));
+		ClienteAccesoDatos.modificar(new ClienteDTO(id, dni, dniDiferencial, nombre, apellidos, fechaNacimiento));
 	}
 
 	private static void borrar() throws Exception {
@@ -146,7 +146,7 @@ public class Consola {
 	}
 
 	private static void obtenerPorId(long id) throws Exception {
-		Cliente cliente = ClienteAccesoDatos.obtenerPorId(id);
+		ClienteDTO cliente = ClienteAccesoDatos.obtenerPorId(id);
 		if (cliente != null) {
 			mostrarCliente(cliente);
 		} else {
@@ -157,7 +157,7 @@ public class Consola {
 	private static void obtenerPorIdConFacturas(long id) throws Exception {
 		boolean fichaClienteMostrada = false;
 
-		for (Factura factura : FacturaAccesoDatos.obtenerPorIdCliente(id)) {
+		for (FacturaDTO factura : FacturaAccesoDatos.obtenerPorIdCliente(id)) {
 			if (!fichaClienteMostrada) {
 				mostrarCliente(factura.cliente());
 
@@ -174,7 +174,7 @@ public class Consola {
 		BigDecimal totalFactura = BigDecimal.ZERO;
 		BigDecimal totalParcial = null;
 
-		for (Factura factura : FacturaAccesoDatos.obtenerPorIdClienteConProductos(id)) {
+		for (FacturaDTO factura : FacturaAccesoDatos.obtenerPorIdClienteConProductos(id)) {
 			
 			System.out.println(factura);
 			
@@ -186,7 +186,7 @@ public class Consola {
 
 			mostrarFactura(factura);
 
-			for(Producto producto: factura.productos()) {
+			for(ProductoDTO producto: factura.productos()) {
 				totalParcial = producto.precio().multiply(new BigDecimal(producto.cantidad()));
 				totalFactura = totalFactura.add(totalParcial);
 
@@ -199,7 +199,7 @@ public class Consola {
 		}
 	}
 
-	private static void mostrarCliente(Cliente cliente) throws Exception {
+	private static void mostrarCliente(ClienteDTO cliente) throws Exception {
 		System.out.printf("""
 
 				CLIENTE
@@ -214,7 +214,7 @@ public class Consola {
 				cliente.fechaNacimiento());
 	}
 
-	private static void mostrarFactura(Factura factura) throws SQLException {
+	private static void mostrarFactura(FacturaDTO factura) throws SQLException {
 		System.out.printf("""
 
 				FACTURA
@@ -228,7 +228,7 @@ public class Consola {
 				""", factura.id(), factura.numero(), factura.fecha());
 	}
 
-	private static void mostrarProducto(Producto producto, BigDecimal totalParcial) throws SQLException {
+	private static void mostrarProducto(ProductoDTO producto, BigDecimal totalParcial) throws SQLException {
 		System.out.printf("\t%2s %-12s %6s %8s %9s\n", producto.id(), producto.nombre(),
 				producto.precio(), producto.cantidad(), totalParcial);
 	}
@@ -240,17 +240,17 @@ public class Consola {
 	public static void pruebaDeAccesoDatos() throws Exception {
 		abrirConexion();
 
-		ClienteAccesoDatos.modificar(new Cliente(35L, "12345678B", null, "MODIFICADO", "MODIFICADEZ", null));
+		ClienteAccesoDatos.modificar(new ClienteDTO(35L, "12345678B", null, "MODIFICADO", "MODIFICADEZ", null));
 
 		ClienteAccesoDatos.borrar(36L);
 
-		ClienteAccesoDatos.insertar(new Cliente(null, "12345678A", null, "Con Acceso Datos", null, null));
+		ClienteAccesoDatos.insertar(new ClienteDTO(null, "12345678A", null, "Con Acceso Datos", null, null));
 
-		for (Cliente cliente : obtenerTodos()) {
+		for (ClienteDTO cliente : obtenerTodos()) {
 			System.out.println(cliente);
 		}
 
-		Cliente cliente = ClienteAccesoDatos.obtenerPorId(1L);
+		ClienteDTO cliente = ClienteAccesoDatos.obtenerPorId(1L);
 		System.out.println(cliente);
 
 	}
