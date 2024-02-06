@@ -19,7 +19,9 @@ public class EjemploJPA {
 			em.persist(new Cliente(null, "12345678Z", null, "Javier", null, null));
 			em.persist(new Cliente(null, "87654321X", null, "Pepe", null, null));
 			em.persist(new Cliente(null, "17632476", null, "Pepe", null, null));
-			
+		});
+		
+		inTransaction(em -> {
 			em.merge(new Cliente(2L, "87654321X", null, "MODIFICADO", null, null));
 			em.remove(em.find(Cliente.class, 1L));
 		});
@@ -27,7 +29,7 @@ public class EjemploJPA {
 		inTransaction(em -> System.out.println(em.find(Cliente.class, 2L)));
 
 		inTransaction(em -> {
-			var clientes = em.createQuery("from Cliente", Cliente.class).getResultList();
+			var clientes = em.createQuery("select c from Cliente c", Cliente.class).getResultList();
 			
 			for(Cliente cliente: clientes) {
 				System.out.println(cliente);

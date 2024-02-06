@@ -6,6 +6,8 @@
 	<persistence-unit
 		name="com.ipartek.formacion.uf2213.entidades">
 
+		<exclude-unlisted-classes>false</exclude-unlisted-classes>
+
 		<properties>
 
 			<!-- Database connection settings -->
@@ -20,11 +22,18 @@
 			<!-- <property name="jakarta.persistence.schema-generation.database.action" 
 				value="create" /> -->
 			<property name="hibernate.hbm2ddl.auto" value="create-drop" />
-			
+
+			<property name="eclipselink.ddl-generation"
+				value="drop-and-create-tables" />
+
 			<!-- Echo all executed SQL to console -->
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />
 			<property name="hibernate.highlight_sql" value="true" />
+
+			<property name="eclipselink.logging.level.sql" value="FINE" />
+			<property name="eclipselink.logging.parameters" value="true" />
+
 		</properties>
 
 	</persistence-unit>

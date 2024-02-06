@@ -14,18 +14,19 @@ import jakarta.persistence.Table;
 public class Cliente {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private Long id;
 	
-	@Column(columnDefinition = "CHAR(9)", nullable = false)
+	@Column(name = "dni", columnDefinition = "CHAR(9)", nullable = false)
 	private String dni;
 	
 	@Column(name = "dni_diferencial")
 	private Integer dniDiferencial;
 	
-	@Column(length = 50, nullable = false)
+	@Column(name = "nombre", length = 50, nullable = false)
 	private String nombre;
 	
-	@Column(length = 100)
+	@Column(name = "apellidos", length = 100)
 	private String apellidos;
 	
 	@Column(name = "fecha_nacimiento")
