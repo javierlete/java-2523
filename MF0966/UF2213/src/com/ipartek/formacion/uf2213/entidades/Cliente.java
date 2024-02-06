@@ -8,33 +8,35 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "clientes")
+@Table(name = "clientes", uniqueConstraints = @UniqueConstraint(name = "UK_dni", columnNames = { "dni", "dni_diferencial" }))
 public class Cliente {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-	
+
 	@Column(name = "dni", columnDefinition = "CHAR(9)", nullable = false)
 	private String dni;
-	
+
 	@Column(name = "dni_diferencial")
 	private Integer dniDiferencial;
-	
+
 	@Column(name = "nombre", length = 50, nullable = false)
 	private String nombre;
-	
+
 	@Column(name = "apellidos", length = 100)
 	private String apellidos;
-	
+
 	@Column(name = "fecha_nacimiento")
 	private LocalDate fechaNacimiento;
 
 	// PARA JPA/HIBERNATE
-	public Cliente() {}
-	
+	public Cliente() {
+	}
+
 	public Cliente(Long id, String dni, Integer dniDiferencial, String nombre, String apellidos,
 			LocalDate fechaNacimiento) {
 		super();
