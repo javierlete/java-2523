@@ -25,6 +25,14 @@
 			<version>6.4.3.Final</version>
 		</dependency>
 
+		<!--
+		https://mvnrepository.com/artifact/org.eclipse.persistence/eclipselink -->
+		<!--<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>eclipselink</artifactId>
+			<version>4.0.2</version>
+		</dependency>-->
+
 	</dependencies>
 
 	<build>
