@@ -1,14 +1,14 @@
 package com.ipartek.formacion.uf2213.presentacion;
 
 import static com.ipartek.formacion.bibliotecas.Consola.*;
-import static com.ipartek.formacion.uf2213.accesodatos.AccesoDatos.*;
-import static com.ipartek.formacion.uf2213.accesodatos.ClienteAccesoDatos.*;
+import static com.ipartek.formacion.uf2213.accesodatos.AccesoDatosJpa.*;
+import static com.ipartek.formacion.uf2213.accesodatos.ClienteAccesoDatosJpa.*;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
-import com.ipartek.formacion.uf2213.accesodatos.ClienteAccesoDatos;
+import com.ipartek.formacion.uf2213.accesodatos.ClienteAccesoDatosJpa;
 import com.ipartek.formacion.uf2213.accesodatos.FacturaAccesoDatos;
 import com.ipartek.formacion.uf2213.dtos.ClienteDTO;
 import com.ipartek.formacion.uf2213.dtos.FacturaDTO;
@@ -114,7 +114,7 @@ public class Consola {
 		LocalDate fechaNacimiento = leerFecha("Fecha de nacimiento", OPCIONAL, LocalDate.of(1900, 1, 1),
 				LocalDate.now().minusYears(18));
 
-		ClienteAccesoDatos.insertar(new ClienteDTO(null, dni, dniDiferencial, nombre, apellidos, fechaNacimiento));
+		ClienteAccesoDatosJpa.insertar(new ClienteDTO(null, dni, dniDiferencial, nombre, apellidos, fechaNacimiento));
 	}
 
 	private static void modificar() throws Exception {
@@ -127,12 +127,12 @@ public class Consola {
 		LocalDate fechaNacimiento = leerFecha("Fecha de nacimiento", OPCIONAL, LocalDate.of(1900, 1, 1),
 				LocalDate.now().minusYears(18));
 
-		ClienteAccesoDatos.modificar(new ClienteDTO(id, dni, dniDiferencial, nombre, apellidos, fechaNacimiento));
+		ClienteAccesoDatosJpa.modificar(new ClienteDTO(id, dni, dniDiferencial, nombre, apellidos, fechaNacimiento));
 	}
 
 	private static void borrar() throws Exception {
 		long id = leerLong("Introduce el id a borrar");
-		ClienteAccesoDatos.borrar(id);
+		ClienteAccesoDatosJpa.borrar(id);
 	}
 
 	private static void facturas() throws Exception {
@@ -146,7 +146,7 @@ public class Consola {
 	}
 
 	private static void obtenerPorId(long id) throws Exception {
-		ClienteDTO cliente = ClienteAccesoDatos.obtenerPorId(id);
+		ClienteDTO cliente = ClienteAccesoDatosJpa.obtenerPorId(id);
 		if (cliente != null) {
 			mostrarCliente(cliente);
 		} else {
@@ -240,17 +240,17 @@ public class Consola {
 	public static void pruebaDeAccesoDatos() throws Exception {
 		abrirConexion();
 
-		ClienteAccesoDatos.modificar(new ClienteDTO(35L, "12345678B", null, "MODIFICADO", "MODIFICADEZ", null));
+		ClienteAccesoDatosJpa.modificar(new ClienteDTO(35L, "12345678B", null, "MODIFICADO", "MODIFICADEZ", null));
 
-		ClienteAccesoDatos.borrar(36L);
+		ClienteAccesoDatosJpa.borrar(36L);
 
-		ClienteAccesoDatos.insertar(new ClienteDTO(null, "12345678A", null, "Con Acceso Datos", null, null));
+		ClienteAccesoDatosJpa.insertar(new ClienteDTO(null, "12345678A", null, "Con Acceso Datos", null, null));
 
 		for (ClienteDTO cliente : obtenerTodos()) {
 			System.out.println(cliente);
 		}
 
-		ClienteDTO cliente = ClienteAccesoDatos.obtenerPorId(1L);
+		ClienteDTO cliente = ClienteAccesoDatosJpa.obtenerPorId(1L);
 		System.out.println(cliente);
 
 	}
