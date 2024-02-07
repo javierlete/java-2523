@@ -1,12 +1,16 @@
 package com.ipartek.formacion.uf2213.entidades;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
@@ -32,6 +36,10 @@ public class Cliente {
 
 	@Column(name = "fecha_nacimiento")
 	private LocalDate fechaNacimiento;
+	
+	
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.PERSIST)
+	private Set<Factura> facturas = new HashSet<>();
 
 	// PARA JPA/HIBERNATE
 	public Cliente() {
@@ -94,6 +102,14 @@ public class Cliente {
 
 	public void setFechaNacimiento(LocalDate fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
+	}
+
+	public Set<Factura> getFacturas() {
+		return facturas;
+	}
+
+	public void setFacturas(Set<Factura> facturas) {
+		this.facturas = facturas;
 	}
 
 	@Override

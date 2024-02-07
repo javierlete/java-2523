@@ -28,8 +28,8 @@
 
 			<!-- Echo all executed SQL to console -->
 			<property name="hibernate.show_sql" value="true" />
-			<property name="hibernate.format_sql" value="true" />
-			<property name="hibernate.highlight_sql" value="true" />
+			<property name="hibernate.format_sql" value="false" />
+			<property name="hibernate.highlight_sql" value="false" />
 
 			<property name="eclipselink.logging.level.sql" value="FINE" />
 			<property name="eclipselink.logging.parameters" value="true" />
