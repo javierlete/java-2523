@@ -26,8 +26,8 @@ public class Factura {
 	@Column(name = "fecha", nullable = false)
 	private LocalDate fecha;
 	
-	@ManyToOne(optional = false)
-	@JoinColumn(foreignKey = @ForeignKey(name = "FK_factura_cliente"))
+	@ManyToOne
+	@JoinColumn(name = "cliente_id", nullable = false, foreignKey = @ForeignKey(name = "FK_factura_cliente"))
 	private Cliente cliente;
 	
 	public Factura() {

@@ -18,11 +18,11 @@ public class DetalleFactura {
 	private Long id;
 	
 	@ManyToOne(optional = false)
-	@JoinColumn(foreignKey = @ForeignKey(name = "FK_detalle_factura"))
+	@JoinColumn(name = "factura_id", nullable = false, foreignKey = @ForeignKey(name = "FK_detalle_factura"))
 	private Factura factura;
 	
 	@ManyToOne(optional = false)
-	@JoinColumn(foreignKey = @ForeignKey(name = "FK_detalle_producto"))
+	@JoinColumn(name = "producto_id", nullable = false, foreignKey = @ForeignKey(name = "FK_detalle_producto"))
 	private Producto producto;
 	
 	@Column(name = "cantidad", nullable = false)
