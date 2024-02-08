@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 
 import com.ipartek.formacion.uf2213.accesodatos.ClienteAccesoDatosJpa;
-import com.ipartek.formacion.uf2213.accesodatos.FacturaAccesoDatos;
+import com.ipartek.formacion.uf2213.accesodatos.FacturaAccesoDatosJpa;
 import com.ipartek.formacion.uf2213.dtos.ClienteDTO;
 import com.ipartek.formacion.uf2213.dtos.FacturaDTO;
 import com.ipartek.formacion.uf2213.dtos.ProductoDTO;
@@ -157,7 +157,7 @@ public class Consola {
 	private static void obtenerPorIdConFacturas(long id) throws Exception {
 		boolean fichaClienteMostrada = false;
 
-		for (FacturaDTO factura : FacturaAccesoDatos.obtenerPorIdCliente(id)) {
+		for (FacturaDTO factura : FacturaAccesoDatosJpa.obtenerPorIdCliente(id)) {
 			if (!fichaClienteMostrada) {
 				mostrarCliente(factura.cliente());
 
@@ -174,7 +174,7 @@ public class Consola {
 		BigDecimal totalFactura = BigDecimal.ZERO;
 		BigDecimal totalParcial = null;
 
-		for (FacturaDTO factura : FacturaAccesoDatos.obtenerPorIdClienteConProductos(id)) {
+		for (FacturaDTO factura : FacturaAccesoDatosJpa.obtenerPorIdClienteConProductos(id)) {
 			
 			System.out.println(factura);
 			

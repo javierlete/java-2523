@@ -37,7 +37,6 @@ public class Cliente {
 	@Column(name = "fecha_nacimiento")
 	private LocalDate fechaNacimiento;
 	
-	
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.PERSIST)
 	private Set<Factura> facturas = new HashSet<>();
 

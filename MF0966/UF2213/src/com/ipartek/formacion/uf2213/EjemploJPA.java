@@ -13,30 +13,29 @@ import com.ipartek.formacion.uf2213.entidades.Producto;
 public class EjemploJPA {
 
 	public static void main(String[] args) {
-		AccesoDatosJpa.enTransaccion(em -> {
-			Producto producto1 = new Producto(null, "Producto1", new BigDecimal("11.11"), 10);
-			Producto producto2 = new Producto(null, "Producto2", new BigDecimal("22.22"), 20);
-			
-			em.persist(producto1);
-			em.persist(producto2);
+//		List<Cliente> clientes = AccesoDatosJpa.enTransaccion(em -> em
+//				.createQuery("select c from Cliente c left join fetch c.facturas f join fetch f.detalles d join fetch d.producto", Cliente.class).getResultList());
 
-			Cliente javier = new Cliente(null, "12345678Z", null, "Javier", null, null);
+		List<Cliente> clientes = AccesoDatosJpa.enTransaccion(em -> {
+			List<Cliente> clientesConsulta = em.createQuery("select c from Cliente c", Cliente.class).getResultList();
 
-			em.persist(javier);
+			for (Cliente cliente : clientesConsulta) {
+				for (Factura f : em
+						.createQuery("select f from Factura f join f.cliente c where c.id=:id", Factura.class)
+						.setParameter("id", cliente.getId()).getResultList()) {
+					for (DetalleFactura df : em.createQuery(
+							"select df from DetalleFactura df join fetch df.producto join df.factura f where f.id=:id",
+							DetalleFactura.class).setParameter("id", f.getId()).getResultList()) {
+						f.getDetalles().add(df);
+					}
 
-			Factura factura = new Factura(null, "20240207", LocalDate.now(), javier);
+					cliente.getFacturas().add(f);
+				}
+			}
 
-			factura.getDetalles().add(new DetalleFactura(null, factura, producto1, 5));
-			factura.getDetalles().add(new DetalleFactura(null, factura, producto2, 6));
-
-			em.persist(factura);
-
-			return null;
+			return clientesConsulta;
 		});
 
-		List<Cliente> clientes = AccesoDatosJpa.enTransaccion(em -> em
-				.createQuery("select c from Cliente c left join fetch c.facturas f join fetch f.detalles d join fetch d.producto", Cliente.class).getResultList());
-		
 		for (Cliente cliente : clientes) {
 			mostrarCliente(cliente);
 		}
