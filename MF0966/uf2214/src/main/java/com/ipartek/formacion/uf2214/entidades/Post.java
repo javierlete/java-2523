@@ -4,11 +4,36 @@ import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Set;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ForeignKey;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "posts")
 public class Post {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private Long id;
+
+	@Column(name = "fecha", nullable = false)
 	private LocalDate fecha;
+
+	@ManyToOne
+	@JoinColumn(name = "usuario_id", nullable = false, foreignKey = @ForeignKey(name = "FK_post_usuario"))
 	private Usuario usuario;
+
+	@Column(name = "texto", length = 240, nullable = false)
 	private String texto;
+
+	@ManyToMany(mappedBy = "postsQueLeGustan")
 	private Set<Usuario> gustaA;
 
 	public Post() {
