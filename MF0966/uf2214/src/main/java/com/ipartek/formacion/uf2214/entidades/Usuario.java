@@ -24,8 +24,11 @@ public class Usuario {
 	@Column(name = "id")
 	private Long id;
 
-	@Column(name = "nick_name", nullable = false, length = 50)
+	@Column(name = "nick_name", nullable = false, length = 50, unique = true)
 	private String nickName;
+
+	@Column(name = "password", nullable = false, length = 50)
+	private String password;
 
 	@ManyToOne
 	@JoinColumn(name = "rol_id", nullable = false, foreignKey = @ForeignKey(name = "FK_usuario_rol"))
@@ -56,11 +59,28 @@ public class Usuario {
 	public Usuario() {
 	}
 
-	public Usuario(Long id, String nickName, Rol rol, Set<Post> posts, Set<Usuario> seguidorDe, Set<Usuario> bloqueados,
-			Set<Post> postsQueLeGustan, Set<Post> postGuardados, Set<Denuncia> denunciasRealizadas) {
+	public Usuario(String nickName, String password, Rol rol) {
+		super();
+		this.nickName = nickName;
+		this.password = password;
+		this.rol = rol;
+	}
+
+	public Usuario(Long id, String nickName, String password, Rol rol) {
 		super();
 		this.id = id;
 		this.nickName = nickName;
+		this.password = password;
+		this.rol = rol;
+	}
+
+	public Usuario(Long id, String nickName, String password, Rol rol, Set<Post> posts, Set<Usuario> seguidorDe,
+			Set<Usuario> bloqueados, Set<Post> postsQueLeGustan, Set<Post> postGuardados,
+			Set<Denuncia> denunciasRealizadas) {
+		super();
+		this.id = id;
+		this.nickName = nickName;
+		this.password = password;
 		this.rol = rol;
 		this.posts = posts;
 		this.seguidorDe = seguidorDe;
@@ -69,6 +89,8 @@ public class Usuario {
 		this.postGuardados = postGuardados;
 		this.denunciasRealizadas = denunciasRealizadas;
 	}
+
+
 
 	public Long getId() {
 		return id;
@@ -84,6 +106,14 @@ public class Usuario {
 
 	public void setNickName(String nickName) {
 		this.nickName = nickName;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public Rol getRol() {
@@ -144,8 +174,8 @@ public class Usuario {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(bloqueados, denunciasRealizadas, id, nickName, postGuardados, posts, postsQueLeGustan, rol,
-				seguidorDe);
+		return Objects.hash(bloqueados, denunciasRealizadas, id, nickName, password, postGuardados, posts,
+				postsQueLeGustan, rol, seguidorDe);
 	}
 
 	@Override
@@ -159,16 +189,14 @@ public class Usuario {
 		Usuario other = (Usuario) obj;
 		return Objects.equals(bloqueados, other.bloqueados)
 				&& Objects.equals(denunciasRealizadas, other.denunciasRealizadas) && Objects.equals(id, other.id)
-				&& Objects.equals(nickName, other.nickName) && Objects.equals(postGuardados, other.postGuardados)
-				&& Objects.equals(posts, other.posts) && Objects.equals(postsQueLeGustan, other.postsQueLeGustan)
-				&& Objects.equals(rol, other.rol) && Objects.equals(seguidorDe, other.seguidorDe);
+				&& Objects.equals(nickName, other.nickName) && Objects.equals(password, other.password)
+				&& Objects.equals(postGuardados, other.postGuardados) && Objects.equals(posts, other.posts)
+				&& Objects.equals(postsQueLeGustan, other.postsQueLeGustan) && Objects.equals(rol, other.rol)
+				&& Objects.equals(seguidorDe, other.seguidorDe);
 	}
 
 	@Override
 	public String toString() {
-		return "Usuario [id=" + id + ", nickName=" + nickName + ", rol=" + rol + ", posts=" + posts + ", seguidorDe="
-				+ seguidorDe + ", bloqueados=" + bloqueados + ", postsQueLeGustan=" + postsQueLeGustan
-				+ ", postGuardados=" + postGuardados + ", denunciasRealizadas=" + denunciasRealizadas + "]";
+		return "Usuario [id=" + id + ", nickName=" + nickName + ", password=" + password + ", rol=" + rol + "]";
 	}
-
 }

@@ -1,6 +1,6 @@
 package com.ipartek.formacion.uf2214.entidades;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
 
@@ -24,7 +24,7 @@ public class Post {
 	private Long id;
 
 	@Column(name = "fecha", nullable = false)
-	private LocalDate fecha;
+	private LocalDateTime fecha;
 
 	@ManyToOne
 	@JoinColumn(name = "usuario_id", nullable = false, foreignKey = @ForeignKey(name = "FK_post_usuario"))
@@ -39,7 +39,14 @@ public class Post {
 	public Post() {
 	}
 
-	public Post(Long id, LocalDate fecha, Usuario usuario, String texto, Set<Usuario> gustaA) {
+	public Post(Usuario usuario, String texto) {
+		super();
+		this.usuario = usuario;
+		this.texto = texto;
+		this.fecha = LocalDateTime.now();
+	}
+
+	public Post(Long id, LocalDateTime fecha, Usuario usuario, String texto, Set<Usuario> gustaA) {
 		super();
 		this.id = id;
 		this.fecha = fecha;
@@ -56,11 +63,11 @@ public class Post {
 		this.id = id;
 	}
 
-	public LocalDate getFecha() {
+	public LocalDateTime getFecha() {
 		return fecha;
 	}
 
-	public void setFecha(LocalDate fecha) {
+	public void setFecha(LocalDateTime fecha) {
 		this.fecha = fecha;
 	}
 
@@ -109,7 +116,6 @@ public class Post {
 
 	@Override
 	public String toString() {
-		return "Post [id=" + id + ", fecha=" + fecha + ", usuario=" + usuario + ", texto=" + texto + ", gustaA="
-				+ gustaA + "]";
+		return "Post [id=" + id + ", fecha=" + fecha + ", usuario=" + usuario + ", texto=" + texto + "]";
 	}
 }
