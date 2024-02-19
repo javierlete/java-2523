@@ -28,6 +28,10 @@ public class ProductosRestServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
+	private static final String fila = """
+			{ "id": %s, "nombre": "%s", "precio": %s, "fechaDeCaducidad": "%s" }
+			""";
+	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -35,10 +39,6 @@ public class ProductosRestServlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 
 		PrintWriter out = response.getWriter();
-
-		String fila = """
-				{ "id": %s, "nombre": "%s", "precio": %s, "fechaDeCaducidad": "%s" }
-				""";
 
 		String path = request.getPathInfo();
 
@@ -49,7 +49,11 @@ public class ProductosRestServlet extends HttpServlet {
 
 			Producto p = productos.get(id);
 
-			out.printf(fila, p.getId(), p.getNombre(), p.getPrecio(), p.getFechaDeCaducidad());
+			if(p != null) {
+				out.printf(fila, p.getId(), p.getNombre(), p.getPrecio(), p.getFechaDeCaducidad());
+			} else {
+				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			}
 
 			return;
 		}
@@ -126,6 +130,10 @@ public class ProductosRestServlet extends HttpServlet {
 		System.out.println(p);
 		
 		productos.put(id, p);
+		
+		out.printf(fila, p.getId(), p.getNombre(), p.getPrecio(), p.getFechaDeCaducidad());
+
+		response.setStatus(HttpServletResponse.SC_CREATED);
 	}
 
 	@Override
@@ -188,6 +196,8 @@ public class ProductosRestServlet extends HttpServlet {
 		System.out.println(p);
 		
 		productos.put(id, p);
+
+		out.printf(fila, p.getId(), p.getNombre(), p.getPrecio(), p.getFechaDeCaducidad());
 	}
 	
 	@Override
@@ -200,5 +210,7 @@ public class ProductosRestServlet extends HttpServlet {
 
 			productos.remove(id);
 		}
+		
+		response.setStatus(HttpServletResponse.SC_NO_CONTENT);
 	}
 }
