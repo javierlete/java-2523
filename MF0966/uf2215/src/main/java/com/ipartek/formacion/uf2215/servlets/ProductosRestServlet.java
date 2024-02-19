@@ -1,14 +1,13 @@
 package com.ipartek.formacion.uf2215.servlets;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.TreeMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbBuilder;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -28,9 +27,7 @@ public class ProductosRestServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final String fila = """
-			{ "id": %s, "nombre": "%s", "precio": %s, "fechaDeCaducidad": "%s" }
-			""";
+	private static final Jsonb json = JsonbBuilder.create();
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -50,7 +47,7 @@ public class ProductosRestServlet extends HttpServlet {
 			Producto p = productos.get(id);
 
 			if(p != null) {
-				out.printf(fila, p.getId(), p.getNombre(), p.getPrecio(), p.getFechaDeCaducidad());
+				out.println(json.toJson(p));
 			} else {
 				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			}
@@ -58,17 +55,7 @@ public class ProductosRestServlet extends HttpServlet {
 			return;
 		}
 
-		out.println("[");
-
-		for (Producto p : productos.values()) {
-			out.printf(fila, p.getId(), p.getNombre(), p.getPrecio(), p.getFechaDeCaducidad());
-
-			if (productos.lastKey() != p.getId()) {
-				out.print(",");
-			}
-		}
-
-		out.println("]");
+		out.println(json.toJson(productos.values()));
 	}
 
 	@Override
@@ -78,60 +65,18 @@ public class ProductosRestServlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 
 		PrintWriter out = response.getWriter();
-		
-		BufferedReader in = request.getReader();
 
-		String json = "";
-
-		String linea;
-		while ((linea = in.readLine()) != null) {
-			json += linea;
-		}
-
-		System.out.println(json);
-		
-		String patternNombre = "\"nombre\": \"(.*?)\""; // Expresión regular para capturar el valor entre comillas
-
-		Pattern regex = Pattern.compile(patternNombre);
-		Matcher matcher = regex.matcher(json);
-
-		matcher.find();
-		
-		String nombre = matcher.group(1);
-		
-		System.out.println(nombre);
-		
-		String patternPrecio = "\"precio\": (.*?),"; // Expresión regular para capturar el valor entre comillas
-		
-		regex = Pattern.compile(patternPrecio);
-		matcher = regex.matcher(json);
-		
-		matcher.find();
-		
-		BigDecimal precio = new BigDecimal(matcher.group(1));
-
-		System.out.println(precio);
-		
-		String patternFecha = "\"fechaDeCaducidad\": \"(.*?)\""; // Expresión regular para capturar el valor entre comillas
-		
-		regex = Pattern.compile(patternFecha);
-		matcher = regex.matcher(json);
-		
-		matcher.find();
-		
-		LocalDate fechaDeCaducidad= LocalDate.parse(matcher.group(1));
-		
-		System.out.println(fechaDeCaducidad);
-		
 		Long id = productos.size() > 0 ? productos.lastKey() + 1L: 1L;
 		
-		Producto p = new Producto(id, nombre, precio, fechaDeCaducidad);
+		Producto p = json.fromJson(request.getInputStream(), Producto.class);
+
+		p.setId(id);
 		
 		System.out.println(p);
 		
 		productos.put(id, p);
 		
-		out.printf(fila, p.getId(), p.getNombre(), p.getPrecio(), p.getFechaDeCaducidad());
+		out.println(json.toJson(p));
 
 		response.setStatus(HttpServletResponse.SC_CREATED);
 	}
@@ -143,61 +88,18 @@ public class ProductosRestServlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 
 		PrintWriter out = response.getWriter();
-		BufferedReader in = request.getReader();
 
 		String path = request.getPathInfo();
 
 		Long id = Long.parseLong(path.replace("/", ""));
 		
-		String json = "";
-
-		String linea;
-		while ((linea = in.readLine()) != null) {
-			json += linea;
-		}
-
-		System.out.println(json);
-		
-		String patternNombre = "\"nombre\": \"(.*?)\""; // Expresión regular para capturar el valor entre comillas
-
-		Pattern regex = Pattern.compile(patternNombre);
-		Matcher matcher = regex.matcher(json);
-
-		matcher.find();
-		
-		String nombre = matcher.group(1);
-		
-		System.out.println(nombre);
-		
-		String patternPrecio = "\"precio\": (.*?),"; // Expresión regular para capturar el valor entre comillas
-		
-		regex = Pattern.compile(patternPrecio);
-		matcher = regex.matcher(json);
-		
-		matcher.find();
-		
-		BigDecimal precio = new BigDecimal(matcher.group(1));
-
-		System.out.println(precio);
-		
-		String patternFecha = "\"fechaDeCaducidad\": \"(.*?)\""; // Expresión regular para capturar el valor entre comillas
-		
-		regex = Pattern.compile(patternFecha);
-		matcher = regex.matcher(json);
-		
-		matcher.find();
-		
-		LocalDate fechaDeCaducidad= LocalDate.parse(matcher.group(1));
-		
-		System.out.println(fechaDeCaducidad);
-		
-		Producto p = new Producto(id, nombre, precio, fechaDeCaducidad);
+		Producto p = json.fromJson(request.getInputStream(), Producto.class);
 		
 		System.out.println(p);
 		
 		productos.put(id, p);
 
-		out.printf(fila, p.getId(), p.getNombre(), p.getPrecio(), p.getFechaDeCaducidad());
+		out.println(json.toJson(p));
 	}
 	
 	@Override
