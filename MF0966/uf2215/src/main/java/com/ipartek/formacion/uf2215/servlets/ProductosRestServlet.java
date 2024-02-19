@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/api/v1/productos")
+@WebServlet("/api/v1/productos/*")
 public class ProductosRestServlet extends HttpServlet {
 	private static TreeMap<Long, Producto> productos = new TreeMap<>();
 
@@ -35,28 +35,32 @@ public class ProductosRestServlet extends HttpServlet {
 		String fila = """
 				{ "id": %s, "nombre": "%s", "precio": %s, "fechaDeCaducidad": "%s" }
 				""";
-		
-		out.println("[");
-		
-		for(Producto p: productos.values()) {
+
+		String path = request.getPathInfo();
+
+		if (path != null && path.trim().length() != 1) {
+			Long id = Long.parseLong(path.replace("/", ""));
+
+			System.out.println(id);
+			
+			Producto p = productos.get(id);
+			
 			out.printf(fila, p.getId(), p.getNombre(), p.getPrecio(), p.getFechaDeCaducidad());
 			
-			if(productos.lastKey() != p.getId()) {
+			return;
+		}
+
+
+		out.println("[");
+
+		for (Producto p : productos.values()) {
+			out.printf(fila, p.getId(), p.getNombre(), p.getPrecio(), p.getFechaDeCaducidad());
+
+			if (productos.lastKey() != p.getId()) {
 				out.print(",");
 			}
 		}
-		
+
 		out.println("]");
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
