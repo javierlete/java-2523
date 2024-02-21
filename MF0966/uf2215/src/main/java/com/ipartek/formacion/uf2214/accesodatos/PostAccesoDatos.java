@@ -4,6 +4,7 @@ import static com.ipartek.formacion.uf2214.accesodatos.AccesoDatosJpa.enTransacc
 
 import java.util.List;
 
+import com.ipartek.formacion.uf2214.dtos.PostDTO;
 import com.ipartek.formacion.uf2214.entidades.Post;
 
 public class PostAccesoDatos {
@@ -14,8 +15,8 @@ public class PostAccesoDatos {
 		});
 	}
 	
-	public static List<Post> obtenerTodos() {
-		return enTransaccion(em -> em.createQuery("select p from Post p join fetch p.usuario join fetch p.usuario.rol order by p.fecha desc", Post.class).getResultList());
+	public static List<PostDTO> obtenerTodos() {
+		return enTransaccion(em -> em.createQuery("select p.id, p.usuario.nickName, p.fecha, p.texto, size(p.gustaA) from Post p order by p.fecha desc", PostDTO.class).getResultList());
 	}
 	
 	public static List<Post> obtenerTodos(int offset, int tamanoPagina) {

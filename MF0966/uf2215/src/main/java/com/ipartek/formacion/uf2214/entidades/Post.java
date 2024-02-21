@@ -97,7 +97,7 @@ public class Post {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(fecha, gustaA, id, texto, usuario);
+		return Objects.hash(fecha, id, texto, usuario);
 	}
 
 	@Override
@@ -109,8 +109,7 @@ public class Post {
 		if (getClass() != obj.getClass())
 			return false;
 		Post other = (Post) obj;
-		return Objects.equals(fecha, other.fecha) && Objects.equals(gustaA, other.gustaA)
-				&& Objects.equals(id, other.id) && Objects.equals(texto, other.texto)
+		return Objects.equals(fecha, other.fecha) && Objects.equals(id, other.id) && Objects.equals(texto, other.texto)
 				&& Objects.equals(usuario, other.usuario);
 	}
 

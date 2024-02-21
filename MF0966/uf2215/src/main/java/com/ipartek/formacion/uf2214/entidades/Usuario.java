@@ -174,8 +174,7 @@ public class Usuario {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(bloqueados, denunciasRealizadas, id, nickName, password, postGuardados, posts,
-				postsQueLeGustan, rol, seguidorDe);
+		return Objects.hash(id, nickName, password, rol);
 	}
 
 	@Override
@@ -187,12 +186,8 @@ public class Usuario {
 		if (getClass() != obj.getClass())
 			return false;
 		Usuario other = (Usuario) obj;
-		return Objects.equals(bloqueados, other.bloqueados)
-				&& Objects.equals(denunciasRealizadas, other.denunciasRealizadas) && Objects.equals(id, other.id)
-				&& Objects.equals(nickName, other.nickName) && Objects.equals(password, other.password)
-				&& Objects.equals(postGuardados, other.postGuardados) && Objects.equals(posts, other.posts)
-				&& Objects.equals(postsQueLeGustan, other.postsQueLeGustan) && Objects.equals(rol, other.rol)
-				&& Objects.equals(seguidorDe, other.seguidorDe);
+		return Objects.equals(id, other.id) && Objects.equals(nickName, other.nickName)
+				&& Objects.equals(password, other.password) && Objects.equals(rol, other.rol);
 	}
 
 	@Override
