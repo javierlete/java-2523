@@ -4,4 +4,8 @@ public record UsuarioDTO(Long id, String nickName, String password, RolDTO rol) 
 	public UsuarioDTO(Long id, String nickName, String password, Long idRol, String nombreRol) {
 		this(id, nickName, password, new RolDTO(idRol, nombreRol));
 	}
+	
+	public UsuarioDTO(Long id, String nickName) {
+		this(id, nickName, null, null);
+	}
 }

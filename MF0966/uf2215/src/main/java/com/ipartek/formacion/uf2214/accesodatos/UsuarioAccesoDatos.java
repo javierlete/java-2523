@@ -4,6 +4,7 @@ import static com.ipartek.formacion.uf2214.accesodatos.AccesoDatosJpa.enTransacc
 
 import java.util.List;
 
+import com.ipartek.formacion.uf2214.dtos.PostDTO;
 import com.ipartek.formacion.uf2214.dtos.UsuarioDTO;
 import com.ipartek.formacion.uf2214.entidades.Usuario;
 
@@ -39,10 +40,28 @@ public class UsuarioAccesoDatos {
 		});
 	}
 
-	public static List<Usuario> obtenerSeguidores(long id) {
+	public static List<UsuarioDTO> obtenerSeguidores(long id) {
 		return enTransaccion(em -> em.createQuery(
-				"select seguidores from Usuario seguidores join seguidores.seguidorDe seguido where seguido.id = :id",
-				Usuario.class).setParameter("id", id).getResultList());
+				"select seguidores.id, seguidores.nickName from Usuario seguidores join seguidores.seguidorDe seguido where seguido.id = :id",
+				UsuarioDTO.class).setParameter("id", id).getResultList());
+	}
+
+	public static List<UsuarioDTO> obtenerSeguidorDe(Long id) {
+		return enTransaccion(em -> em.createQuery(
+				"select seguido.id, seguido.nickName from Usuario u join u.seguidorDe seguido where u.id = :id",
+				UsuarioDTO.class).setParameter("id", id).getResultList());
+	}
+
+	public static List<PostDTO> posts(Long id) {
+		return enTransaccion(em -> em.createQuery(
+				"select p.id, p.fecha, p.texto, size(p.gustaA) from Usuario u join u.posts p where u.id = :id",
+				PostDTO.class).setParameter("id", id).getResultList());
+	}
+
+	public static List<PostDTO> postsQueLeGustan(Long id) {
+		return enTransaccion(em -> em.createQuery(
+				"select p.id, p.usuario.nickName, p.fecha, p.texto, size(p.gustaA) from Usuario u join u.postsQueLeGustan p where u.id = :id",
+				PostDTO.class).setParameter("id", id).getResultList());
 	}
 
 	public static void agregarSeguidor(long id, long seguirAId) {
