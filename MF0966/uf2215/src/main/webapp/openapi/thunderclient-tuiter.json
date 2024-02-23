@@ -1,0 +1,323 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "Tuiter",
+    "dateExported": "2024-02-23T10:35:46.048Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "c6ee35dd-7f3c-4994-9fcb-0877e946d815",
+            "colId": "9f7b2ef6-1b0f-4dad-b969-fa77915836c4",
+            "containerId": "",
+            "name": "Roles",
+            "url": "http://localhost:8080/uf2215/api/v2/roles",
+            "method": "GET",
+            "sortNum": 2500,
+            "created": "2024-02-21T07:44:21.196Z",
+            "modified": "2024-02-21T07:44:53.120Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "8f39b1d4-8cb9-4a44-8b67-2e998305ed61",
+            "colId": "9f7b2ef6-1b0f-4dad-b969-fa77915836c4",
+            "containerId": "",
+            "name": "Rol por id",
+            "url": "http://localhost:8080/uf2215/api/v2/roles/1",
+            "method": "GET",
+            "sortNum": 3125,
+            "created": "2024-02-20T09:10:05.293Z",
+            "modified": "2024-02-20T09:26:02.124Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "06cee8c7-2872-41b0-8463-0f0d4964038e",
+            "colId": "9f7b2ef6-1b0f-4dad-b969-fa77915836c4",
+            "containerId": "",
+            "name": "Rol nuevo",
+            "url": "http://localhost:8080/uf2215/api/v2/roles",
+            "method": "POST",
+            "sortNum": 3750,
+            "created": "2024-02-20T08:18:53.954Z",
+            "modified": "2024-02-22T07:21:40.531Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"nombre\": \"REVIEW\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "57b262ad-a951-46ed-b226-0fdba7231bf8",
+            "colId": "9f7b2ef6-1b0f-4dad-b969-fa77915836c4",
+            "containerId": "",
+            "name": "Rol modificado",
+            "url": "http://localhost:8080/uf2215/api/v2/roles/11",
+            "method": "PUT",
+            "sortNum": 4375,
+            "created": "2024-02-21T07:54:45.347Z",
+            "modified": "2024-02-22T07:21:55.686Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"id\": 9,\n  \"nombre\": \"REVIEWER\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "296aac67-8026-4bd6-b4f5-e7bbe8f6741a",
+            "colId": "9f7b2ef6-1b0f-4dad-b969-fa77915836c4",
+            "containerId": "",
+            "name": "Rol borrar",
+            "url": "http://localhost:8080/uf2215/api/v2/roles/9",
+            "method": "DELETE",
+            "sortNum": 5937.5,
+            "created": "2024-02-21T08:10:00.310Z",
+            "modified": "2024-02-22T07:22:04.217Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "85fbbcf6-ad7a-45b2-941a-8f995e781b5c",
+            "colId": "9f7b2ef6-1b0f-4dad-b969-fa77915836c4",
+            "containerId": "",
+            "name": "Usuario insertar",
+            "url": "http://localhost:8080/uf2215/api/v2/usuarios",
+            "method": "POST",
+            "sortNum": 6328.1,
+            "created": "2024-02-22T07:26:32.440Z",
+            "modified": "2024-02-22T07:26:32.440Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"nickName\": \"pepe\",\n  \"password\": \"contra\",\n  \"rol\": {\n    \"id\": 2\n  }\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "9332a06a-cf4e-4595-99ef-daff95faf11b",
+            "colId": "9f7b2ef6-1b0f-4dad-b969-fa77915836c4",
+            "containerId": "",
+            "name": "Usuario registro",
+            "url": "http://localhost:8080/uf2215/api/v2/usuarios/registrar",
+            "method": "POST",
+            "sortNum": 6718.8,
+            "created": "2024-02-20T09:16:54.438Z",
+            "modified": "2024-02-22T07:27:15.765Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"nickName\": \"listillo\",\n  \"password\": \"contra\",\n  \"rol\": {\n    \"id\": 1\n  }\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "f71969ea-047f-4d36-adc8-2aadaad492e2",
+            "colId": "9f7b2ef6-1b0f-4dad-b969-fa77915836c4",
+            "containerId": "",
+            "name": "Usuario por nickName",
+            "url": "http://localhost:8080/uf2215/api/v2/usuarios/buscar/nickName?nickName=listillo",
+            "method": "GET",
+            "sortNum": 7500,
+            "created": "2024-02-20T09:24:22.037Z",
+            "modified": "2024-02-22T07:29:00.365Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "nickName",
+                    "value": "listillo",
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "59bfd1a0-b956-482b-adbb-54ddec43d204",
+            "colId": "9f7b2ef6-1b0f-4dad-b969-fa77915836c4",
+            "containerId": "",
+            "name": "Usuario por id",
+            "url": "http://localhost:8080/uf2215/api/v2/usuarios/3",
+            "method": "GET",
+            "sortNum": 13750,
+            "created": "2024-02-21T09:49:51.523Z",
+            "modified": "2024-02-22T08:04:56.357Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "4c1d6e7e-3b3f-4ab2-9245-6291d08f1543",
+            "colId": "9f7b2ef6-1b0f-4dad-b969-fa77915836c4",
+            "containerId": "",
+            "name": "Post obtener",
+            "url": "http://localhost:8080/uf2215/api/v2/posts",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2024-02-21T08:24:29.390Z",
+            "modified": "2024-02-21T08:25:00.381Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "fc804265-bf91-4119-b31d-a013024c3194",
+            "colId": "9f7b2ef6-1b0f-4dad-b969-fa77915836c4",
+            "containerId": "",
+            "name": "Post obtener por usuario",
+            "url": "http://localhost:8080/uf2215/api/v2/posts/buscar?visualizador=3",
+            "method": "GET",
+            "sortNum": 35000,
+            "created": "2024-02-22T08:27:47.017Z",
+            "modified": "2024-02-22T09:13:42.304Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "visualizador",
+                    "value": "3",
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "401c8612-cef2-4d99-84a4-b7c7a583a5b4",
+            "colId": "9f7b2ef6-1b0f-4dad-b969-fa77915836c4",
+            "containerId": "",
+            "name": "Post nuevo",
+            "url": "http://localhost:8080/uf2215/api/v2/posts",
+            "method": "POST",
+            "sortNum": 40000,
+            "created": "2024-02-21T08:18:28.540Z",
+            "modified": "2024-02-22T09:10:47.911Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"fecha\": \"2024-02-22T10:10\",\n  \"usuario\": {\n    \"id\": 1\n  },\n  \"texto\": \"Bienvenidos a tuiter\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "c42ab0c6-a91e-4d7c-853d-2203d2868f84",
+            "colId": "9f7b2ef6-1b0f-4dad-b969-fa77915836c4",
+            "containerId": "",
+            "name": "Me gusta",
+            "url": "http://localhost:8080/uf2215/api/v2/megusta?usuario=2&post=3",
+            "method": "POST",
+            "sortNum": 50000,
+            "created": "2024-02-21T09:27:00.398Z",
+            "modified": "2024-02-22T08:05:40.105Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "usuario",
+                    "value": "2",
+                    "isPath": false
+                },
+                {
+                    "name": "post",
+                    "value": "3",
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "03b04d52-9366-40e3-8807-7bdcb645c165",
+            "colId": "9f7b2ef6-1b0f-4dad-b969-fa77915836c4",
+            "containerId": "",
+            "name": "seguidor",
+            "url": "http://localhost:8080/uf2215/api/v2/usuarios/2/sigue/3",
+            "method": "POST",
+            "sortNum": 60000,
+            "created": "2024-02-21T09:41:35.023Z",
+            "modified": "2024-02-22T07:31:40.212Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "a937daa0-9354-4f9f-b48f-695cc6a53b91",
+            "colId": "9f7b2ef6-1b0f-4dad-b969-fa77915836c4",
+            "containerId": "",
+            "name": "bloquea a",
+            "url": "http://localhost:8080/uf2215/api/v2/usuarios/3/bloquea/2",
+            "method": "POST",
+            "sortNum": 62500,
+            "created": "2024-02-22T08:16:27.008Z",
+            "modified": "2024-02-22T09:13:24.642Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "5a5c5580-995a-4f68-a676-2c62e63c7575",
+            "colId": "9f7b2ef6-1b0f-4dad-b969-fa77915836c4",
+            "containerId": "",
+            "name": "Usuario seguidores",
+            "url": "http://localhost:8080/uf2215/api/v2/usuarios/3/seguidores",
+            "method": "GET",
+            "sortNum": 65000,
+            "created": "2024-02-22T07:45:49.884Z",
+            "modified": "2024-02-22T07:53:55.156Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "9b6b83fa-8d72-4e26-87b3-56872702e7ca",
+            "colId": "9f7b2ef6-1b0f-4dad-b969-fa77915836c4",
+            "containerId": "",
+            "name": "Usuario seguidorDe",
+            "url": "http://localhost:8080/uf2215/api/v2/usuarios/2/seguidorde",
+            "method": "GET",
+            "sortNum": 70000,
+            "created": "2024-02-22T07:32:47.143Z",
+            "modified": "2024-02-22T07:45:22.748Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "86d4a918-2647-4424-96e4-a6e6e02ca290",
+            "colId": "9f7b2ef6-1b0f-4dad-b969-fa77915836c4",
+            "containerId": "",
+            "name": "Usuario posts",
+            "url": "http://localhost:8080/uf2215/api/v2/usuarios/2/posts",
+            "method": "GET",
+            "sortNum": 80000,
+            "created": "2024-02-22T07:59:46.303Z",
+            "modified": "2024-02-22T08:13:23.708Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "bc50acc3-5e9a-4359-9da7-90b626024e5a",
+            "colId": "9f7b2ef6-1b0f-4dad-b969-fa77915836c4",
+            "containerId": "",
+            "name": "Usuario postsquelegustan Copy",
+            "url": "http://localhost:8080/uf2215/api/v2/usuarios/1/postsquelegustan",
+            "method": "GET",
+            "sortNum": 90000,
+            "created": "2024-02-22T08:09:29.807Z",
+            "modified": "2024-02-22T08:09:29.807Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        }
+    ]
+}
