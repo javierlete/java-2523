@@ -41,7 +41,7 @@ public class Mensaje {
 	private EstadoMensaje estadoMensaje;
 
 	@ManyToOne
-	@JoinColumn(name = "respuesta_de_id", nullable = false, foreignKey = @ForeignKey(name = "FK_mensaje_respuesta_de"))
+	@JoinColumn(name = "respuesta_de_id", nullable = true, foreignKey = @ForeignKey(name = "FK_mensaje_respuesta_de"))
 	private Mensaje respuestaDe;
 	
 	@ManyToOne
