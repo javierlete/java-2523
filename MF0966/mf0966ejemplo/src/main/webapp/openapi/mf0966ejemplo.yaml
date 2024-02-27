@@ -1,0 +1,34 @@
+openapi: '3.0.2'
+info:
+  title: MF0966ejemplo
+  version: '1.0'
+servers:
+  - url: http://localhost:8080/mf0966ejemplo/api/v1
+
+paths:
+  /vendedores:
+    get:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+                schema:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Vendedor'
+
+components:
+  schemas:
+    Vendedor:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nombre:
+          type: string
+        apellidos:
+          type: string
+        dni:
+          type: string
