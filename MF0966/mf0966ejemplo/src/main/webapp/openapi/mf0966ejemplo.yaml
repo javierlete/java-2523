@@ -5,9 +5,14 @@ info:
 servers:
   - url: http://localhost:8080/mf0966ejemplo/api/v1
 
+tags:
+  - name: vendedores
+  - name: coches
 paths:
   /vendedores:
     get:
+      tags:
+        - vendedores
       responses:
         '200':
           description: OK
@@ -17,6 +22,107 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Vendedor'
+    post:
+      tags:
+        - vendedores
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vendedor'
+        required: true
+      responses:
+        '201':
+          description: CREATED
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vendedor'
+  /vendedores/{id}:
+    get:
+      tags:
+        - vendedores
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vendedor'
+        '404':
+          description: NOT FOUND
+    put:
+      tags:
+        - vendedores
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vendedor'
+        required: true
+      responses:
+        '200':
+          description: OK
+
+    delete:
+      tags:
+        - vendedores
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: NO CONTENT
+  /coches:
+    get:
+      tags:
+       - coches
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+                schema:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Coche'
+  /coches/buscar:
+    get:
+      tags:
+      - coches
+      parameters:
+      - name: marca
+        in: query
+        schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+                schema:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Coche'
+
 
 components:
   schemas:
@@ -32,3 +138,24 @@ components:
           type: string
         dni:
           type: string
+    Coche:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        matricula:
+          type: string
+        marca:
+          type: string
+        modelo:
+          type: string
+        fechaFabricacion:
+          type: string
+          format: date
+        precio:
+          type: number
+        stock:
+          type: number
+        vendedor:
+          $ref: '#/components/schemas/Vendedor'
