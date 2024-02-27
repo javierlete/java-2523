@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="https://jakarta.ee/xml/ns/jakartaee"
+	xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+	version="6.0">
+	<servlet>
+		<servlet-name>serviciosrest</servlet-name>
+		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+        <init-param>
+            <param-name>jersey.config.server.provider.packages</param-name>
+            <!-- MODIFICAR ESTA PARTE -->
+            <param-value>com.ipartek.formacion.mf0966ejemplo.rest</param-value>
+            <!-- FIN -->
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>serviciosrest</servlet-name>
+		<!-- MODIFICAR ESTA PARTE -->
+		<url-pattern>/api/v1/*</url-pattern>
+		<!-- FIN -->
+	</servlet-mapping>
+</web-app>
