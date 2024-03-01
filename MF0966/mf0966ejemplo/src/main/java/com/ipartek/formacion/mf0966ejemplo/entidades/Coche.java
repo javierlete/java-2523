@@ -44,5 +44,69 @@ public class Coche {
 	@ManyToOne
 	@JoinColumn(name = "vendedores_id", nullable = false, foreignKey = @ForeignKey(name = "fk_coches_vendedores"))
 	private Vendedor vendedor;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getMatricula() {
+		return matricula;
+	}
+
+	public void setMatricula(String matricula) {
+		this.matricula = matricula;
+	}
+
+	public String getMarca() {
+		return marca;
+	}
+
+	public void setMarca(String marca) {
+		this.marca = marca;
+	}
+
+	public String getModelo() {
+		return modelo;
+	}
+
+	public void setModelo(String modelo) {
+		this.modelo = modelo;
+	}
+
+	public LocalDate getFechaFabricacion() {
+		return fechaFabricacion;
+	}
+
+	public void setFechaFabricacion(LocalDate fechaFabricacion) {
+		this.fechaFabricacion = fechaFabricacion;
+	}
+
+	public BigDecimal getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(BigDecimal precio) {
+		this.precio = precio;
+	}
+
+	public Integer getStock() {
+		return stock;
+	}
+
+	public void setStock(Integer stock) {
+		this.stock = stock;
+	}
+
+	public Vendedor getVendedor() {
+		return vendedor;
+	}
+
+	public void setVendedor(Vendedor vendedor) {
+		this.vendedor = vendedor;
+	}
 	
 }
