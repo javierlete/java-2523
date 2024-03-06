@@ -17,8 +17,38 @@ import java.util.TreeMap;
  * Clase básica de Java con ejemplos de sintaxis
  */
 public class Basico {
-	@SuppressWarnings("unused")
 	public static void main(String[] args) {
+		enum Color {
+			ROJO, VERDE, AZUL
+		}
+		;
+
+		Color color;
+
+		color = Color.VERDE;
+
+		switch (color) {
+		case AZUL:
+			System.out.println("Es AZUL");
+			break;
+		default:
+			System.out.println(color.name());
+			System.out.println(color.ordinal());
+		}
+
+		int dias, mes = 6;
+
+		switch (mes) {
+		case 2 -> dias = 28;
+		case 4, 6, 9, 11 -> dias = 30;
+		default -> dias = 31;
+		}
+
+		System.out.println(dias);
+	}
+
+	@SuppressWarnings("unused")
+	public static void mainOperadores(String[] args) {
 		System.out.println(5 ^ 3);
 
 		int x;
