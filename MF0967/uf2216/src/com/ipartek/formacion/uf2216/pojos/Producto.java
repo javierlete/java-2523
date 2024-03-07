@@ -1,7 +1,6 @@
 package com.ipartek.formacion.uf2216.pojos;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.Objects;
 
 public class Producto {
@@ -9,36 +8,35 @@ public class Producto {
 	public static final String NOMBRE_POR_DEFECTO = "PRODUCTO SIN DEFINIR";
 	
 	// VARIABLES ESTÁTICAS ("DE CLASE")
-	private static Integer stockMinimo = 0; 
+	protected static Integer stockMinimo = 0; 
 	
 	// VARIABLES DE INSTANCIA
 	private Long id;
 	private String nombre;
 	private BigDecimal precio;
-	private LocalDate caducidad;
 	private Integer stock;
 	private Boolean disponible;
 
 	// CONSTRUCTORES
-	public Producto(Long id, String nombre, BigDecimal precio, LocalDate caducidad, Integer stock, Boolean disponible) {
+	public Producto(Long id, String nombre, BigDecimal precio, Integer stock, Boolean disponible) {
 		setId(id);
 		setNombre(nombre);
 		setPrecio(precio);
-		setCaducidad(caducidad);
 		setStock(stock);
 		setDisponible(disponible);
 	}
 	
-	public Producto(String nombre, BigDecimal precio, LocalDate caducidad, Integer stock, Boolean disponible) {
-		this(null, nombre, precio, caducidad, stock, disponible);
-	}
-
-	public Producto(String nombre, BigDecimal precio, Integer stock, Boolean disponible) {
-		this(null, nombre, precio, null, stock, disponible);
+	// Constructor de copia
+	public Producto(Producto producto) {
+		this(producto.getId(), producto.getNombre(), producto.getPrecio(), producto.getStock(), producto.getDisponible());
 	}
 	
+	public Producto(String nombre, BigDecimal precio, Integer stock, Boolean disponible) {
+		this(null, nombre, precio, stock, disponible);
+	}
+
 	public Producto() {
-		this(null, NOMBRE_POR_DEFECTO, BigDecimal.ZERO, null, stockMinimo, false);
+		this(null, NOMBRE_POR_DEFECTO, BigDecimal.ZERO, stockMinimo, false);
 	}
 
 	// GETTERS Y SETTERS (MÉTODOS DE ACCESO)
@@ -87,18 +85,6 @@ public class Producto {
 		this.precio = precio;
 	}
 
-	public LocalDate getCaducidad() {
-		return caducidad;
-	}
-
-	public void setCaducidad(LocalDate caducidad) {
-		if(caducidad != null && caducidad.isBefore(LocalDate.now())) {
-			throw new RuntimeException("El producto no puede estar caducado");
-		}
-		
-		this.caducidad = caducidad;
-	}
-
 	public Integer getStock() {
 		return stock;
 	}
@@ -132,10 +118,9 @@ public class Producto {
 		Producto.stockMinimo = stockMinimo;
 	}
 
-	// HASHCODE Y EQUALS
 	@Override
 	public int hashCode() {
-		return Objects.hash(caducidad, disponible, id, nombre, precio, stock);
+		return Objects.hash(disponible, id, nombre, precio, stock);
 	}
 
 	@Override
@@ -147,16 +132,15 @@ public class Producto {
 		if (getClass() != obj.getClass())
 			return false;
 		Producto other = (Producto) obj;
-		return Objects.equals(caducidad, other.caducidad) && Objects.equals(disponible, other.disponible)
-				&& Objects.equals(id, other.id) && Objects.equals(nombre, other.nombre)
-				&& Objects.equals(precio, other.precio) && Objects.equals(stock, other.stock);
+		return Objects.equals(disponible, other.disponible) && Objects.equals(id, other.id)
+				&& Objects.equals(nombre, other.nombre) && Objects.equals(precio, other.precio)
+				&& Objects.equals(stock, other.stock);
 	}
 
-	// TOSTRING
 	@Override
 	public String toString() {
-		return "Producto [id=" + id + ", nombre=" + nombre + ", precio=" + precio + ", caducidad=" + caducidad
-				+ ", stock=" + stock + ", disponible=" + disponible + "]";
+		return "Producto [id=" + id + ", nombre=" + nombre + ", precio=" + precio + ", stock=" + stock + ", disponible="
+				+ disponible + "]";
 	}
 
 }

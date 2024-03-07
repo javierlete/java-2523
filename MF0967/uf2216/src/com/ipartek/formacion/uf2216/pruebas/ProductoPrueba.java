@@ -1,7 +1,6 @@
 package com.ipartek.formacion.uf2216.pruebas;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.HashSet;
 
 import com.ipartek.formacion.uf2216.pojos.Producto;
@@ -19,17 +18,16 @@ public class ProductoPrueba {
 		producto.setId(5L);
 		producto.setNombre("    Leche   ");
 		producto.setPrecio(new BigDecimal(12));
-		producto.setCaducidad(LocalDate.of(2025, 3, 7));
 		producto.setStock(20);
 		producto.setDisponible(true);
 
 		System.out.println(producto);
 
-		Producto producto2 = new Producto(2L, " Monitor  ", new BigDecimal(123), null, 20, true);
+		Producto producto2 = new Producto(2L, " Monitor  ", new BigDecimal(123), 20, true);
 		
 		System.out.println(producto2);
 		
-		Producto producto3 = new Producto("Ratón", new BigDecimal(23), null, 50, true);
+		Producto producto3 = new Producto("Ratón", new BigDecimal(23), 50, true);
 		
 		System.out.println(producto3);
 		

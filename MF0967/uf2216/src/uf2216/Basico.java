@@ -17,7 +17,30 @@ import java.util.TreeMap;
  * Clase básica de Java con ejemplos de sintaxis
  */
 public class Basico {
+	private static int sumatorio(int... datos) {
+		int total = 0;
+		for(var dato: datos) {
+			total += dato;
+		}
+		
+		return total;
+	}
+	
 	public static void main(String[] args) {
+		int[] arr = new int[3];
+		
+		arr[0] = 5;
+		arr[1] = 6;
+		arr[2] = 7;
+		
+		System.out.println(sumatorio(arr));
+		
+		System.out.println(sumatorio(new int[] {1, 2, 3}));
+		
+		System.out.println(sumatorio(1, 2, 3));
+	}
+	
+	public static void mainSwitchYEnum(String[] args) {
 		enum Color {
 			ROJO, VERDE, AZUL
 		}
@@ -45,6 +68,12 @@ public class Basico {
 		}
 
 		System.out.println(dias);
+
+		dias = switch (mes) {
+		case 2 -> 28;
+		case 4, 6, 9, 11 -> 30;
+		default -> 31;
+		};
 	}
 
 	@SuppressWarnings("unused")
