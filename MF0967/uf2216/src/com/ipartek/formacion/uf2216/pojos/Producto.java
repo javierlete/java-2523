@@ -143,4 +143,11 @@ public class Producto {
 				+ disponible + "]";
 	}
 
+	@Override
+	public Producto clone() {
+		return new Producto(id, nombre, precio, stock, disponible);
+	}
+	
+	
+
 }

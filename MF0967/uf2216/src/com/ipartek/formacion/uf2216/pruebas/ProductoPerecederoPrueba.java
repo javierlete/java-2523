@@ -39,5 +39,15 @@ public class ProductoPerecederoPrueba {
 		
 		System.out.println(p);
 		System.out.println(producto2);
+		
+		p = producto2.clone();
+		
+		System.out.println(p.hashCode());
+		System.out.println(producto2.hashCode());
+		
+		p.setNombre("Modificado");
+		
+		System.out.println(p);
+		System.out.println(producto2);
 	}
 }
