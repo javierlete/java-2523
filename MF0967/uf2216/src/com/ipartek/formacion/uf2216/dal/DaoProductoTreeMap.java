@@ -5,7 +5,7 @@ import java.util.TreeMap;
 
 import com.ipartek.formacion.uf2216.pojos.Producto;
 
-public class DaoProductoTreeMap implements DaoProducto {
+class DaoProductoTreeMap implements DaoProducto {
 
 	private TreeMap<Long, Producto> productos = new TreeMap<>();
 

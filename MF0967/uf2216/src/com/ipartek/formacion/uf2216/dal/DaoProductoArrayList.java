@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import com.ipartek.formacion.uf2216.pojos.Producto;
 
-public class DaoProductoArrayList implements DaoProducto {
+class DaoProductoArrayList implements DaoProducto {
 
 	private ArrayList<Producto> productos = new ArrayList<>();
 
@@ -17,10 +17,14 @@ public class DaoProductoArrayList implements DaoProducto {
 		productos.add(new Producto(3L, "Producto3", new BigDecimal("321"), 33, true));
 	}
 
-	private static final DaoProductoArrayList INSTANCIA = new DaoProductoArrayList();
+	private static DaoProductoArrayList instancia;
 
 	public static DaoProductoArrayList getInstancia() {
-		return INSTANCIA;
+		if(instancia == null) {
+			instancia = new DaoProductoArrayList();
+		}
+		
+		return instancia;
 	}
 	// FIN SINGLETON
 
