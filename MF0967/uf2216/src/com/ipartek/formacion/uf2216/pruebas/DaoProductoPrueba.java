@@ -12,6 +12,10 @@ public class DaoProductoPrueba {
 		try {
 			DaoProducto dao = new FabricaDaoTipos().getDaoProducto(); // DaoProductoArrayList.getInstancia();
 			
+			for(var p: dao.obtenerTodos()) {
+				System.out.println(p);
+			}
+			
 			dao.insertar(new Producto("Nuevo", new BigDecimal("111"), 5, true));
 			dao.modificar(new Producto(1L, "Modificado", new BigDecimal("1234"), 7, false));
 			dao.borrar(3L);

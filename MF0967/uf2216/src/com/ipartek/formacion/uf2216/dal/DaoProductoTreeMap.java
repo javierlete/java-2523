@@ -7,10 +7,10 @@ import com.ipartek.formacion.uf2216.pojos.Producto;
 
 class DaoProductoTreeMap implements DaoProducto {
 
-	private TreeMap<Long, Producto> productos = new TreeMap<>();
+	protected TreeMap<Long, Producto> productos = new TreeMap<>();
 
 	// SINGLETON
-	private DaoProductoTreeMap() {
+	protected DaoProductoTreeMap() {
 		productos.put(1L, new Producto(1L, "Producto2TM", new BigDecimal("1234"), 45, false));
 		productos.put(2L, new Producto(2L, "Producto2TM", new BigDecimal("1234"), 45, false));
 		productos.put(3L, new Producto(3L, "Producto3TM", new BigDecimal("321"), 33, true));
