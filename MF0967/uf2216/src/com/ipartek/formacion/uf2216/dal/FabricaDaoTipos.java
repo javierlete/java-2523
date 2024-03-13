@@ -24,6 +24,7 @@ public class FabricaDaoTipos implements FabricaDao {
 			case "arraylist" -> DaoProductoArrayList.getInstancia();
 			case "treemap" -> DaoProductoTreeMap.getInstancia();
 			case "csv" -> new DaoProductoCSV(fichero);
+			case "objetos" -> new DaoProductoFicheroObjetos(fichero);
 			default -> throw new DalException("NO se reconoce el tipo " + tipo);
 			};
 		} catch (Exception e) {

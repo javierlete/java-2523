@@ -13,7 +13,7 @@ import com.ipartek.formacion.uf2216.pojos.Producto;
 
 // Comma Separated Values
 public class DaoProductoCSV extends DaoProductoTreeMap {
-	private String fichero;
+	protected String fichero;
 
 	public DaoProductoCSV(String fichero) {
 		super();
@@ -21,7 +21,7 @@ public class DaoProductoCSV extends DaoProductoTreeMap {
 		this.fichero = fichero;
 	}
 
-	private TreeMap<Long, Producto> leerFichero() {
+	protected TreeMap<Long, Producto> leerFichero() {
 		FileReader fr = null;
 		Scanner sc = null;
 
@@ -83,7 +83,7 @@ public class DaoProductoCSV extends DaoProductoTreeMap {
 		}
 	}
 
-	private void guardarFichero() {
+	protected void guardarFichero() {
 		try (FileWriter fw = new FileWriter(fichero);
 				PrintWriter pw = new PrintWriter(fw)) {
 			pw.println("id;nombre;precio;stock;disponible");

@@ -16,7 +16,10 @@ public class DaoProductoPrueba {
 				System.out.println(p);
 			}
 			
-			dao.insertar(new Producto("Nuevo", new BigDecimal("111"), 5, true));
+			dao.insertar(new Producto("Nuevo1", new BigDecimal("111"), 5, true));
+			dao.insertar(new Producto("Nuevo2", new BigDecimal("111"), 5, true));
+			dao.insertar(new Producto("Nuevo3", new BigDecimal("111"), 5, true));
+			dao.insertar(new Producto("Nuevo4", new BigDecimal("111"), 5, true));
 			dao.modificar(new Producto(1L, "Modificado", new BigDecimal("1234"), 7, false));
 			dao.borrar(3L);
 			
