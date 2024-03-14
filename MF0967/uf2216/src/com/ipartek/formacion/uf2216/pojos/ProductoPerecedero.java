@@ -7,6 +7,9 @@ import java.time.temporal.TemporalAmount;
 import java.util.Objects;
 
 public class ProductoPerecedero extends Producto {
+
+	private static final long serialVersionUID = 3261240510552464385L;
+
 	private static final TemporalAmount TIEMPO_CADUCIDAD = Period.of(2,  0,  0);
 	
 	private LocalDate caducidad;
