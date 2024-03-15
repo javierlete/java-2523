@@ -25,31 +25,50 @@ public class Servidor {
 		try (ServerSocket ss = new ServerSocket(1234)) {
 			log.info("Servidor iniciado");
 
-			try (Socket s = ss.accept()) {
-				log.info("Conexión de cliente recibida");
+			Thread t;
 
-				PrintWriter pw = new PrintWriter(s.getOutputStream(), AUTO_FLUSH);
-				Scanner sc = new Scanner(s.getInputStream());
-
-				pw.println("Bienvenido a TRADUCTATOR");
-				log.info("Enviado mensaje de bienvenida");
-
-				String espanol = sc.nextLine();
-
-				log.info("Recibido el texto " + espanol);
-
-				pw.println(dic.get(espanol));
-
-				log.info("Enviada traducción");
-			} catch (IOException e) {
-				throw e;
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			do {
+				Socket s = ss.accept();
+				t = new Thread(() -> procesarCliente(s));
+				t.start();
+			} while (true); // TODO cambiar por una posibilidad de parada externa
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+
+	private static void procesarCliente(Socket socket) {
+		log.info("Conexión de cliente recibida");
+
+		try (PrintWriter pw = new PrintWriter(socket.getOutputStream(), AUTO_FLUSH);
+				Scanner sc = new Scanner(socket.getInputStream())) {
+			pw.println("Bienvenido a TRADUCTATOR");
+			log.info("Enviado mensaje de bienvenida");
+
+			String texto;
+
+			do {
+				texto = sc.nextLine();
+				log.info("Recibido el texto " + texto);
+
+				if (texto.equals("SALIR")) {
+					break;
+				}
+
+				pw.println(dic.get(texto));
+				log.info("Enviada traducción");
+			} while (true);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				socket.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 }
