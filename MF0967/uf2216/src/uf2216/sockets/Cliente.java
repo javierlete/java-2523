@@ -16,14 +16,14 @@ public class Cliente {
 		try (Socket s = new Socket("localhost", 1234)) {
 			log.info("Conexión de cliente iniciada");
 
-			PrintWriter pw = new PrintWriter(s.getOutputStream(), AUTO_FLUSH);
-			Scanner sc = new Scanner(s.getInputStream());
+			try (PrintWriter pw = new PrintWriter(s.getOutputStream(), AUTO_FLUSH);
+					Scanner sc = new Scanner(s.getInputStream())) {
+				log.info(sc.nextLine());
 
-			log.info(sc.nextLine());
+				pw.println("casa");
 
-			pw.println("casa");
-
-			log.info("Recibido el texto " + sc.nextLine());
+				log.info("Recibido el texto " + sc.nextLine());
+			}
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
