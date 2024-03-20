@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplo de HTML</title>
+</head>
+
+<body>
+    <header>
+        <h1>Ejemplo de HTML</h1>
+
+        <nav>
+            <ul>
+                <!-- li*4>a[href=#]>{Menú $} -->
+                <li><a href="#">Menú 1</a></li>
+                <li><a href="#">Menú 2</a></li>
+                <li><a href="#">Menú 3</a></li>
+                <li><a href="#">Menú 4</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <article id="html">
+            <h2>HTML</h2>
+
+            <section id="parrafos">
+                <h3>Párrafos</h3>
+
+                <!-- p>lorem5 -->
+                <p>Lorem ipsum dolor sit amet.</p>
+
+                <!-- p*3>lorem10 -->
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, quos.</p>
+
+                <p>Minus aliquid nobis ullam vitae quasi perspiciatis totam, numquam veniam!</p>
+
+                <p>Aliquid reprehenderit itaque sed expedita cumque consectetur excepturi, beatae nobis.</p>
+
+                <!-- p*4>lorem -->
+                <p><strong>Lorem ipsum</strong> dolor sit amet consectetur adipisicing elit. Odio laboriosam cumque
+                    voluptatum voluptates
+                    ad amet voluptas ipsum sapiente quidem earum asperiores facere necessitatibus distinctio repellat
+                    pariatur <span class="marcado">dolore</span>, nostrum porro tempore.</p>
+
+                <p><span class="marcado">Quidem ab ad mollitia</span> similique ullam at, doloribus quam esse, beatae
+                    obcaecati voluptates non labore
+                    neque. Saepe ipsam perspiciatis quisquam soluta delectus ducimus dolorem numquam quae. Fuga delectus
+                    cum aspernatur.</p>
+
+                <p><em>Eligendi</em>, in distinctio. Rerum nam, voluptatibus possimus fugit atque ducimus repellendus
+                    veritatis
+                    quisquam, ut magnam, laudantium temporibus! Fugit deserunt saepe consectetur, iusto ipsum eos,
+                    reprehenderit nisi atque obcaecati quod adipisci?</p>
+
+                <p>Nobis quo repudiandae, tempore, enim veritatis, voluptas unde ea at sunt debitis velit quae corrupti!
+                    Quibusdam, quaerat reprehenderit, saepe sequi rem aspernatur a odit aut, praesentium provident ad
+                    nam voluptatum.</p>
+
+                <pre>public class HolaMundo {
+    public static void main(String[] args) {
+        System.out.println("Hola a todos");
+    }
+}</pre>
+            </section>
+
+            <section id="listas">
+                <h3>Listas</h3>
+
+                <ul>
+                    <li>Elemento 1</li>
+                    <li>Elemento 2</li>
+                    <li>Elemento 3</li>
+                </ul>
+
+                <ol>
+                    <li>Elemento 1</li>
+                    <li>Elemento 2</li>
+                    <li>Elemento 3</li>
+                    <li>Elemento 4</li>
+                </ol>
+
+                <dl>
+                    <dt>HTML</dt>
+                    <dd>Hyper Text Markup Language</dd>
+
+                    <dt>CSS</dt>
+                    <dd>Cascade Style Sheets</dd>
+                </dl>
+            </section>
+
+            <section id="tablas">
+                <h3>Tablas</h3>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nombre</th>
+                            <th>Precio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- tr*5>(th>{$})+(td>{Producto $})+(td>{$ €}) -->
+                        <tr>
+                            <th>1</th>
+                            <td>Computadora</td>
+                            <td>1.000 €</td>
+                        </tr>
+                        <tr>
+                            <th>2</th>
+                            <td>Televisor</td>
+                            <td>2.000 €</td>
+                        </tr>
+                        <tr>
+                            <th>3</th>
+                            <td>Móvil</td>
+                            <td>500 €</td>
+                        </tr>
+                        <tr>
+                            <th>4</th>
+                            <td>Lapiz</td>
+                            <td>2 €</td>
+                        </tr>
+                        <tr>
+                            <th>5</th>
+                            <td>Cámara</td>
+                            <td>1.500 €</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th colspan="2" style="text-align:right">Total:</th>
+                            <th style="text-align:right">€<span data-type="number:euros">4.700</span></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </section>
+
+            <section id="multimedia">
+                <h3>Multimedia</h3>
+
+                <figure>
+                    <img src="https://picsum.photos/300/200" alt="">
+                    <figcaption>Imagen de prueba</figcaption>
+                </figure>
+
+                <audio controls src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+
+                <video controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
+
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2905.762268580206!2d-2.916166924294102!3d43.25640397112366!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd4e4fb46238d865%3A0xb671edfb1120ab06!2sIpartek%20Servicios%20Inform%C3%A1ticos!5e0!3m2!1ses!2ses!4v1710930540125!5m2!1ses!2ses"
+                    width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+                <iframe style="border-radius:12px"
+                    src="https://open.spotify.com/embed/playlist/1jZ51kewVmaBjBMeFgMtFR?utm_source=generator"
+                    width="100%" height="152" frameBorder="0" allowfullscreen=""
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="lazy"></iframe>
+
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/5CcZ4ULT1Eo?si=F5g87X9ivrytINOe"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen></iframe>
+
+                <iframe src="https://www.ipartek.com/" frameborder="0"></iframe>
+            </section>
+        </article>
+    </main>
+
+    <aside>
+        <!-- nav>ul>li*3>a[href=#]>{Anuncio $} -->
+        <nav>
+            <ul>
+                <li><a href="#">Anuncio 1</a></li>
+                <li><a href="#">Anuncio 2</a></li>
+                <li><a href="#">Anuncio 3</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <footer>
+        &copy;2024 Javier Lete
+    </footer>
+</body>
+
+</html>
