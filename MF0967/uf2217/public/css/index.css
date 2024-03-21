@@ -1,0 +1,43 @@
+/* VARIABLES */
+:root {
+    --color-fondo: white;
+    --color-texto: black;
+    --color-enlace: #4084bf;
+
+    --font-texto: sans-serif; 
+
+    --espacio-mediano: 0.5rem;
+}
+
+/* GLOBAL */
+
+a {
+    text-decoration: none;
+    color: var(--color-enlace);
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+body {
+    margin: 0;
+    
+    font-family: var(--font-texto);
+    
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+}
+
+/* ESTRUCTURA */
+
+body > header {
+    padding: var(--espacio-mediano);
+
+    background-color: var(--color-texto);
+    color: var(--color-fondo);
+    
+    & > h1 {
+        margin: 0;
+    }
+}
