@@ -1,3 +1,8 @@
+/* TIPOS DE LETRA */
+@import url(fonts.css);
+/* Iconos de FontAwesome */
+@import url(all.min.css);
+
 /* VARIABLES */
 :root {
     --color-fondo: white;
@@ -6,7 +11,9 @@
     --color-suave: rgb(161, 178, 206);
     --color-mediano: gray;
 
-    --font-texto: sans-serif;
+    --font-texto: "Cairo Play", sans-serif;
+    --font-titulo: "Honk", system-ui;
+    --font-titulo-tamano: 2em;
 
     --espacio-mediano: 0.5rem;
     --espacio-pequeno: 0.25rem;
@@ -31,7 +38,29 @@ h3,
 h4,
 h5,
 h6 {
+    font-family: var(--font-titulo);
+    font-size: var(--font-titulo-tamano);
     text-align: center;
+}
+
+h1::before,
+h2::before,
+h3::before,
+h4::before,
+h5::before,
+h6::before {
+    color: var(--color-suave);
+    content: "<";
+}
+
+h1::after,
+h2::after,
+h3::after,
+h4::after,
+h5::after,
+h6::after {
+    color: var(--color-suave);
+    content: ">";
 }
 
 section>h3 {
@@ -80,12 +109,16 @@ table {
     border-collapse: collapse;
 }
 
-table, tr, td, th {
+table,
+tr,
+td,
+th {
     border: var(--raya);
     padding: var(--espacio-pequeno);
 }
 
-thead, tfoot {
+thead,
+tfoot {
     color: var(--color-fondo);
     background-color: var(--color-texto);
 }
@@ -189,7 +222,8 @@ input[type=reset] {
 
 /* ESTRUCTURA */
 
-body>header, body>footer {
+body>header,
+body>footer {
     padding: var(--espacio-mediano);
 
     background-color: var(--color-texto);
@@ -253,4 +287,39 @@ aside {
 
 footer {
     border-top: var(--raya);
+}
+
+#redes-sociales {
+    display: flex;
+    justify-content: space-around;
+
+    & a {
+        padding: 0 var(--espacio-pequeno);
+        border-radius: var(--redondeo);
+    }
+}
+
+#arriba {
+    position: fixed;
+
+    margin: 0;
+    padding: 0;
+
+    bottom: 1rem;
+    right: 1rem;
+
+
+    & a {
+        padding: 0rem 0.6rem;
+        border: 2px solid var(--color-suave);
+        border-radius: var(--espacio-linea);
+        color: var(--color-fondo);
+        background-color: var(--color-texto);
+        box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.5);
+    }
+
+    & a:hover {
+        color: var(--color-texto);
+        background-color: var(--color-fondo);
+    }
 }
