@@ -454,3 +454,45 @@ footer {
         }
     }
 }
+
+@media (min-width: 1440px) {
+    body {
+        display: grid;
+        grid-template-columns: 1fr auto;
+
+        &>* {
+            width: 100%;
+            grid-column-end: span 2;
+        }
+
+        main, aside {
+            grid-column-end: span 1;
+        }
+
+        aside ul {
+            flex-direction: column;
+        }
+    }
+
+    #html {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+
+        &>* {
+            width: 100%;
+            grid-column-end: span 2;
+        }
+
+        #parrafos, #listas, #tablas {
+            grid-column-end: span 1;
+        }
+
+        #parrafos {
+            grid-row-end: span 2;
+        }
+
+        #tablas {
+
+        }
+    }
+}
