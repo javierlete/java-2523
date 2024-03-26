@@ -323,3 +323,60 @@ footer {
         background-color: var(--color-fondo);
     }
 }
+
+/* TABLET */
+@media (min-width: 768px) {
+    body>header {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+
+        & ul {
+            display: flex;
+            justify-content: center;
+        }
+    }
+
+    h3 {
+        width: 100%;
+    }
+
+    section {
+        display: flex;
+        flex-wrap: wrap;
+
+        &>*:not(h3) {
+            padding: var(--espacio-mediano);
+        }
+    }
+
+    #parrafos {
+        &>*:not(h3) {
+            width: 50%;
+        }
+    }
+
+    #listas {
+        justify-content: space-around;
+    }
+
+    #formularios {
+        &>*:not(h3) {
+            width: 50%;
+        }
+    }
+
+    aside ul {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    body>footer {
+        display: flex;
+        justify-content: space-between;
+
+        #arriba {
+            display: none;
+        }
+    }
+}
