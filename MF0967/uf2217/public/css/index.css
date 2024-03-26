@@ -496,3 +496,46 @@ footer {
         }
     }
 }
+
+@media (min-width: 2560px) {
+    
+    #html {
+        & h2 {
+            grid-area: titulo;
+        }
+
+        & #parrafos {
+            grid-area: parrafos;
+        }
+    
+        & #listas {
+            grid-area: listas;
+        }
+    
+        & #tablas {
+            grid-area: tablas;
+        }
+    
+        & #parrafos {
+            grid-column-end: span 2;
+        }
+    
+        & #formularios {
+            grid-area: formularios;
+        }
+    
+        & #multimedia {
+            grid-area: multimedia;
+        }
+        
+        grid-template-columns: repeat(6, 1fr);
+
+        gap: var(--espacio-mediano);
+
+        grid-template-areas: 
+        "titulo     titulo     titulo     titulo      titulo      titulo"
+        "parrafos   parrafos   listas     listas      listas      listas"
+        "parrafos   parrafos   tablas     tablas      tablas      tablas"
+        "multimedia multimedia multimedia formularios formularios formularios";
+    }
+}
