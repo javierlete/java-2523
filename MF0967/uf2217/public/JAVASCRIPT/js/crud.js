@@ -16,11 +16,8 @@ window.addEventListener('DOMContentLoaded', function(){
     form.addEventListener('submit', function(e) {
         e.preventDefault();
 
-        form.style.display = 'none';
-        table.style.display = null;
+        listado();
     });
-
-    form.style.display = 'none';
 
     listado();
 });
@@ -32,15 +29,28 @@ function listado() {
         const tr = document.createElement('tr');
         tr.innerHTML = `<th>${p.id}</th><td>${p.nombre}</td><td>${p.precio}</td>
             <td>
-                <a href="javascript:formulario()">Editar</a>
+                <a href="javascript:formulario(${p.id})">Editar</a>
                 <a href="javascript:borrar(${p.id})">Borrar</a>
             </td>`;
 
         tbody.appendChild(tr);
     });
+
+    form.style.display = 'none';
+    table.style.display = null;
 }
 
-function formulario() {
+function formulario(id) {
+    if(id) {
+        const p = productos.find(p => p.id === id);
+
+        form.id.value = p.id;
+        form.nombre.value = p.nombre;
+        form.precio.value = p.precio;
+    } else {
+        form.reset();
+    }
+
     form.style.display = null;
     table.style.display = 'none';
 }
