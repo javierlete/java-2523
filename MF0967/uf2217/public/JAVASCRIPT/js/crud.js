@@ -16,6 +16,21 @@ window.addEventListener('DOMContentLoaded', function(){
     form.addEventListener('submit', function(e) {
         e.preventDefault();
 
+        const producto = { nombre: form.nombre.value, precio: form.precio.value };
+
+        if(form.id.value) {
+            producto.id = +form.id.value;
+
+            console.log(producto);
+
+            productos = productos.filter(p => p.id !== producto.id);
+            productos.push(producto);
+        } else {
+            producto.id = productos.length ? Math.max(...productos.map(p => p.id)) + 1 : 1;
+
+            productos.push(producto);
+        }
+
         listado();
     });
 
