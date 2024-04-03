@@ -11,7 +11,11 @@ window.addEventListener('DOMContentLoaded', function(){
 
     productos.forEach(p => {
         const tr = document.createElement('tr');
-        tr.innerHTML = `<th>${p.id}</th><td>${p.nombre}</td><td>${p.precio}</td>`;
+        tr.innerHTML = `<th>${p.id}</th><td>${p.nombre}</td><td>${p.precio}</td>
+            <td>
+                <a href="#">Editar</a>
+                <a href="#">Borrar</a>
+            </td>`;
 
         tbody.appendChild(tr);
     });
