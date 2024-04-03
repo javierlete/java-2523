@@ -40,7 +40,7 @@ window.addEventListener('DOMContentLoaded', function(){
 function listado() {
     tbody.innerHTML = '';
 
-    productos.forEach(p => {
+    productos.sort((p1, p2) => p1.id - p2.id).forEach(p => {
         const tr = document.createElement('tr');
         tr.innerHTML = `<th>${p.id}</th><td>${p.nombre}</td><td>${p.precio}</td>
             <td>
