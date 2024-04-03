@@ -181,7 +181,7 @@ function clases() {
         }
 
         set nombre(nuevoNombre) {
-            if (typeof nuevoNombre !== 'string') {
+            if (nuevoNombre && typeof nuevoNombre !== 'string') {
                 throw new Error('El nombre debe ser un string');
             }
 
@@ -193,7 +193,7 @@ function clases() {
         }
 
         set apellidos(nuevosApellidos) {
-            if (typeof nuevosApellidos !== 'string') {
+            if (nuevosApellidos && typeof nuevosApellidos !== 'string') {
                 throw new Error('Los apellidos deben ser un string');
             }
 
@@ -217,6 +217,10 @@ function clases() {
     delete p1.apellidos;
 
     console.log(p1);
+
+    const p2 = new Persona();
+
+    console.log(p2);
 }
 
 function ejemploMaleabilidadJavaScript() {
@@ -229,4 +233,4 @@ function ejemploMaleabilidadJavaScript() {
     console.log(numero, typeof numero);
 }
 
-ejemploMaleabilidadJavaScript();
+clases();
