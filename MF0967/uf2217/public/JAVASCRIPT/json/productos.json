@@ -6,8 +6,8 @@
       "precio": 12.34
     },
     {
-      "nombre": "Producto JSON 2 EDGE",
-      "precio": "22.34",
+      "nombre": "Producto JSON 2",
+      "precio": 22.34,
       "id": 2
     },
     {

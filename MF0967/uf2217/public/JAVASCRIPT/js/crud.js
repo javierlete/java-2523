@@ -20,7 +20,7 @@ function domCargado(){
 async function guardar(e) {
     e.preventDefault();
 
-    const producto = { nombre: form.nombre.value, precio: form.precio.value };
+    const producto = { nombre: form.nombre.value, precio: +form.precio.value };
 
     if(form.id.value) {
         producto.id = +form.id.value;
