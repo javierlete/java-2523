@@ -1,5 +1,7 @@
 'use strict';
 
+const URL = 'json/productos.json';
+
 let productos = [
     { id: 1, nombre: 'Producto 1', precio: 12.34 },
     { id: 2, nombre: 'Producto 2', precio: 22.34 },
@@ -37,7 +39,10 @@ window.addEventListener('DOMContentLoaded', function(){
     listado();
 });
 
-function listado() {
+async function listado() {
+    const respuesta = await fetch(URL);
+    const productos = await respuesta.json();
+
     tbody.innerHTML = '';
 
     productos.sort((p1, p2) => p1.id - p2.id).forEach(p => {
