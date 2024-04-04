@@ -7,7 +7,13 @@
         {
             "type": "chrome",
             "request": "launch",
-            "name": "8080 crud.html",
+            "name": "FICHERO",
+            "file": "C:\\Users\\java.IPARTEKAULA\\git\\java-2523\\MF0967\\uf2217\\public\\JAVASCRIPT\\crud.html"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "SERVIDOR",
             "url": "http://127.0.0.1:8080/JAVASCRIPT/crud.html"
         }
     ]
