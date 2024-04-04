@@ -1,5 +1,19 @@
-[
-    { "id": 1, "nombre": "Producto JSON 1", "precio": 12.34 },
-    { "id": 2, "nombre": "Producto JSON 2", "precio": 22.34 },
-    { "id": 3, "nombre": "Producto JSON 3", "precio": 32.34 }
-]
+{
+  "productos": [
+    {
+      "id": 1,
+      "nombre": "Producto JSON 1",
+      "precio": 12.34
+    },
+    {
+      "nombre": "Producto JSON 2 EDGE",
+      "precio": "22.34",
+      "id": 2
+    },
+    {
+      "id": 3,
+      "nombre": "Producto JSON 3",
+      "precio": 32.34
+    }
+  ]
+}

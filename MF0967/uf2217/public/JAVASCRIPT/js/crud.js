@@ -1,44 +1,52 @@
 'use strict';
 
-const URL = 'json/productos.json';
-
-let productos = [
-    { id: 1, nombre: 'Producto 1', precio: 12.34 },
-    { id: 2, nombre: 'Producto 2', precio: 22.34 },
-    { id: 3, nombre: 'Producto 3', precio: 32.34 },
-];
+const URL = 'http://localhost:3001/productos/';
 
 let form, table, tbody;
 
-window.addEventListener('DOMContentLoaded', function(){
+window.addEventListener('DOMContentLoaded', domCargado);
+
+function domCargado(){
     form = document.querySelector('form');
     table = document.querySelector('table');
     tbody = document.querySelector('tbody');
     
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
+    form.addEventListener('submit', guardar);
 
-        const producto = { nombre: form.nombre.value, precio: form.precio.value };
-
-        if(form.id.value) {
-            producto.id = +form.id.value;
-
-            console.log(producto);
-
-            productos = productos.filter(p => p.id !== producto.id);
-            productos.push(producto);
-        } else {
-            producto.id = productos.length ? Math.max(...productos.map(p => p.id)) + 1 : 1;
-
-            productos.push(producto);
-        }
-
-        listado();
-    });
-
+    console.log('LISTADO GLOBAL');
     listado();
-});
+}
 
+async function guardar(e) {
+    e.preventDefault();
+
+    const producto = { nombre: form.nombre.value, precio: form.precio.value };
+
+    if(form.id.value) {
+        producto.id = +form.id.value;
+
+        console.log(producto);
+
+        await fetch(URL + producto.id, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(producto)
+        });
+    } else {
+        await fetch(URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(producto)
+        });
+    }
+
+    console.log('LISTADO DESPUÉS DE SUBMIT');
+    listado();
+}
 async function listado() {
     const respuesta = await fetch(URL);
     const productos = await respuesta.json();
@@ -60,9 +68,10 @@ async function listado() {
     table.style.display = null;
 }
 
-function formulario(id) {
+async function formulario(id) {
     if(id) {
-        const p = productos.find(p => p.id === id);
+        const respuesta = await fetch(URL + id);
+        const p = await respuesta.json();
 
         form.id.value = p.id;
         form.nombre.value = p.nombre;
@@ -76,7 +85,5 @@ function formulario(id) {
 }
 
 function borrar(id) {
-    productos = productos.filter(p => p.id !== id);
-
-    listado();
+    fetch(URL + id, { method: 'DELETE' }).then(listado);
 }
