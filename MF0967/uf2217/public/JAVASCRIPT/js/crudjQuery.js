@@ -57,6 +57,12 @@ function listado() {
 
         $('form').hide();
         $('table').show();
+
+        new DataTable('table', {
+            language: {
+                url: 'json/datatables_es-ES.json',
+            },
+        });
     });
 }
 
