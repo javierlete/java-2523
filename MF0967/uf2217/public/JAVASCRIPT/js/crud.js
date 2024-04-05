@@ -1,16 +1,22 @@
 'use strict';
 
+const euro = new Intl.NumberFormat('es-ES', {
+    style: 'currency',
+    currency: 'EUR',
+    useGrouping: true
+});
+
 const URL = 'http://localhost:3001/productos/';
 
 let form, table, tbody;
 
 window.addEventListener('DOMContentLoaded', domCargado);
 
-function domCargado(){
+function domCargado() {
     form = document.querySelector('form');
     table = document.querySelector('table');
     tbody = document.querySelector('tbody');
-    
+
     form.addEventListener('submit', guardar);
 
     console.log('LISTADO GLOBAL');
@@ -20,9 +26,14 @@ function domCargado(){
 async function guardar(e) {
     e.preventDefault();
 
+    if(!form.checkValidity()) {
+        form.classList.add('was-validated');
+        return;
+    }
+
     const producto = { nombre: form.nombre.value, precio: +form.precio.value };
 
-    if(form.id.value) {
+    if (form.id.value) {
         producto.id = +form.id.value;
 
         console.log(producto);
@@ -54,11 +65,13 @@ async function listado() {
     tbody.innerHTML = '';
 
     productos.sort((p1, p2) => p1.id - p2.id).forEach(p => {
+        console.log(p);
+        
         const tr = document.createElement('tr');
-        tr.innerHTML = `<th>${p.id}</th><td>${p.nombre}</td><td>${p.precio}</td>
+        tr.innerHTML = `<th class="text-end">${p.id}</th><td>${p.nombre}</td><td class="text-end">${euro.format(p.precio)}</td>
             <td>
-                <a href="javascript:formulario(${p.id})">Editar</a>
-                <a href="javascript:borrar(${p.id})">Borrar</a>
+                <a class="btn btn-sm btn-primary" href="javascript:formulario(${p.id})">Editar</a>
+                <a class="btn btn-sm btn-danger" href="javascript:borrar(${p.id})">Borrar</a>
             </td>`;
 
         tbody.appendChild(tr);
@@ -69,7 +82,7 @@ async function listado() {
 }
 
 async function formulario(id) {
-    if(id) {
+    if (id) {
         const respuesta = await fetch(URL + id);
         const p = await respuesta.json();
 

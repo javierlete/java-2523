@@ -3,7 +3,7 @@
     {
       "id": 1,
       "nombre": "Producto JSON 1",
-      "precio": 12.34
+      "precio": 1234.34
     },
     {
       "nombre": "Producto JSON 2",
