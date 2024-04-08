@@ -8,62 +8,22 @@
     {
       "nombre": "Producto JSON 2asdfasdfasdf",
       "precio": "22.34",
-      "id": 2
-    },
-    {
-      "nombre": "Producto JSON 2asdfasdfasdf",
-      "precio": "22.34",
-      "id": 3
-    },
-    {
-      "nombre": "Producto JSON 2asdfasdfasdf",
-      "precio": "22.34",
-      "id": 4
-    },
-    {
-      "nombre": "Producto JSON 2asdfasdfasdf",
-      "precio": "22.34",
-      "id": 5
-    },
-    {
-      "nombre": "Producto JSON 2asdfasdfasdf",
-      "precio": "22.34",
-      "id": 6
-    },
-    {
-      "nombre": "Producto JSON 2asdfasdfasdf",
-      "precio": "22.34",
-      "id": 7
-    },
-    {
-      "nombre": "Producto JSON 2asdfasdfasdf",
-      "precio": "22.34",
-      "id": 8
-    },
-    {
-      "nombre": "Producto JSON 2asdfasdfasdf",
-      "precio": "22.34",
-      "id": 10
-    },
-    {
-      "nombre": "Producto JSON 2asdfasdfasdf",
-      "precio": "22.34",
-      "id": 11
-    },
-    {
-      "nombre": "Producto JSON 2asdfasdfasdf",
-      "precio": "22.34",
-      "id": 12
-    },
-    {
-      "nombre": "Producto JSON 2asdfasdfasdf",
-      "precio": "22.34",
       "id": 13
     },
     {
-      "id": 14,
       "nombre": "Producto JSON 3",
-      "precio": 32.34
+      "precio": "32.34",
+      "id": 14
+    },
+    {
+      "nombre": "Modificadoadsfasdfasd",
+      "precio": "1324",
+      "id": 15
+    },
+    {
+      "nombre": "Nuevo",
+      "precio": "13241",
+      "id": 16
     }
   ]
 }

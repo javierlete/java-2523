@@ -6,6 +6,8 @@ var euro = new Intl.NumberFormat('es-ES', {
     useGrouping: true
 });
 
+var dataTables;
+
 var URL = 'http://localhost:3001/productos/';
 
 $(function () {
@@ -43,6 +45,8 @@ function guardar(e) {
 }
 function listado() {
     $.getJSON(URL).then(function (productos) {
+        dataTables && dataTables.destroy();
+
         $('tbody').empty();
 
         $.each(productos, function (clave, p) {
@@ -58,7 +62,7 @@ function listado() {
         $('form').hide();
         $('table').show();
 
-        new DataTable('table', {
+        dataTables = new DataTable('table', {
             language: {
                 url: 'json/datatables_es-ES.json',
             },
