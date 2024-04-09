@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="css/App.css">
+
+    <script defer src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script defer src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script defer src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script defer type="text/babel" src="js/App.jsx"></script>
+    <script defer type="text/babel" data-presets="env,react" id="react-input">
+        ReactDOM.createRoot(document.getElementById('salida-react')).render(
+            <App></App>
+        )
+    </script>
+</head>
+<body id="salida-react">
+
+</body>
+</html>

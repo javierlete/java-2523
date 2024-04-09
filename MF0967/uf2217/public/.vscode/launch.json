@@ -14,7 +14,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "SERVIDOR",
-            "url": "http://127.0.0.1:8080/JAVASCRIPT/crud.html"
+            "url": "http://127.0.0.1:8080"
         }
     ]
 }
