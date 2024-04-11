@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD</title>
+
+    <link rel="icon" type="image/svg+xml" href="imgs/favicon.svg">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script defer src="js/bootstrap.bundle.min.js"></script>
+
+    <script defer src="js/jquery-3.7.1.min.js"></script>
+
+    <link rel="stylesheet" href="css/dataTables.bootstrap5.css">
+    <script defer src="js/dataTables.js"></script>
+    <script defer src="js/dataTables.bootstrap5.js"></script>
+
+    <script defer src="js/crudjQuery.js"></script>
+    <script src="js/labelInput.js"></script>
+</head>
+
+<body>
+    <nav class="px-2 navbar navbar-expand-sm bg-dark border-bottom border-body" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">CRUD</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-sm-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript:listado()">Listado</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript:formulario()">Detalle</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <main class="container-fluid my-3">
+        <table class="table table-hover table-striped table-bordered">
+            <thead class="table-secondary">
+                <tr>
+                    <th class="text-end">Id</th>
+                    <th>Nombre</th>
+                    <th class="text-end">Precio</th>
+                    <th>OPCIONES</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+            <tfoot class="table-secondary">
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <a class="btn btn-sm btn-primary" href="javascript:formulario()">Añadir</a>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <form novalidate>
+            <jl-labelinput i="id" etiqueta="Id" tipo="number" atributos="readonly"></jl-labelinput>
+            <jl-labelinput i="nombre" etiqueta="Nombre" longitud-minima="3" atributos="required"
+                texto-error="El nombre debe tener 3 caracteres como mínimo y es obligatorio"></jl-labelinput>
+            <jl-labelinput i="precio" etiqueta="Precio" tipo="euro" minimo="0"
+                texto-error="El precio es obligatorio y debe ser positivo"></jl-labelinput>
+            <jl-labelinput tipo="btn" etiqueta="Guardar"></jl-labelinput>
+        </form>
+    </main>
+</body>
+
+</html>
