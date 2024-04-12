@@ -26,10 +26,12 @@ public class Alumno {
 
 	@NotNull
 	@NotBlank
+	@Column(name = "nombre")
 	private String nombre;
 
 	@NotNull
 	@NotBlank
+	@Column(name = "apellidos")
 	private String apellidos;
 
 	@Past
@@ -38,6 +40,7 @@ public class Alumno {
 
 	@Min(0)
 	@Max(10)
+	@Column(name = "nota")
 	private BigDecimal nota;
 
 	@ManyToMany(mappedBy = "alumnos")

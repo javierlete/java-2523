@@ -2,10 +2,13 @@ package com.ipartek.formacion.fullstack.entidades;
 
 import java.util.Set;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -17,12 +20,14 @@ public class Curso {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@NotNull
 	@NotBlank
+	@Column(name = "nombre")
 	private String nombre;
-	
+
 	@ManyToMany
+	@JoinTable(name = "cursos_alumnos", joinColumns = @JoinColumn(name = "cursos_id"), inverseJoinColumns = @JoinColumn(name = "alumnos_id"))
 	private Set<Alumno> alumnos;
 
 	public Curso(Long id, @NotNull @NotBlank String nombre, Set<Alumno> alumnos) {
@@ -31,8 +36,9 @@ public class Curso {
 		this.nombre = nombre;
 		this.alumnos = alumnos;
 	}
-	
-	public Curso() {}
+
+	public Curso() {
+	}
 
 	public Long getId() {
 		return id;
@@ -99,6 +105,5 @@ public class Curso {
 	public String toString() {
 		return "Curso [id=" + id + ", nombre=" + nombre + ", alumnos=" + alumnos + "]";
 	}
-	
-	
+
 }
