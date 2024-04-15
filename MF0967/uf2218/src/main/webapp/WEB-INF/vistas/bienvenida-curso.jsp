@@ -5,16 +5,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Listado de cursos</title>
+<title>Alta en curso de nuevo alumno</title>
 </head>
 <body>
-	<ul>
-		<c:forEach items="${cursos}" var="curso">
-			<li>
-				${curso.nombre()}
-				<a href="formulario?id=${curso.id()}">Apúntame</a>
-			</li>
-		</c:forEach>
-	</ul>
+	<h1>Hola ${alumno.nombre()}, te has dado de alta en el curso ${curso.nombre()}</h1>
+	
 </body>
 </html>
