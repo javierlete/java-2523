@@ -11,7 +11,10 @@
 	<h1>Listado de alumnos del curso ${curso.nombre()}</h1>
 	<ul>
 		<c:forEach items="${alumnos}" var="alumno">
-			<li>${alumno.nombre()}</li>
+			<li>
+				${alumno.nombre()} ${alumno.apellidos()}
+				<a href="formulario?id-alumno=${alumno.id()}">Editar</a>
+			</li>
 		</c:forEach>
 	</ul>
 </body>

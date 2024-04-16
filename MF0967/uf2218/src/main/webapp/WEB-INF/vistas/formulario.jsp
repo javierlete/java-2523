@@ -8,14 +8,19 @@
 <title>Alta en curso de nuevo alumno</title>
 </head>
 <body>
-	<h1>Alta en ${curso.nombre()} de nuevo alumno</h1>
+	<c:if test="${curso != null}">
+		<h1>Alta en ${curso.nombre()} de nuevo alumno</h1>
+	</c:if>
 	
 	<form action="formulario" method="post">
 		<input name="id-curso" type="hidden" value="${curso.id()}">
-		<input name="nombre" placeholder="Nombre">
-		<input name="apellidos" placeholder="Apellidos">
-		<input name="fecha-nacimiento" type="date" placeholder="Fecha de Nacimiento">
-		<button>Alta en el curso</button>
+		<input name="id" type="hidden" value="${alumno.id()}">
+		
+		<input name="nombre" placeholder="Nombre" value="${alumno.nombre()}">
+		<input name="apellidos" placeholder="Apellidos" value="${alumno.apellidos()}">
+		<input name="fecha-nacimiento" type="date" placeholder="Fecha de Nacimiento" value="${alumno.fechaNacimiento()}">
+		
+		<button>${curso != null ? 'Alta en el curso' : 'Guardar' }</button>
 	</form>
 </body>
 </html>

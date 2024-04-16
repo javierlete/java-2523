@@ -30,7 +30,9 @@ public class DaoAlumnoJpa extends AccesoDatosJpa implements DaoAlumno {
 			if(alumno.id() == null) {
 				throw new AccesoDatosException("El alumno debe tener un id para poder modificar sus datos");
 			}
-			em.merge(alumno);
+
+			em.merge(new Alumno(alumno.id(), alumno.nombre(), alumno.apellidos(), alumno.fechaNacimiento(), null, null));
+			
 			return alumno;
 		});
 	}

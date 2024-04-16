@@ -8,6 +8,10 @@
 <title>Listado de cursos</title>
 </head>
 <body>
+	<p>
+		<a href="formulario">Nuevo alumno</a>
+	</p>
+
 	<ul>
 		<c:forEach items="${cursos}" var="curso">
 			<li>
