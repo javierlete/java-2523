@@ -5,16 +5,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Listado de cursos</title>
+<title>Listado de alumnos del curso ${curso.nombre()}</title>
 </head>
 <body>
+	<h1>Listado de alumnos del curso ${curso.nombre()}</h1>
 	<ul>
-		<c:forEach items="${cursos}" var="curso">
-			<li>
-				${curso.nombre()}
-				<a href="formulario?id=${curso.id()}">Apúntame</a>
-				<a href="listado?id=${curso.id()}">Listado de alumnos</a>
-			</li>
+		<c:forEach items="${alumnos}" var="alumno">
+			<li>${alumno.nombre()}</li>
 		</c:forEach>
 	</ul>
 </body>
