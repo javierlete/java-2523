@@ -93,6 +93,6 @@ public class FormularioServlet extends HttpServlet {
 		var alumnoConId = Globales.daoAlumno.insertar(alumno);
 		Globales.daoAlumno.apuntarseACurso(alumnoConId.id(), idCurso);
 
-		return new InscripcionDto(alumno, curso);
+		return new InscripcionDto(alumnoConId, curso);
 	}
 }
