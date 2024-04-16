@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import com.ipartek.formacion.fullstack.configuraciones.Globales;
 import com.ipartek.formacion.fullstack.dtos.AlumnoDto;
 import com.ipartek.formacion.fullstack.dtos.CursoDto;
+import com.ipartek.formacion.fullstack.dtos.InscripcionDto;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -46,22 +47,22 @@ public class FormularioServlet extends HttpServlet {
 		AlumnoDto alumno = new AlumnoDto(null, nombre, apellidos, fechaNacimiento);
 		
 		// LLAMAR A LÓGICA DE NEGOCIO
-		var curso = altaAlumnoCurso(alumno, idCurso);
+		var inscripcion = altaAlumnoCurso(alumno, idCurso);
 		
 		// PREPARAR EL MODELO PARA LA SIGUIENTE VISTA
-		request.setAttribute("curso", curso);
-		request.setAttribute("alumno", alumno);
+		request.setAttribute("curso", inscripcion.curso());
+		request.setAttribute("alumno", inscripcion.alumno());
 		
 		// SALTAMOS A LA SIGUIENTE VISTA
 		request.getRequestDispatcher("/WEB-INF/vistas/bienvenida-curso.jsp").forward(request, response);
 	}
 
-	private CursoDto altaAlumnoCurso(AlumnoDto alumno, Long idCurso) {
+	private InscripcionDto altaAlumnoCurso(AlumnoDto alumno, Long idCurso) {
 		CursoDto curso = Globales.daoCurso.obtenerPorId(idCurso);
 		
 		var alumnoConId = Globales.daoAlumno.insertar(alumno);
 		Globales.daoAlumno.apuntarseACurso(alumnoConId.id(), idCurso);
 		
-		return curso;
+		return new InscripcionDto(alumno, curso);
 	}
 }
