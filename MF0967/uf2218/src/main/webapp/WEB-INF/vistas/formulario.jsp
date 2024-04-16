@@ -11,7 +11,7 @@
 	<h1>Alta en ${curso.nombre()} de nuevo alumno</h1>
 	
 	<form action="formulario" method="post">
-		<input name="id-curso" type="text" value="${curso.id()}">
+		<input name="id-curso" type="hidden" value="${curso.id()}">
 		<input name="nombre" placeholder="Nombre">
 		<input name="apellidos" placeholder="Apellidos">
 		<input name="fecha-nacimiento" type="date" placeholder="Fecha de Nacimiento">
