@@ -7,16 +7,17 @@
 <meta charset="UTF-8">
 <title>Listado de cursos</title>
 </head>
+
 <body>
+	<p>${sessionScope.alumno.nombre()}</p>
+
 	<p>
 		<a href="formulario">Nuevo alumno</a>
 	</p>
 
 	<ul>
 		<c:forEach items="${cursos}" var="curso">
-			<li>
-				${curso.nombre()}
-				<a href="formulario?id=${curso.id()}">Apúntame</a>
+			<li>${curso.nombre()} <a href="formulario?id=${curso.id()}">Apúntame</a>
 				<a href="listado?id=${curso.id()}">Listado de alumnos</a>
 			</li>
 		</c:forEach>
