@@ -35,7 +35,8 @@ public class Producto {
 	@NotBlank(message = "El nombre debe ser rellenado")
 	@Size(min = 3, max = 100)
 	@Column(name = "nombre")
-	private String nombre;
+	@Builder.Default
+	private String nombre = "Anónimo";
 	
 	@NotNull
 	@Min(0)
