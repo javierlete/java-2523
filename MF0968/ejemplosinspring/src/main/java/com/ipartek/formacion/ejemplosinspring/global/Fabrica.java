@@ -1,6 +1,8 @@
 package com.ipartek.formacion.ejemplosinspring.global;
 
 import com.ipartek.formacion.ejemplosinspring.accesodatos.DaoProductoJpa;
+import com.ipartek.formacion.ejemplosinspring.negocio.AdminNegocioImpl;
+import com.ipartek.formacion.ejemplosinspring.negocio.UsuarioNegocioImpl;
 
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -19,6 +21,10 @@ public class Fabrica {
 			return emf.createEntityManager();
 		case "daoProducto":
 			return new DaoProductoJpa();
+		case "negocioAdmin":
+			return new AdminNegocioImpl();
+		case "negocioUsuario":
+			return new UsuarioNegocioImpl();
 		default:
 			throw new UnsupportedOperationException("NO SE CONOCE EL TIPO RECIBIDO: " + tipo);
 		}
