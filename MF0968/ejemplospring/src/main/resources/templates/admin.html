@@ -7,9 +7,13 @@
 <body>
 <h1>Administración</h1>
 
-<form method="post">
-	<input name="nombre" placeholder="Nombre">
-	<input name="precio" placeholder="Precio">
+<form method="post" th:object="${producto}">
+	<input placeholder="Nombre" th:field="*{nombre}">
+	<span th:errors="*{nombre}"></span>
+	
+	<input placeholder="Precio" th:field="*{precio}">
+	<span th:errors="*{precio}"></span>
+	
 	<button>Guardar</button>
 </form>
 
