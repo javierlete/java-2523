@@ -1,13 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
+<html th:replace="~{_global :: plantilla(~{::title}, ~{::main})}" xmlns:th="http://www.thymeleaf.org">
 <title>Administración</title>
-</head>
-<body>
-<h1>Administración</h1>
 
-<form method="post" th:object="${producto}">
+<main>
+<form th:action="@{/admin}" action="index.html" method="post" th:object="${producto}">
 	<input placeholder="Nombre" th:field="*{nombre}">
 	<span th:errors="*{nombre}"></span>
 	
@@ -16,6 +12,5 @@
 	
 	<button>Guardar</button>
 </form>
-
-</body>
+</main>
 </html>
