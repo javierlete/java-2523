@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html th:fragment="plantilla(titulo, contenido)" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<base th:href="@{/}">
+	<meta charset="UTF-8">
+    <title th:replace="${titulo}">TITULO</title>
+</head>
+<body>
+	<nav>
+		<ul>
+			<li><a th:href="@{/}" href="index.html">Principal</a></li>
+			<li><a th:href="@{/admin}" href="admin.html">Administración</a></li>
+		</ul>
+	</nav>
+    <div th:replace="${contenido}">
+    	CONTENIDO
+    </div>
+    <footer>
+    	<p>&copy;2024 Javier Lete</p>
+    </footer>
+</body>
+</html>
