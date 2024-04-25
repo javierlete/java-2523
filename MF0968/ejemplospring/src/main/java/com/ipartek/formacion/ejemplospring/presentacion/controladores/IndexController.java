@@ -29,8 +29,17 @@ public class IndexController {
 		return "index";
 	}
 	
+//	@GetMapping("admin")
+//	public String admin(Model modelo) {
+//		var producto = new Producto();
+//		producto.setNombre("");
+//		modelo.addAttribute(producto);
+//		return "admin";
+//	}
+
 	@GetMapping("admin")
-	public String admin() {
+	public String admin(Producto producto) {
+		producto.setNombre("");
 		return "admin";
 	}
 	
