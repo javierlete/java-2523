@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ipartek.formacion.ejemplospring.entidades.Producto;
 import com.ipartek.formacion.ejemplospring.servicios.AdminNegocio;
@@ -27,6 +28,14 @@ public class IndexController {
 	public String index(Model modelo) {
 		modelo.addAttribute("productos",negocio.obtenerProductos());
 		return "index";
+	}
+	
+	@GetMapping("categorias")
+	@ResponseBody
+	public String categorias(Model modelo) {
+		//modelo.addAttribute("categorias", negocio.obtenerCategorias());
+		
+		return negocio.obtenerCategorias().toString();
 	}
 	
 //	@GetMapping("admin")
