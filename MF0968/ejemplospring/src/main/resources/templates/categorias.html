@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html th:replace="~{_global :: plantilla(~{::title}, ~{::main})}" xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
+<title>Categorías</title>
+<main>
+
+<ul>
+	<li th:each="c : ${categorias}"><a th:href="${'categoria/' + c.id}" th:text="${c.nombre}" href="categoria.html">LA CATEGORÍA</a></li>
+</ul>
+
+</main>
+
+<!--/*
+<p th:text="${productos}">Datos del objeto</p>
+<p>[[${productos}]]</p>
+*/-->
+
+</html>
