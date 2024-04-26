@@ -5,9 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ipartek.formacion.ejemplospring.entidades.Producto;
 import com.ipartek.formacion.ejemplospring.servicios.AdminNegocio;
@@ -31,11 +31,17 @@ public class IndexController {
 	}
 	
 	@GetMapping("categorias")
-	@ResponseBody
 	public String categorias(Model modelo) {
-		//modelo.addAttribute("categorias", negocio.obtenerCategorias());
+		modelo.addAttribute("categorias", negocio.obtenerCategorias());
 		
-		return negocio.obtenerCategorias().toString();
+		return "categorias";
+	}
+	
+	@GetMapping("categoria/{id}")
+	public String categoria(@PathVariable Long id, Model modelo) {
+		modelo.addAttribute("categoria", negocio.obtenerCategoriaPorId(id));
+		
+		return "categoria";
 	}
 	
 //	@GetMapping("admin")
