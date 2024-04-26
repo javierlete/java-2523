@@ -7,7 +7,7 @@
 	<input placeholder="Nombre" th:field="*{nombre}">
 	<span th:errors="*{nombre}"></span>
 	
-	<input placeholder="Precio" th:field="*{precio}">
+	<input type="number" step=".01" placeholder="Precio" th:field="*{precio}">
 	<span th:errors="*{precio}"></span>
 	
 	<button>Guardar</button>
