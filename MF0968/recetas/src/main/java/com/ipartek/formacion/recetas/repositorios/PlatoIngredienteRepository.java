@@ -6,4 +6,6 @@ import com.ipartek.formacion.recetas.entidades.PlatoIngrediente;
 
 public interface PlatoIngredienteRepository extends CrudRepository<PlatoIngrediente, Long> {
 
+	Iterable<PlatoIngrediente> findByPlatoId(Long id);
+
 }
