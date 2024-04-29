@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Ingrediente</title>
+</head>
+<body>
+	<h1>Ingrediente</h1>
+	
+	<form th:action="@{/ingrediente}" method="post" th:object="${ingrediente}">
+		<input th:field="*{nombre}" placeholder="Nombre">
+		<span th:errors="*{nombre}"></span>
+		<button>Guardar</button>
+	</form>
+	
+</body>
+</html>

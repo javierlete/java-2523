@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Plato</title>
+</head>
+<body>
+	<h1>Plato</h1>
+	
+	<form th:action="@{/plato}" method="post" th:object="${plato}">
+		<input th:field="*{nombre}" placeholder="Nombre">
+		<span th:errors="*{nombre}"></span>
+		
+		<select th:field="*{tipoCocina}">
+			<option th:each="tipo: ${tipos}" th:text="${tipo.nombre}" th:value="${tipo.id}">Americana</option>
+		</select>
+		
+		<select th:field="*{dificultad}">
+			<option th:each="nivel: ${niveles}" th:text="${nivel.nombre}" th:value="${nivel.id}">Media</option>
+		</select>
+		
+		<textarea th:field="*{preparacion}" placeholder="Preparación"></textarea>
+		<span th:errors="*{preparacion}"></span>
+		
+		<button>Guardar</button>
+	</form>
+	
+</body>
+</html>
