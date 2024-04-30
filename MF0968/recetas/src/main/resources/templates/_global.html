@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html th:fragment="plantilla(titulo, contenido)" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+	<base th:href="@{/}">
+	<meta charset="UTF-8">
+    <title th:replace="${titulo}">TITULO</title>
+</head>
+<body>
+	<nav>
+		<ul>
+			<li><a th:href="@{/}">Principal</a></li>
+			<li><a th:href="@{/ingredientes}">Ingredientes</a></li>
+			<li><a th:href="@{/platos}">Platos</a></li>
+			<li sec:authorize="isAuthenticated()" sec:authentication="name">Usuario</li>
+			<li sec:authorize="!isAuthenticated()"><a th:href="@{/login}">Inicio sesión</a></li>
+			<li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Cierre de sesión</a></li>
+			
+		</ul>
+	</nav>
+    <div th:replace="${contenido}">
+    	CONTENIDO
+    </div>
+    <footer>
+    	<p>&copy;2024 Javier Lete</p>
+    </footer>
+</body>
+</html>

@@ -1,10 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
+<html th:replace="~{_global :: plantilla(~{::title}, ~{::main})}" xmlns:th="http://www.thymeleaf.org">
 <title>Plato</title>
-</head>
-<body>
+<main>
 	<h1>Plato</h1>
 	
 	<form th:action="@{/plato}" method="post" th:object="${plato}">
@@ -25,5 +22,4 @@
 		<button>Guardar</button>
 	</form>
 	
-</body>
-</html>
+</main>

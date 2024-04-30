@@ -1,10 +1,7 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="https://www.thymeleaf.org">
-<head>
-<title>Spring Security Example</title>
-</head>
-<body>
+<html th:replace="~{_global :: plantilla(~{::title}, ~{::main})}" xmlns:th="http://www.thymeleaf.org">
+<title>Inicio de sesión</title>
+<main>
 	<form th:action="@{/login}" method="post">
 		<div>
 			<label> Usuario: <input type="text" name="username" />
@@ -21,5 +18,4 @@
 		<div th:if="${param.logout}">Se ha cerrado la sesión.</div>
 
 	</form>
-</body>
-</html>
+</main>
