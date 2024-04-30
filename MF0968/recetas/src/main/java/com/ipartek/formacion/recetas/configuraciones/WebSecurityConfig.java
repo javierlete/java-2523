@@ -1,41 +1,37 @@
 package com.ipartek.formacion.recetas.configuraciones;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
-	// AUTENTICACIÓN
-	@Bean
-	UserDetailsService userDetailsService() {
-		UserDetails javier = 
-				User
-					.withDefaultPasswordEncoder()
-					.username("javier")
-					.password("lete")
-					.roles("ADMIN")
-				.build();
-		
-		UserDetails pepe = 
-				User
-					.withDefaultPasswordEncoder()
-					.username("pepe")
-					.password("perez")
-					.roles("USER")
-				.build();
-		
+	// https://www.baeldung.com/spring-security-jdbc-authentication
 
-		return new InMemoryUserDetailsManager(javier, pepe);
+	// AUTENTICACIÓN
+	@Autowired
+	private DataSource dataSource;
+
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder auth)
+	  throws Exception {
+	    auth.jdbcAuthentication().dataSource(dataSource);
 	}
 
+	@Bean
+	PasswordEncoder passwordEncoder() {
+	    return NoOpPasswordEncoder.getInstance(); //new BCryptPasswordEncoder();
+	}
+	
 	// AUTORIZACIÓN
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
