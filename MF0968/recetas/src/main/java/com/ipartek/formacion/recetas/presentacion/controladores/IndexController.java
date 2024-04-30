@@ -63,7 +63,7 @@ public class IndexController {
 		return "redirect:/platos";
 	}
 
-	@GetMapping("platos")
+	@GetMapping({"/", "platos"})
 	public String listadoPlatos(Model modelo) {
 		modelo.addAttribute("platos", servicio.listadoPlatos());
 		
