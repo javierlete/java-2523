@@ -40,4 +40,8 @@ public class Usuario {
 	@NotBlank
 	@Size(min = 3, max = 100)
 	private String password;
+	
+	@NotNull
+	@NotBlank
+	private String rol;
 }
