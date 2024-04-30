@@ -15,6 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
+	// https://spring.io/guides/gs/securing-web
 	// https://www.baeldung.com/spring-security-jdbc-authentication
 
 	// AUTENTICACIÓN
