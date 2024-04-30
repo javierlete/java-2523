@@ -106,5 +106,15 @@ public class IndexController {
 		
 		return "redirect:/plato/" + idPlato;
 	}
+	
+	@GetMapping("/login")
+	public String login() {
+		return "login";
+	}
+	
+	@GetMapping("/logout")
+	public String logout() {
+		return "logout";
+	}
 
 }

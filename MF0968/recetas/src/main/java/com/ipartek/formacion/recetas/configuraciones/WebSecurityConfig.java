@@ -42,10 +42,10 @@ public class WebSecurityConfig {
 					.anyRequest().authenticated()
 				)
 				.formLogin((form) -> form
-//						.loginPage("/login")
+						.loginPage("/login")
 						.permitAll()
 				)
-//				.logout((logout) -> logout.permitAll())
+				.logout((logout) -> logout.permitAll())
 				;
 
 		return http.build();
