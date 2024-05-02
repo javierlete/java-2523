@@ -1,17 +1,42 @@
 <!DOCTYPE html>
-<html th:replace="~{_global :: plantilla(~{::title}, ~{::main})}" xmlns:th="http://www.thymeleaf.org">
+<html th:replace="~{_global :: plantilla(~{::title}, ~{::main})}"
+	xmlns:th="http://www.thymeleaf.org">
 <title>Platos</title>
-<main>
+<main class="container">
 	<h1>Platos</h1>
-	
+
 	<p>
-		<a th:href="@{/plato}">Añadir plato</a>
+		<a class="btn btn-primary" th:href="@{/plato}">Añadir plato</a>
 	</p>
-	<ul>
-		<li th:each="plato: ${platos}">
-			<a th:href="${'plato/' + plato.id}" th:text="${plato.nombre}">PLATO</a> 
-			<a th:href="${'plato/' + plato.id + '/ingredientes'}">Añadir ingredientes</a>
-			<a th:href="${'platos/' + plato.id + '/borrar'}">X</a>
-		</li>
-	</ul>	
+
+	<div
+		class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 g-4">
+		<div th:each="plato: ${platos}" class="col">
+			<div class="card h-100">
+				<img th:src="${'https://picsum.photos/300/200?' + plato.id}" class="card-img-top" alt="...">
+				<div class="card-body">
+					<h5 th:text="${plato.nombre}" class="card-title">Card title</h5>
+
+					<dl class="row">
+						<dt class="col-6">Dificultad</dt>
+						<dd class="col" th:text="${plato.dificultad.nombre}"></dd>
+						<dt class="col-6">Tipo de cocina</dt>
+						<dd class="col" th:text="${plato.tipoCocina.nombre}"></dd>
+					</dl>
+
+				</div>
+				<div class="card-footer d-flex justify-content-around">
+					<small class="text-body-secondary"><a
+						class="btn btn-sm btn-primary"
+						th:href="${'plato/' + plato.id + '/ingredientes'}"><i class="bi bi-plus-circle"></i> Ingredientes</a>
+					<a class="btn btn-sm btn-primary"
+						th:href="${'plato/' + plato.id}"><i
+							class="bi bi-pencil-square"></i></a> <a class="btn btn-sm btn-danger"
+						th:href="${'platos/' + plato.id + '/borrar'}"><i
+							class="bi bi-trash"></i></a></small>
+				</div>
+			</div>
+		</div>
+	</div>
+
 </main>

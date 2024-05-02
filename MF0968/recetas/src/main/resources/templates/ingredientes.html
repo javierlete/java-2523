@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html th:replace="~{_global :: plantilla(~{::title}, ~{::main})}" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <title>Ingredientes</title>
-<main>
+<main class="container">
 	<h1>Ingredientes</h1>
 	
 	<p sec:authorize="hasRole('ROLE_ADMIN')">
-		<a th:href="@{/ingrediente}">Añadir ingrediente</a>
+		<a class="btn btn-primary" th:href="@{/ingrediente}">Añadir ingrediente</a>
 	</p>
-	<ul>
-		<li th:each="ingrediente: ${ingredientes}" th:text="${ingrediente.nombre}">INGREDIENTE</li>
+	<ul class="list-unstyled d-flex flex-wrap">
+		<li class="col text-dark btn btn-outline-secondary m-1" th:each="ingrediente: ${ingredientes}" th:text="${ingrediente.nombre}">INGREDIENTE</li>
 	</ul>	
+
 </main>

@@ -1,27 +1,53 @@
 <!DOCTYPE html>
-<html th:fragment="plantilla(titulo, contenido)" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html th:fragment="plantilla(titulo, contenido)"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
-	<base th:href="@{/}">
-	<meta charset="UTF-8">
-    <title th:replace="${titulo}">TITULO</title>
+<base th:href="@{/}">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title th:replace="${titulo}">TITULO</title>
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/bootstrap-icons.min.css">
 </head>
 <body>
-	<nav>
-		<ul>
-			<li><a th:href="@{/}">Principal</a></li>
-			<li><a th:href="@{/ingredientes}">Ingredientes</a></li>
-			<li><a th:href="@{/platos}">Platos</a></li>
-			<li sec:authorize="isAuthenticated()" sec:authentication="name">Usuario</li>
-			<li sec:authorize="!isAuthenticated()"><a th:href="@{/login}">Inicio sesión</a></li>
-			<li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Cierre de sesión</a></li>
-			
-		</ul>
+	<nav
+		class="navbar bg-dark border-bottom border-body navbar-expand-md mb-3"
+		data-bs-theme="dark">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="#">Recetas</a>
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav me-auto mb-2 mb-md-0">
+					<li class="nav-item"><a class="nav-link" th:href="@{/}">Principal</a></li>
+					<li class="nav-item"><a class="nav-link"
+						th:href="@{/ingredientes}">Ingredientes</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/platos}">Platos</a></li>
+				</ul>
+				<ul class="navbar-nav mb-2 mb-md-0">
+					<li class="navbar-text" sec:authorize="isAuthenticated()"
+						sec:authentication="name">Usuario</li>
+					<li class="nav-item" sec:authorize="!isAuthenticated()"><a
+						class="nav-link" th:href="@{/login}">Inicio sesión</a></li>
+					<li class="nav-item" sec:authorize="isAuthenticated()"><form
+							th:action="@{/logout}" method="post">
+							<button class="nav-link">Cierre de sesión</button>
+						</form></li>
+				</ul>
+
+			</div>
+		</div>
 	</nav>
-    <div th:replace="${contenido}">
-    	CONTENIDO
-    </div>
-    <footer>
-    	<p>&copy;2024 Javier Lete</p>
-    </footer>
+	<div th:replace="${contenido}">CONTENIDO</div>
+	<footer class="p-2 text-bg-dark mt-3">
+		<p>&copy;2024 Javier Lete</p>
+	</footer>
+	<script
+		src="js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

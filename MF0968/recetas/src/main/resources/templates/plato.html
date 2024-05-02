@@ -1,26 +1,54 @@
 <!DOCTYPE html>
-<html th:replace="~{_global :: plantilla(~{::title}, ~{::main})}" xmlns:th="http://www.thymeleaf.org">
+<html th:replace="~{_global :: plantilla(~{::title}, ~{::main})}"
+	xmlns:th="http://www.thymeleaf.org">
 <title>Plato</title>
-<main>
+<main class="container">
 	<h1>Plato</h1>
-	
+
 	<form th:action="@{/plato}" method="post" th:object="${plato}">
 		<input type="hidden" th:field="*{id}">
-		<input th:field="*{nombre}" placeholder="Nombre">
-		<span th:errors="*{nombre}"></span>
-		
-		<select th:field="*{tipoCocina}">
-			<option th:each="tipo: ${tipos}" th:text="${tipo.nombre}" th:value="${tipo.id}">Americana</option>
-		</select>
-		
-		<select th:field="*{dificultad}">
-			<option th:each="nivel: ${niveles}" th:text="${nivel.nombre}" th:value="${nivel.id}">Media</option>
-		</select>
-		
-		<textarea th:field="*{preparacion}" placeholder="Preparación"></textarea>
-		<span th:errors="*{preparacion}"></span>
-		
-		<button>Guardar</button>
+		<div class="row mb-3">
+			<label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" th:classappend="${#fields.hasErrors('nombre')} ? 'is-invalid' : ''" th:field="*{nombre}"
+					placeholder="Nombre">
+				<div class="invalid-feedback" th:errors="*{nombre}"></div>
+			</div>
+		</div>
+		<div class="row mb-3">
+			<label for="tipoCocina" class="col-sm-2 col-form-label">Tipo
+				de cocina</label>
+			<div class="col-sm-10">
+				<select class="form-select" th:classappend="${#fields.hasErrors('tipoCocina')} ? 'is-invalid' : ''" th:field="*{tipoCocina}">
+					<option th:each="tipo: ${tipos}" th:text="${tipo.nombre}"
+						th:value="${tipo.id}">Americana</option>
+				</select>
+				<div class="invalid-feedback" th:errors="*{tipoCocina}"></div>
+			</div>
+		</div>
+		<div class="row mb-3">
+			<label for="dificultad" class="col-sm-2 col-form-label">Dificultad</label>
+			<div class="col-sm-10">
+				<select class="form-select" th:classappend="${#fields.hasErrors('dificultad')} ? 'is-invalid' : ''" th:field="*{dificultad}">
+					<option th:each="nivel: ${niveles}" th:text="${nivel.nombre}"
+						th:value="${nivel.id}">Media</option>
+				</select>
+				<div class="invalid-feedback" th:errors="*{dificultad}"></div>
+			</div>
+		</div>
+		<div class="row mb-3">
+			<label for="preparacion" class="col-sm-2 col-form-label">Preparación</label>
+			<div class="col-sm-10">
+				<textarea class="form-control" th:classappend="${#fields.hasErrors('preparacion')} ? 'is-invalid' : ''" th:field="*{preparacion}"
+					placeholder="Preparación"></textarea>
+				<div class="invalid-feedback" th:errors="*{preparacion}"></div>
+			</div>
+		</div>
+		<div class="row mb-3">
+			<div class="offset-sm-2 col-sm-10">
+				<button class="btn btn-primary">Guardar</button>
+			</div>
+		</div>
 	</form>
-	
+
 </main>

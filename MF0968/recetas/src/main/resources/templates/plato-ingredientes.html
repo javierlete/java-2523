@@ -1,46 +1,79 @@
 <!DOCTYPE html>
-<html th:replace="~{_global :: plantilla(~{::title}, ~{::main})}" xmlns:th="http://www.thymeleaf.org">
+<html th:replace="~{_global :: plantilla(~{::title}, ~{::main})}"
+	xmlns:th="http://www.thymeleaf.org">
 <title>Ingredientes del plato</title>
-<main>
-	<h1>Ingredientes del Plato</h1>
-	
-	<div th:object="${plato}">
-		<h2 th:text="*{nombre}">PIZZA</h2>
-		<p th:text="*{dificultad.nombre}">Fácil</p>
-		<p th:text="*{tipoCocina.nombre}">Italiana</p>
-		
-		<table>
-			<thead>
-				<tr>
-					<th>Ingrediente</th>
-					<th>Medida</th>
-					<th>Cantidad</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="ingrediente: ${platoIngredientes}" th:object="${ingrediente}">
-					<td th:text="*{ingrediente.nombre}">Tomate</td>
-					<td th:text="*{medida}">Rodajas</td>
-					<td th:text="*{cantidad}">5</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-	
-	<form th:action="${'/plato/' + plato.id + '/ingredientes'}" method="post" th:object="${platoIngrediente}">
-		<input type="hidden" th:field="*{plato.id}" th:value="${plato.id}">
-		
-		<select th:field="*{ingrediente}">
-			<option th:each="ingrediente: ${ingredientes}" th:text="${ingrediente.nombre}" th:value="${ingrediente.id}">Patata</option>
-		</select>
-		
-		<input th:field="*{medida}" placeholder="Medida">
-		<span th:errors="*{medida}"></span>
+<main class="container" th:object="${plato}">
+	<h1 th:text="*{nombre}">Ingredientes del Plato</h1>
 
-		<input type="number" th:field="*{cantidad}" placeholder="Cantidad">
-		<span th:errors="*{cantidad}"></span>
-		
-		<button>Guardar</button>
+	<div class="card mb-3">
+		<div class="row g-0">
+			<div class="col-md-4">
+				<img th:src="*{'https://picsum.photos/300/200?' + id}"
+					class="w-100 rounded" alt="...">
+			</div>
+			<div class="col-md-8">
+				<div class="card-body">
+					<h5 th:text="*{nombre}" class="card-title">Card title</h5>
+
+					<dl class="row">
+						<dt class="col-6">Dificultad</dt>
+						<dd class="col" th:text="*{dificultad.nombre}"></dd>
+						<dt class="col-6">Tipo de cocina</dt>
+						<dd class="col" th:text="*{tipoCocina.nombre}"></dd>
+					</dl>
+
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Ingrediente</th>
+								<th>Medida</th>
+								<th>Cantidad</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="ingrediente: ${platoIngredientes}"
+								th:object="${ingrediente}">
+								<td class="fw-bold" th:text="*{ingrediente.nombre}">Tomate</td>
+								<td th:text="*{medida}">Rodajas</td>
+								<td th:text="*{cantidad}">5</td>
+							</tr>
+						</tbody>
+					</table>
+					<p th:text="*{preparacion}" class="card-text">This is a wider
+						card with supporting text below as a natural lead-in to additional
+						content. This content is a little bit longer.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<form class="row row-cols-1 row-cols-md-auto g-3 align-items-center"
+		th:action="${'/plato/' + plato.id + '/ingredientes'}" method="post"
+		th:object="${platoIngrediente}">
+		<div class="col">
+			<input class="form-control" type="hidden" th:field="*{plato.id}"
+				th:value="${plato.id}">
+		</div>
+		<div class="col">
+			<select class="form-select" th:field="*{ingrediente}">
+				<option th:each="ingrediente: ${ingredientes}"
+					th:text="${ingrediente.nombre}" th:value="${ingrediente.id}">Patata</option>
+			</select>
+		</div>
+		<div class="col">
+			<input class="form-control" th:field="*{medida}" placeholder="Medida">
+			<span th:errors="*{medida}"></span>
+		</div>
+		<div class="col">
+			<input class="form-control" style="width: 7rem" type="number"
+				th:field="*{cantidad}" placeholder="Cantidad"> <span
+				th:errors="*{cantidad}"></span>
+		</div>
+		<div class="col">
+			<button class="btn btn-secondary">Guardar</button>
+		</div>
+
+
 	</form>
-	
+
 </main>
