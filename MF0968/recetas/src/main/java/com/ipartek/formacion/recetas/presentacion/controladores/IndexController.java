@@ -62,8 +62,10 @@ public class IndexController {
 	}
 
 	@PostMapping("plato")
-	public String postPlato(@Valid Plato plato, BindingResult bindingResult) {
+	public String postPlato(@Valid Plato plato, BindingResult bindingResult, Model modelo) {
 		if (bindingResult.hasErrors()) {
+			modelo.addAttribute("niveles", servicio.listarDificultades());
+			modelo.addAttribute("tipos", servicio.listarTiposCocina());
 			return "plato";
 		}
 
@@ -125,17 +127,12 @@ public class IndexController {
 
 		System.out.println(platoIngrediente);
 
-		return "redirect:/plato/" + idPlato;
+		return "redirect:/plato/" + idPlato + "/ingredientes";
 	}
 
 	@GetMapping("/login")
 	public String login() {
 		return "login";
-	}
-
-	@GetMapping("/logout")
-	public String logout() {
-		return "logout";
 	}
 
 }
