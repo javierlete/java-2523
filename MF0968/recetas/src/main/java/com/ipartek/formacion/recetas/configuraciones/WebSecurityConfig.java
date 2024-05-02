@@ -49,6 +49,7 @@ public class WebSecurityConfig {
 		http.authorizeHttpRequests(
 				(requests) -> requests
 					.requestMatchers("/ingrediente").hasRole("ADMIN")
+					.requestMatchers(new String[]{"/css/**", "/js/**"}).permitAll()
 					.anyRequest().authenticated()
 				)
 				.formLogin((form) -> form
