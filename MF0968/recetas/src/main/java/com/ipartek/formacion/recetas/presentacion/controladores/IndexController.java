@@ -21,26 +21,26 @@ import jakarta.validation.Valid;
 public class IndexController {
 	@Autowired
 	private RecetaService servicio;
-	
+
 	@GetMapping("ingredientes")
 	public String listadoIngredientes(Model modelo) {
 		modelo.addAttribute("ingredientes", servicio.listarIngredientes());
 		return "ingredientes";
 	}
-	
+
 	@GetMapping("ingrediente")
 	public String formularioIngrediente(Ingrediente ingrediente) {
 		return "ingrediente";
 	}
-	
+
 	@PostMapping("ingrediente")
 	public String postIngrediente(@Valid Ingrediente ingrediente, BindingResult bindingResult) {
-		if(bindingResult.hasErrors()) {
+		if (bindingResult.hasErrors()) {
 			return "ingrediente";
 		}
-		
+
 		servicio.anadirIngrediente(ingrediente);
-		
+
 		return "redirect:/ingredientes";
 	}
 
@@ -48,29 +48,42 @@ public class IndexController {
 	public String formularioPlato(Plato plato, Model modelo) {
 		modelo.addAttribute("niveles", servicio.listarDificultades());
 		modelo.addAttribute("tipos", servicio.listarTiposCocina());
-		
+
+		return "plato";
+	}
+
+	@GetMapping("plato/{idPlato}")
+	public String formularioPlatoConId(@PathVariable Long idPlato, Model modelo) {
+		modelo.addAttribute("plato", servicio.verPlato(idPlato));
+		modelo.addAttribute("niveles", servicio.listarDificultades());
+		modelo.addAttribute("tipos", servicio.listarTiposCocina());
+
 		return "plato";
 	}
 
 	@PostMapping("plato")
 	public String postPlato(@Valid Plato plato, BindingResult bindingResult) {
-		if(bindingResult.hasErrors()) {
+		if (bindingResult.hasErrors()) {
 			return "plato";
 		}
-		
-		servicio.anadirPlato(plato);
-		
+
+		if (plato.getId() == null) {
+			servicio.anadirPlato(plato);
+		} else {
+			servicio.modificarPlato(plato);
+		}
+
 		return "redirect:/platos";
 	}
 
-	@GetMapping({"/", "platos"})
+	@GetMapping({ "/", "platos" })
 	public String listadoPlatos(Model modelo) {
 		modelo.addAttribute("platos", servicio.listadoPlatos());
-		
+
 		return "platos";
 	}
-	
-	@GetMapping("plato/{id}")
+
+	@GetMapping("plato/{id}/ingredientes")
 	public String formularioIngredientes(@PathVariable Long id, PlatoIngrediente platoIngrediente, Model modelo) {
 		modelo.addAttribute("plato", servicio.verPlato(id));
 		modelo.addAttribute("platoIngredientes", servicio.verIngredientesPlato(id));
@@ -78,40 +91,41 @@ public class IndexController {
 
 		return "plato-ingredientes";
 	}
-	
-	@PostMapping("plato/{idPlato}")
-	public String postIngredientes(@PathVariable Long idPlato, @Valid PlatoIngrediente platoIngrediente, BindingResult bindingResult, Model modelo) {
+
+	@PostMapping("plato/{idPlato}/ingredientes")
+	public String postIngredientes(@PathVariable Long idPlato, @Valid PlatoIngrediente platoIngrediente,
+			BindingResult bindingResult, Model modelo) {
 		// TODO revisar el proceso
-		
+
 		System.out.println(platoIngrediente);
-		
+
 		var plato = Plato.builder().id(idPlato).build();
 		platoIngrediente.setPlato(plato);
-		
+
 		System.out.println(platoIngrediente);
-		
-		if(bindingResult.hasErrors()) {
+
+		if (bindingResult.hasErrors()) {
 			System.out.println(bindingResult);
-			
+
 			modelo.addAttribute("plato", servicio.verPlato(idPlato));
 			modelo.addAttribute("platoIngredientes", servicio.verIngredientesPlato(idPlato));
 			modelo.addAttribute("ingredientes", servicio.listarIngredientes());
-			
+
 			return "plato-ingredientes";
 		}
-		
+
 		servicio.anadirIngredienteAPlato(platoIngrediente);
-		
+
 		System.out.println(platoIngrediente);
-		
+
 		return "redirect:/plato/" + idPlato;
 	}
-	
+
 	@GetMapping("/login")
 	public String login() {
 		return "login";
 	}
-	
+
 	@GetMapping("/logout")
 	public String logout() {
 		return "logout";

@@ -9,8 +9,8 @@
 	</p>
 	<ul>
 		<li th:each="plato: ${platos}">
-			<span th:text="${plato.nombre}">PLATO</span> 
-			<a th:href="${'plato/' + plato.id}">Añadir ingredientes</a>
+			<a th:href="${'plato/' + plato.id}" th:text="${plato.nombre}">PLATO</a> 
+			<a th:href="${'plato/' + plato.id + '/ingredientes'}">Añadir ingredientes</a>
 		</li>
 	</ul>	
 </main>

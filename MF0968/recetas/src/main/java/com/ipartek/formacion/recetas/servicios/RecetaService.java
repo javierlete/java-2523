@@ -29,6 +29,10 @@ public interface RecetaService {
 		throw new UnsupportedOperationException("NO IMPLEMENTADO");
 	}
 
+	default void modificarPlato(Plato plato) {
+		throw new UnsupportedOperationException("NO IMPLEMENTADO");
+	}
+
 	default void anadirIngredienteAPlato(PlatoIngrediente platoIngrediente) {
 		throw new UnsupportedOperationException("NO IMPLEMENTADO");
 	}

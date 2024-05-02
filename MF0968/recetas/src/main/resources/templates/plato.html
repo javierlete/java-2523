@@ -5,6 +5,7 @@
 	<h1>Plato</h1>
 	
 	<form th:action="@{/plato}" method="post" th:object="${plato}">
+		<input type="hidden" th:field="*{id}">
 		<input th:field="*{nombre}" placeholder="Nombre">
 		<span th:errors="*{nombre}"></span>
 		

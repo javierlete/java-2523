@@ -27,7 +27,7 @@
 		</table>
 	</div>
 	
-	<form th:action="${'/plato/' + plato.id}" method="post" th:object="${platoIngrediente}">
+	<form th:action="${'/plato/' + plato.id + '/ingredientes'}" method="post" th:object="${platoIngrediente}">
 		<input type="hidden" th:field="*{plato.id}" th:value="${plato.id}">
 		
 		<select th:field="*{ingrediente}">

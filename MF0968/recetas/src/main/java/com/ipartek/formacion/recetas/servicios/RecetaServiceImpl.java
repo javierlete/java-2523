@@ -80,6 +80,12 @@ public class RecetaServiceImpl implements RecetaService {
 
 	@Override
 	public void anadirPlato(Plato plato) {
+		plato.setId(null);
+		platoRepository.save(plato);
+	}
+
+	@Override
+	public void modificarPlato(Plato plato) {
 		platoRepository.save(plato);
 	}
 
