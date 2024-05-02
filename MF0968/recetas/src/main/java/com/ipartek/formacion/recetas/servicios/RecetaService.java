@@ -33,6 +33,10 @@ public interface RecetaService {
 		throw new UnsupportedOperationException("NO IMPLEMENTADO");
 	}
 
+	default void borrarPlato(Long id) {
+		throw new UnsupportedOperationException("NO IMPLEMENTADO");
+	}
+
 	default void anadirIngredienteAPlato(PlatoIngrediente platoIngrediente) {
 		throw new UnsupportedOperationException("NO IMPLEMENTADO");
 	}

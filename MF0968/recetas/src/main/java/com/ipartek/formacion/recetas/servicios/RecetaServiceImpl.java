@@ -90,6 +90,11 @@ public class RecetaServiceImpl implements RecetaService {
 	}
 
 	@Override
+	public void borrarPlato(Long id) {
+		platoRepository.deleteById(id);
+	}
+
+	@Override
 	public void anadirIngredienteAPlato(PlatoIngrediente platoIngrediente) {
 		platoIngredienteRepository.save(platoIngrediente);
 	}

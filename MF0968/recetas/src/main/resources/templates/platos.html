@@ -11,6 +11,7 @@
 		<li th:each="plato: ${platos}">
 			<a th:href="${'plato/' + plato.id}" th:text="${plato.nombre}">PLATO</a> 
 			<a th:href="${'plato/' + plato.id + '/ingredientes'}">Añadir ingredientes</a>
+			<a th:href="${'platos/' + plato.id + '/borrar'}">X</a>
 		</li>
 	</ul>	
 </main>

@@ -76,6 +76,13 @@ public class IndexController {
 		return "redirect:/platos";
 	}
 
+	@GetMapping("platos/{id}/borrar")
+	public String borrarPlato(@PathVariable Long id) {
+		servicio.borrarPlato(id);
+		
+		return "redirect:/platos";
+	}
+	
 	@GetMapping({ "/", "platos" })
 	public String listadoPlatos(Model modelo) {
 		modelo.addAttribute("platos", servicio.listadoPlatos());
