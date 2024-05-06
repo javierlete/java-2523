@@ -130,7 +130,7 @@ public class IndexController {
 		return "redirect:/plato/" + idPlato + "/ingredientes";
 	}
 
-	@GetMapping("/login")
+	@GetMapping("login")
 	public String login() {
 		return "login";
 	}
