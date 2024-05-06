@@ -1,9 +1,11 @@
 package com.ipartek.formacion.recetas.repositorios;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import com.ipartek.formacion.recetas.entidades.Dificultad;
 
-public interface DificultadRepository extends CrudRepository<Dificultad, Long> {
+@RepositoryRestResource(path = "dificultades", collectionResourceRel = "dificultades")
+public interface DificultadRepository extends JpaRepository<Dificultad, Long> {
 
 }
