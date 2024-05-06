@@ -50,6 +50,7 @@ public class WebSecurityConfig {
 				(requests) -> requests
 					.requestMatchers("/ingrediente").hasRole("ADMIN")
 					.requestMatchers(new String[]{"/css/**", "/js/**"}).permitAll()
+					.requestMatchers("/api/**").permitAll()
 					.anyRequest().authenticated()
 				)
 				.formLogin((form) -> form
