@@ -45,5 +45,4 @@ public class Plato {
 	@NotNull
 	@ManyToOne
 	private Dificultad dificultad;
-
 }

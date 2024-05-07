@@ -9,5 +9,5 @@ import com.ipartek.formacion.recetas.entidades.PlatoIngrediente;
 public interface PlatoIngredienteRepository extends JpaRepository<PlatoIngrediente, Long> {
 
 	Iterable<PlatoIngrediente> findByPlatoId(Long id);
-
+	void deleteByPlatoId(Long id);
 }

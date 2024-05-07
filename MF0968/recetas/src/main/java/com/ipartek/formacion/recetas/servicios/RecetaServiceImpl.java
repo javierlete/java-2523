@@ -3,6 +3,7 @@ package com.ipartek.formacion.recetas.servicios;
 import java.math.BigDecimal;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ipartek.formacion.recetas.entidades.Dificultad;
 import com.ipartek.formacion.recetas.entidades.Ingrediente;
@@ -99,7 +100,9 @@ public class RecetaServiceImpl implements RecetaService {
 	}
 
 	@Override
+	@Transactional
 	public void borrarPlato(Long id) {
+		platoIngredienteRepository.deleteByPlatoId(id);
 		platoRepository.deleteById(id);
 	}
 

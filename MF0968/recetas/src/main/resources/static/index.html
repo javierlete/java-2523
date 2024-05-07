@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base href="/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recetas Frontend</title>
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/bootstrap-icons.min.css">
+<script defer src="js/bootstrap.bundle.min.js"></script>
+<script defer src="js/index.js"></script>
+</head>
+<body>
+	<nav
+		class="navbar bg-primary border-bottom border-body navbar-expand-md mb-3"
+		data-bs-theme="dark">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="#">Recetas Frontend</a>
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav me-auto mb-2 mb-md-0">
+					<li class="nav-item"><a class="nav-link"
+						href="javascript:mostrarPlatos()">Principal</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="javascript:mostrarIngredientes()">Ingredientes</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="javascript:mostrarPlatos()">Platos</a></li>
+				</ul>
+				<ul class="navbar-nav mb-2 mb-md-0">
+					<li class="navbar-text">Usuario</li>
+					<li class="nav-item"><a class="nav-link">Inicio sesión</a></li>
+					<li class="nav-item"><form method="post">
+							<button class="nav-link">Cierre de sesión</button>
+						</form></li>
+				</ul>
+
+			</div>
+		</div>
+	</nav>
+
+	<main class="container">
+		<section id="platos">
+			<h2>Platos</h2>
+
+			<p>
+				<a class="btn btn-primary" href="javascript:mostrarPlato()">Añadir plato</a>
+			</p>
+
+			<div
+				class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 g-4">
+				<div class="col">
+					<div class="card h-100">
+						<img class="card-img-top platos-imagen" alt="...">
+						<div class="card-body">
+							<h5 class="card-title platos-nombre">Card title</h5>
+
+							<dl class="row">
+								<dt class="col-6">Dificultad</dt>
+								<dd class="col platos-dificultad"></dd>
+								<dt class="col-6">Tipo de cocina</dt>
+								<dd class="col platos-tipo-cocina"></dd>
+							</dl>
+
+						</div>
+						<div class="card-footer d-flex justify-content-around">
+							<small class="text-body-secondary"><a
+								class="btn btn-sm btn-primary platos-ingredientes"><i class="bi bi-plus-circle"></i>
+									Ingredientes</a> <a class="btn btn-sm btn-primary platos-editar"><i
+									class="bi bi-pencil-square"></i></a> <a
+								class="btn btn-sm btn-danger platos-borrar"><i class="bi bi-trash"></i></a></small>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="plato">
+			<h2>Plato</h2>
+
+			<form id="plato-form" action="javascript:guardarPlato()" method="post" novalidate>
+				<input type="hidden">
+				<div class="row mb-3">
+					<label for="plato-nombre" class="col-sm-2 col-form-label">Nombre</label>
+					<div class="col-sm-10">
+						<input required id="plato-nombre" type="text" class="form-control" placeholder="Nombre">
+						<div class="invalid-feedback">
+							El nombre de plato es obligatorio
+						</div>
+					</div>
+				</div>
+				<div class="row mb-3">
+					<label for="plato-tipo-cocina" class="col-sm-2 col-form-label">Tipo
+						de cocina</label>
+					<div class="col-sm-10">
+						<select id="plato-tipo-cocina" class="form-select">
+							<option>Americana</option>
+						</select>
+						<div class="invalid-feedback"></div>
+					</div>
+				</div>
+				<div class="row mb-3">
+					<label for="plato-dificultad" class="col-sm-2 col-form-label">Dificultad</label>
+					<div class="col-sm-10">
+						<select id="plato-dificultad" class="form-select">
+							<option>Media</option>
+						</select>
+						<div class="invalid-feedback"></div>
+					</div>
+				</div>
+				<div class="row mb-3">
+					<label for="plato-preparacion" class="col-sm-2 col-form-label">Preparación</label>
+					<div class="col-sm-10">
+						<textarea required id="plato-preparacion" class="form-control" placeholder="Preparación"></textarea>
+						<div class="invalid-feedback">
+							La preparación del plato es obligatoria
+						</div>
+					</div>
+				</div>
+				<div class="row mb-3">
+					<div class="offset-sm-2 col-sm-10">
+						<button class="btn btn-primary">Guardar</button>
+					</div>
+				</div>
+			</form>
+		</section>
+
+		<section id="ingredientes">
+			<h2>Ingredientes</h2>
+
+			<p>
+				<a class="btn btn-primary" href="javascript:anadirIngrediente()">Añadir
+					ingrediente</a>
+			</p>
+			<ul class="list-unstyled d-flex flex-wrap">
+				<li class="col text-dark btn btn-outline-secondary m-1">INGREDIENTE</li>
+			</ul>
+		</section>
+
+		<section id="ingrediente">
+			<h2>Ingrediente</h2>
+
+			<form action="javascript:guardarIngrediente()" method="post">
+				<input name="nombre" placeholder="Nombre">
+				<button>Guardar</button>
+			</form>
+		</section>
+	</main>
+
+	<footer class="p-2 text-bg-primary mt-3">
+		<p>&copy;2024 Javier Lete</p>
+	</footer>
+</body>
+</html>
