@@ -1,7 +1,6 @@
 package com.ipartek.formacion.recetas.servicios;
 
-import java.math.BigDecimal;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,63 +9,32 @@ import com.ipartek.formacion.recetas.entidades.Ingrediente;
 import com.ipartek.formacion.recetas.entidades.Plato;
 import com.ipartek.formacion.recetas.entidades.PlatoIngrediente;
 import com.ipartek.formacion.recetas.entidades.TipoCocina;
-import com.ipartek.formacion.recetas.entidades.Usuario;
 import com.ipartek.formacion.recetas.repositorios.DificultadRepository;
 import com.ipartek.formacion.recetas.repositorios.IngredienteRepository;
 import com.ipartek.formacion.recetas.repositorios.PlatoIngredienteRepository;
 import com.ipartek.formacion.recetas.repositorios.PlatoRepository;
 import com.ipartek.formacion.recetas.repositorios.TipoCocinaRepository;
-import com.ipartek.formacion.recetas.repositorios.UsuarioRepository;
 
+import lombok.extern.java.Log;
+
+@Log
 @Service
 public class RecetaServiceImpl implements RecetaService {
 
+	@Autowired
 	private PlatoIngredienteRepository platoIngredienteRepository;
 	
+	@Autowired
 	private IngredienteRepository ingredienteRepository;
 	
+	@Autowired
 	private PlatoRepository platoRepository;
 	
+	@Autowired
 	private DificultadRepository dificultadRepository;
 	
+	@Autowired
 	private TipoCocinaRepository tipoCocinaRepository;
-	
-	public RecetaServiceImpl(PlatoIngredienteRepository platoIngredienteRepository, UsuarioRepository usuarioRepository, PlatoRepository platoRepository, IngredienteRepository ingredienteRepository, DificultadRepository dificultadRepository, TipoCocinaRepository tipoCocinaRepository) {
-		dificultadRepository.save(Dificultad.builder().nombre("Baja").puntuacion(3).build());
-		dificultadRepository.save(Dificultad.builder().nombre("Media").puntuacion(5).build());
-		dificultadRepository.save(Dificultad.builder().nombre("Alta").puntuacion(7).build());
-		
-		tipoCocinaRepository.save(TipoCocina.builder().nombre("Americana").build());
-		tipoCocinaRepository.save(TipoCocina.builder().nombre("Española").build());
-		tipoCocinaRepository.save(TipoCocina.builder().nombre("Francesa").build());
-		tipoCocinaRepository.save(TipoCocina.builder().nombre("Italiana").build());
-		
-		var tomate = Ingrediente.builder().nombre("Tomate").build();
-		var jamon = Ingrediente.builder().nombre("Jamón").build();
-		
-		ingredienteRepository.save(Ingrediente.builder().nombre("Patata").build());
-		ingredienteRepository.save(Ingrediente.builder().nombre("Lechuga").build());
-		ingredienteRepository.save(tomate);
-		ingredienteRepository.save(jamon);
-		
-		var tipoCocina = TipoCocina.builder().id(4L).build();
-		var dificultad = Dificultad.builder().id(1L).build();
-		var plato = Plato.builder().nombre("Pizza").preparacion("Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum dignissimos vero eligendi beatae adipisci non necessitatibus tempore consequuntur soluta asperiores ipsa eaque similique quia! Architecto consequatur a totam aut fuga!").dificultad(dificultad).tipoCocina(tipoCocina).build();
-
-		platoRepository.save(plato);
-		
-		platoIngredienteRepository.save(PlatoIngrediente.builder().plato(plato).ingrediente(tomate).medida("rodajas").cantidad(new BigDecimal(5)).build());
-		platoIngredienteRepository.save(PlatoIngrediente.builder().plato(plato).ingrediente(jamon).medida("láminas").cantidad(new BigDecimal(20)).build());
-		
-		usuarioRepository.save(Usuario.builder().nombre("Javier").email("javier@email.net").password("$2a$12$mof.u/4EIo58hR7On9DnPevyqBC7kb9FHzT.LN/BjF8xOqQVTP1NO").rol("ADMIN").build());
-		usuarioRepository.save(Usuario.builder().nombre("Pepe").email("pepe@email.net").password("$2a$12$Dij9cgV3mXDQYtOo4nvQTOLaUz3URoe7DGjhBrqGa1fEEzkNVhBgq").rol("USER").build());
-		
-		this.platoRepository = platoRepository;
-		this.ingredienteRepository = ingredienteRepository;
-		this.dificultadRepository = dificultadRepository;
-		this.tipoCocinaRepository = tipoCocinaRepository;
-		this.platoIngredienteRepository = platoIngredienteRepository;
-	}
 	
 	@Override
 	public Iterable<Dificultad> listarDificultades() {
@@ -92,6 +60,7 @@ public class RecetaServiceImpl implements RecetaService {
 	public void anadirPlato(Plato plato) {
 		plato.setId(null);
 		platoRepository.save(plato);
+		log.info("Se ha añadido el plato " + plato);
 	}
 
 	@Override
@@ -102,6 +71,11 @@ public class RecetaServiceImpl implements RecetaService {
 	@Override
 	@Transactional
 	public void borrarPlato(Long id) {
+		if(!platoRepository.existsById(id)) {
+			log.warning("Se ha intentado borrar un plato que no existe: " + id);
+			throw new ServiciosException("No existe el plato a borrar");
+		}
+		
 		platoIngredienteRepository.deleteByPlatoId(id);
 		platoRepository.deleteById(id);
 	}
