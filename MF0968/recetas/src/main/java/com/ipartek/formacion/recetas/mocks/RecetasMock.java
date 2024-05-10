@@ -2,7 +2,8 @@ package com.ipartek.formacion.recetas.mocks;
 
 import java.math.BigDecimal;
 
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import com.ipartek.formacion.recetas.entidades.Dificultad;
 import com.ipartek.formacion.recetas.entidades.Ingrediente;
@@ -17,17 +18,28 @@ import com.ipartek.formacion.recetas.repositorios.PlatoRepository;
 import com.ipartek.formacion.recetas.repositorios.TipoCocinaRepository;
 import com.ipartek.formacion.recetas.repositorios.UsuarioRepository;
 
-@Component
+@Configuration
 public class RecetasMock {
+	private Plato plato;
+	
+	@Bean
+	Plato platoPrimero() {
+		return plato;
+	}
+	
 	public RecetasMock(PlatoIngredienteRepository platoIngredienteRepository, UsuarioRepository usuarioRepository, PlatoRepository platoRepository, IngredienteRepository ingredienteRepository, DificultadRepository dificultadRepository, TipoCocinaRepository tipoCocinaRepository) {
-		dificultadRepository.save(Dificultad.builder().nombre("Baja").puntuacion(3).build());
+		var baja = Dificultad.builder().nombre("Baja").puntuacion(3).build();
+		
+		dificultadRepository.save(baja);
 		dificultadRepository.save(Dificultad.builder().nombre("Media").puntuacion(5).build());
 		dificultadRepository.save(Dificultad.builder().nombre("Alta").puntuacion(7).build());
+		
+		var italiana = TipoCocina.builder().nombre("Italiana").build();
 		
 		tipoCocinaRepository.save(TipoCocina.builder().nombre("Americana").build());
 		tipoCocinaRepository.save(TipoCocina.builder().nombre("Española").build());
 		tipoCocinaRepository.save(TipoCocina.builder().nombre("Francesa").build());
-		tipoCocinaRepository.save(TipoCocina.builder().nombre("Italiana").build());
+		tipoCocinaRepository.save(italiana);
 		
 		var tomate = Ingrediente.builder().nombre("Tomate").build();
 		var jamon = Ingrediente.builder().nombre("Jamón").build();
@@ -37,11 +49,13 @@ public class RecetasMock {
 		ingredienteRepository.save(tomate);
 		ingredienteRepository.save(jamon);
 		
-		var tipoCocina = TipoCocina.builder().id(4L).build();
-		var dificultad = Dificultad.builder().id(1L).build();
+		var tipoCocina = italiana;
+		var dificultad = baja;
 		var plato = Plato.builder().nombre("Pizza").preparacion("Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum dignissimos vero eligendi beatae adipisci non necessitatibus tempore consequuntur soluta asperiores ipsa eaque similique quia! Architecto consequatur a totam aut fuga!").dificultad(dificultad).tipoCocina(tipoCocina).build();
 
 		platoRepository.save(plato);
+		
+		this.plato = plato;
 		
 		platoIngredienteRepository.save(PlatoIngrediente.builder().plato(plato).ingrediente(tomate).medida("rodajas").cantidad(new BigDecimal(5)).build());
 		platoIngredienteRepository.save(PlatoIngrediente.builder().plato(plato).ingrediente(jamon).medida("láminas").cantidad(new BigDecimal(20)).build());

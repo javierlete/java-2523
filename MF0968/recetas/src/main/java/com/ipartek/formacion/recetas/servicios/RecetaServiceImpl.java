@@ -92,6 +92,10 @@ public class RecetaServiceImpl implements RecetaService {
 
 	@Override
 	public Plato verPlato(Long id) {
+		if(id == null) {
+			throw new ServiciosException("El id de plato no puede ser null");
+		}
+		
 		return platoRepository.findById(id).orElse(null);
 	}
 
