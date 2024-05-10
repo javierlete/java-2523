@@ -1,6 +1,5 @@
 package com.ipartek.formacion.recetas.presentacion.controladores;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,17 +14,32 @@ import com.ipartek.formacion.recetas.entidades.PlatoIngrediente;
 import com.ipartek.formacion.recetas.servicios.RecetaService;
 
 import jakarta.validation.Valid;
+import lombok.extern.java.Log;
 
+@Log
 @Controller
 @RequestMapping("/")
 public class IndexController {
-	@Autowired
+	private static final String MODELO_NIVELES = "niveles";
+	private static final String MODELO_TIPOS = "tipos";
+	
+	private static final String MODELO_PLATO = "plato";
+	private static final String VISTA_PLATO = "plato";
+	
+	private static final String MODELO_INGREDIENTES = "ingredientes";
+	private static final String VISTA_INGREDIENTES = "ingredientes";
+	private static final String RUTA_INGREDIENTES = "ingredientes";
+	
 	private RecetaService servicio;
+	
+	public IndexController(RecetaService servicio) {
+		this.servicio = servicio;
+	}
 
-	@GetMapping("ingredientes")
+	@GetMapping(RUTA_INGREDIENTES)
 	public String listadoIngredientes(Model modelo) {
-		modelo.addAttribute("ingredientes", servicio.listarIngredientes());
-		return "ingredientes";
+		modelo.addAttribute(MODELO_INGREDIENTES, servicio.listarIngredientes());
+		return VISTA_INGREDIENTES;
 	}
 
 	@GetMapping("ingrediente")
@@ -46,27 +60,27 @@ public class IndexController {
 
 	@GetMapping("plato")
 	public String formularioPlato(Plato plato, Model modelo) {
-		modelo.addAttribute("niveles", servicio.listarDificultades());
-		modelo.addAttribute("tipos", servicio.listarTiposCocina());
+		modelo.addAttribute(MODELO_NIVELES, servicio.listarDificultades());
+		modelo.addAttribute(MODELO_TIPOS, servicio.listarTiposCocina());
 
-		return "plato";
+		return VISTA_PLATO;
 	}
 
 	@GetMapping("plato/{idPlato}")
 	public String formularioPlatoConId(@PathVariable Long idPlato, Model modelo) {
-		modelo.addAttribute("plato", servicio.verPlato(idPlato));
-		modelo.addAttribute("niveles", servicio.listarDificultades());
-		modelo.addAttribute("tipos", servicio.listarTiposCocina());
+		modelo.addAttribute(MODELO_PLATO, servicio.verPlato(idPlato));
+		modelo.addAttribute(MODELO_NIVELES, servicio.listarDificultades());
+		modelo.addAttribute(MODELO_TIPOS, servicio.listarTiposCocina());
 
-		return "plato";
+		return VISTA_PLATO;
 	}
 
 	@PostMapping("plato")
 	public String postPlato(@Valid Plato plato, BindingResult bindingResult, Model modelo) {
 		if (bindingResult.hasErrors()) {
-			modelo.addAttribute("niveles", servicio.listarDificultades());
-			modelo.addAttribute("tipos", servicio.listarTiposCocina());
-			return "plato";
+			modelo.addAttribute(MODELO_NIVELES, servicio.listarDificultades());
+			modelo.addAttribute(MODELO_TIPOS, servicio.listarTiposCocina());
+			return VISTA_PLATO;
 		}
 
 		if (plato.getId() == null) {
@@ -89,14 +103,14 @@ public class IndexController {
 	public String listadoPlatos(Model modelo) {
 		modelo.addAttribute("platos", servicio.listadoPlatos());
 
-		return "platos";
+		return VISTA_PLATO;
 	}
 
 	@GetMapping("plato/{id}/ingredientes")
 	public String formularioIngredientes(@PathVariable Long id, PlatoIngrediente platoIngrediente, Model modelo) {
-		modelo.addAttribute("plato", servicio.verPlato(id));
+		modelo.addAttribute(MODELO_PLATO, servicio.verPlato(id));
 		modelo.addAttribute("platoIngredientes", servicio.verIngredientesPlato(id));
-		modelo.addAttribute("ingredientes", servicio.listarIngredientes());
+		modelo.addAttribute(VISTA_INGREDIENTES, servicio.listarIngredientes());
 
 		return "plato-ingredientes";
 	}
@@ -106,26 +120,26 @@ public class IndexController {
 			BindingResult bindingResult, Model modelo) {
 		// TODO revisar el proceso
 
-		System.out.println(platoIngrediente);
+		log.fine(platoIngrediente.toString());
 
 		var plato = Plato.builder().id(idPlato).build();
 		platoIngrediente.setPlato(plato);
 
-		System.out.println(platoIngrediente);
+		log.fine(platoIngrediente.toString());
 
 		if (bindingResult.hasErrors()) {
-			System.out.println(bindingResult);
+			log.fine(bindingResult.toString());
 
-			modelo.addAttribute("plato", servicio.verPlato(idPlato));
+			modelo.addAttribute(MODELO_PLATO, servicio.verPlato(idPlato));
 			modelo.addAttribute("platoIngredientes", servicio.verIngredientesPlato(idPlato));
-			modelo.addAttribute("ingredientes", servicio.listarIngredientes());
+			modelo.addAttribute(VISTA_INGREDIENTES, servicio.listarIngredientes());
 
 			return "plato-ingredientes";
 		}
 
 		servicio.anadirIngredienteAPlato(platoIngrediente);
 
-		System.out.println(platoIngrediente);
+		log.fine(platoIngrediente.toString());
 
 		return "redirect:/plato/" + idPlato + "/ingredientes";
 	}

@@ -51,11 +51,11 @@ public class RecetasMock {
 		
 		var tipoCocina = italiana;
 		var dificultad = baja;
-		var plato = Plato.builder().nombre("Pizza").preparacion("Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum dignissimos vero eligendi beatae adipisci non necessitatibus tempore consequuntur soluta asperiores ipsa eaque similique quia! Architecto consequatur a totam aut fuga!").dificultad(dificultad).tipoCocina(tipoCocina).build();
+		var pizza = Plato.builder().nombre("Pizza").preparacion("Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum dignissimos vero eligendi beatae adipisci non necessitatibus tempore consequuntur soluta asperiores ipsa eaque similique quia! Architecto consequatur a totam aut fuga!").dificultad(dificultad).tipoCocina(tipoCocina).build();
 
-		platoRepository.save(plato);
+		platoRepository.save(pizza);
 		
-		this.plato = plato;
+		this.plato = pizza;
 		
 		platoIngredienteRepository.save(PlatoIngrediente.builder().plato(plato).ingrediente(tomate).medida("rodajas").cantidad(new BigDecimal(5)).build());
 		platoIngredienteRepository.save(PlatoIngrediente.builder().plato(plato).ingrediente(jamon).medida("láminas").cantidad(new BigDecimal(20)).build());
