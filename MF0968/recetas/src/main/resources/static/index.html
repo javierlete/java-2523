@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
 <base href="/">
 <meta charset="UTF-8">
@@ -9,6 +9,19 @@
 <link rel="stylesheet" href="css/bootstrap-icons.min.css">
 <script defer src="js/bootstrap.bundle.min.js"></script>
 <script defer src="js/index.js"></script>
+<style>
+	@media (min-width: 768px) {
+		#favoritos {
+			width: 20rem;
+		}
+	}
+	
+	@media (max-width: 767px) {
+		#favoritos {
+			position: inherit !important;
+		}
+	}
+</style>
 </head>
 <body>
 	<nav
@@ -33,6 +46,21 @@
 				</ul>
 				<ul class="navbar-nav mb-2 mb-md-0">
 					<li class="navbar-text">Usuario</li>
+					<li class="nav-item position-relative"><a href="#"
+						class="nav-link" data-bs-toggle="collapse"
+						data-bs-target="#favoritos">Favoritos</a>
+						<div
+							class="z-3 collapse list-group position-absolute end-0"
+							id="favoritos">
+							<a href="#" class="list-group-item list-group-item-action text-bg-light"
+								aria-current="true">
+								<div class="d-flex w-100 justify-content-between">
+									<h5 class="mb-1 favoritos-nombre">PLATO</h5>
+									<small class="favoritos-dificultad">DIFICULTAD</small>
+								</div>
+								<p class="mb-1 favoritos-tipo-cocina">TIPO COCINA</p>
+							</a>
+						</div></li>
 					<li class="nav-item"><a class="nav-link">Inicio sesión</a></li>
 					<li class="nav-item"><form method="post">
 							<button class="nav-link">Cierre de sesión</button>
@@ -48,7 +76,8 @@
 			<h2>Platos</h2>
 
 			<p>
-				<a class="btn btn-primary" href="javascript:mostrarPlato()">Añadir plato</a>
+				<a class="btn btn-primary" href="javascript:mostrarPlato()">Añadir
+					plato</a>
 			</p>
 
 			<div
@@ -69,10 +98,12 @@
 						</div>
 						<div class="card-footer d-flex justify-content-around">
 							<small class="text-body-secondary"><a
-								class="btn btn-sm btn-primary platos-ingredientes"><i class="bi bi-plus-circle"></i>
-									Ingredientes</a> <a class="btn btn-sm btn-primary platos-editar"><i
+								class="btn btn-sm btn-primary platos-ingredientes"><i
+									class="bi bi-plus-circle"></i> Ingredientes</a> <a
+								class="btn btn-sm btn-primary platos-editar"><i
 									class="bi bi-pencil-square"></i></a> <a
-								class="btn btn-sm btn-danger platos-borrar"><i class="bi bi-trash"></i></a></small>
+								class="btn btn-sm btn-danger platos-borrar"><i
+									class="bi bi-trash"></i></a> <a class="btn btn-sm btn-primary platos-favorito"><i class="bi bi-star"></i></a></small>
 						</div>
 					</div>
 				</div>
@@ -82,15 +113,16 @@
 		<section id="plato">
 			<h2>Plato</h2>
 
-			<form id="plato-form" action="javascript:guardarPlato()" method="post" novalidate>
+			<form id="plato-form" action="javascript:guardarPlato()"
+				method="post" novalidate>
 				<input type="hidden">
 				<div class="row mb-3">
 					<label for="plato-nombre" class="col-sm-2 col-form-label">Nombre</label>
 					<div class="col-sm-10">
-						<input required id="plato-nombre" type="text" class="form-control" placeholder="Nombre">
-						<div class="invalid-feedback">
-							El nombre de plato es obligatorio
-						</div>
+						<input required id="plato-nombre" type="text" class="form-control"
+							placeholder="Nombre">
+						<div class="invalid-feedback">El nombre de plato es
+							obligatorio</div>
 					</div>
 				</div>
 				<div class="row mb-3">
@@ -115,10 +147,10 @@
 				<div class="row mb-3">
 					<label for="plato-preparacion" class="col-sm-2 col-form-label">Preparación</label>
 					<div class="col-sm-10">
-						<textarea required id="plato-preparacion" class="form-control" placeholder="Preparación"></textarea>
-						<div class="invalid-feedback">
-							La preparación del plato es obligatoria
-						</div>
+						<textarea required id="plato-preparacion" class="form-control"
+							placeholder="Preparación"></textarea>
+						<div class="invalid-feedback">La preparación del plato es
+							obligatoria</div>
 					</div>
 				</div>
 				<div class="row mb-3">

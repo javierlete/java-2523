@@ -1,9 +1,9 @@
 package com.ipartek.formacion.recetas.servicios;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ipartek.formacion.recetas.dtos.Favoritos;
 import com.ipartek.formacion.recetas.entidades.Dificultad;
 import com.ipartek.formacion.recetas.entidades.Ingrediente;
 import com.ipartek.formacion.recetas.entidades.Plato;
@@ -21,21 +21,30 @@ import lombok.extern.java.Log;
 @Service
 public class RecetaServiceImpl implements RecetaService {
 
-	@Autowired
 	private PlatoIngredienteRepository platoIngredienteRepository;
 	
-	@Autowired
 	private IngredienteRepository ingredienteRepository;
 	
-	@Autowired
 	private PlatoRepository platoRepository;
 	
-	@Autowired
 	private DificultadRepository dificultadRepository;
 	
-	@Autowired
 	private TipoCocinaRepository tipoCocinaRepository;
 	
+	private Favoritos favoritos;
+	
+	public RecetaServiceImpl(PlatoIngredienteRepository platoIngredienteRepository,
+			IngredienteRepository ingredienteRepository, PlatoRepository platoRepository,
+			DificultadRepository dificultadRepository, TipoCocinaRepository tipoCocinaRepository, Favoritos favoritos) {
+		super();
+		this.platoIngredienteRepository = platoIngredienteRepository;
+		this.ingredienteRepository = ingredienteRepository;
+		this.platoRepository = platoRepository;
+		this.dificultadRepository = dificultadRepository;
+		this.tipoCocinaRepository = tipoCocinaRepository;
+		this.favoritos = favoritos;
+	}
+
 	@Override
 	public Iterable<Dificultad> listarDificultades() {
 		return dificultadRepository.findAll();
@@ -103,4 +112,24 @@ public class RecetaServiceImpl implements RecetaService {
 	public Iterable<PlatoIngrediente> verIngredientesPlato(Long id) {
 		return platoIngredienteRepository.findByPlatoId(id);
 	}
+
+	@Override
+	public Favoritos favoritos() {
+		return favoritos;
+	}
+
+	@Override
+	public Plato agregarFavorito(Long id) {
+		var platoOptional = platoRepository.findById(id);
+		
+		if(platoOptional.isPresent()) {
+			var plato = platoOptional.get();
+			favoritos.getPlatos().put(plato.getId(), plato);
+			return plato;
+		}
+		
+		throw new ServiciosException("No se ha encontrado el plato a agregar a favoritos");
+	}
+	
+	
 }

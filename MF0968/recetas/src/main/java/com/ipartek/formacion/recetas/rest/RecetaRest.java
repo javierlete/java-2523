@@ -1,6 +1,5 @@
 package com.ipartek.formacion.recetas.rest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,9 +16,13 @@ import com.ipartek.formacion.recetas.servicios.RecetaService;
 @RestController
 @RequestMapping("/api/recetas")
 public class RecetaRest {
-	@Autowired
 	private RecetaService servicio;
 	
+	public RecetaRest(RecetaService servicio) {
+		super();
+		this.servicio = servicio;
+	}
+
 	@GetMapping("/ingredientes")
 	public Iterable<Ingrediente> ingredientes() {
 		return servicio.listarIngredientes();
@@ -58,5 +61,15 @@ public class RecetaRest {
 	@DeleteMapping("plato/{id}")
 	public void platoBorrar(@PathVariable Long id) {
 		servicio.borrarPlato(id);
+	}
+	
+	@GetMapping("favoritos")
+	public Iterable<Plato> favoritos() {
+		return servicio.favoritos().getPlatos().values();
+	}
+	
+	@PostMapping("favoritos/{id}")
+	public Plato agregarFavorito(@PathVariable Long id) {
+		return servicio.agregarFavorito(id);
 	}
 }

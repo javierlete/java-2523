@@ -1,5 +1,6 @@
 package com.ipartek.formacion.recetas.servicios;
 
+import com.ipartek.formacion.recetas.dtos.Favoritos;
 import com.ipartek.formacion.recetas.entidades.Dificultad;
 import com.ipartek.formacion.recetas.entidades.Ingrediente;
 import com.ipartek.formacion.recetas.entidades.Plato;
@@ -64,4 +65,14 @@ public interface RecetaService {
 	default void valorarPlato(Valoracion valoracion) {
 		throw new UnsupportedOperationException("NO IMPLEMENTADO");
 	}
+
+	default Favoritos favoritos() {
+		throw new UnsupportedOperationException("NO IMPLEMENTADO");
+	}
+	
+	default Plato agregarFavorito(Long id) {
+		throw new UnsupportedOperationException("NO IMPLEMENTADO");
+	}
+	
+	
 }

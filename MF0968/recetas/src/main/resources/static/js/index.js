@@ -1,7 +1,7 @@
 'use strict';
 
 const URL = 'http://localhost:8080/api/recetas/';
-let sections, ul, plantillaClaseLiIngrediente, divPlatos, modeloPlato, platoNombre, platoPreparacion, platoTipoCocina, platoDificultad, platoForm;
+let sections, ul, plantillaClaseLiIngrediente, divPlatos, modeloPlato, platoNombre, platoPreparacion, platoTipoCocina, platoDificultad, platoForm, favoritos, modeloFavorito, collapseFavoritos;
 
 window.addEventListener('DOMContentLoaded', async function() {
 	platoForm = document.getElementById('plato-form');
@@ -11,9 +11,15 @@ window.addEventListener('DOMContentLoaded', async function() {
 	platoDificultad = document.getElementById('plato-dificultad');
 	divPlatos = document.querySelector('#platos .row')
 	modeloPlato = document.querySelector('#platos .col');
+	favoritos = document.getElementById('favoritos');
+	modeloFavorito = document.querySelector('#favoritos a');
 	sections = document.querySelectorAll('main > section');
 	ul = document.querySelector('#ingredientes ul');
 	plantillaClaseLiIngrediente = document.querySelector('#ingredientes ul li').className;
+
+	favoritos.addEventListener('show.bs.collapse', mostrarFavoritos);
+
+	collapseFavoritos = new bootstrap.Collapse('#favoritos');
 
 	mostrarPlatos();
 });
@@ -91,6 +97,7 @@ async function mostrarPlatos() {
 		divPlato.querySelector('.platos-ingredientes').href = `javascript:platoIngredientes(${plato.id})`;
 		divPlato.querySelector('.platos-editar').href = `javascript:platoEditar(${plato.id})`;
 		divPlato.querySelector('.platos-borrar').href = `javascript:platoBorrar(${plato.id})`;
+		divPlato.querySelector('.platos-favorito').href = `javascript:agregarFavorito(${plato.id})`;
 
 		divPlatos.appendChild(divPlato);
 	}
@@ -182,4 +189,30 @@ async function platoBorrar(id) {
 	console.log(respuesta);
 	
 	mostrarPlatos();
+}
+
+async function mostrarFavoritos() {
+	const respuesta = await fetch(URL + 'favoritos');
+	const platos = await respuesta.json();
+	
+	favoritos.innerHTML = '';
+	
+	for (const plato of platos) {
+		const enlace = modeloFavorito.cloneNode(true);
+
+		enlace.querySelector('.favoritos-nombre').innerText = plato.nombre;
+		enlace.querySelector('.favoritos-tipo-cocina').innerText = plato.tipoCocina.nombre;
+		enlace.querySelector('.favoritos-dificultad').innerText = plato.dificultad.nombre;
+
+		favoritos.appendChild(enlace);
+	}
+}
+
+async function agregarFavorito(id) {
+	const respuesta = await fetch(URL + 'favoritos/' + id, { method: 'POST' });
+	const plato = await respuesta.json();
+	
+	console.log(plato);
+	
+	collapseFavoritos.show();
 }
