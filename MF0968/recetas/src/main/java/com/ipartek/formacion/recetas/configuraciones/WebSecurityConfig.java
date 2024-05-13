@@ -22,8 +22,11 @@ public class WebSecurityConfig {
 	// AUTENTICACIÓN
 	private DataSource dataSource;
 	
+	private PasswordEncoder passwordEncoder;
+	
 	public WebSecurityConfig(DataSource dataSource) {
 		this.dataSource = dataSource;
+		this.passwordEncoder = new BCryptPasswordEncoder();
 	}
 
 	@Autowired
@@ -31,7 +34,7 @@ public class WebSecurityConfig {
 		throws Exception {
 		auth.jdbcAuthentication()
 			.dataSource(dataSource)
-			.passwordEncoder(passwordEncoder())
+			.passwordEncoder(passwordEncoder)
 			.usersByUsernameQuery(
 				"""
 				SELECT email,password,1
@@ -50,7 +53,7 @@ public class WebSecurityConfig {
 
 	@Bean
 	PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
+		return passwordEncoder;
 	}
 	
 	// AUTORIZACIÓN
