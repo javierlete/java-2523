@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ipartek.formacion.recetas.dtos.Favoritos;
 import com.ipartek.formacion.recetas.entidades.Ingrediente;
 import com.ipartek.formacion.recetas.entidades.Plato;
 import com.ipartek.formacion.recetas.entidades.PlatoIngrediente;
@@ -31,9 +32,12 @@ public class IndexController {
 	private static final String RUTA_INGREDIENTES = "ingredientes";
 	
 	private RecetaService servicio;
+
+	private Favoritos favoritos;
 	
-	public IndexController(RecetaService servicio) {
+	public IndexController(RecetaService servicio, Favoritos favoritos) {
 		this.servicio = servicio;
+		this.favoritos = favoritos;
 	}
 
 	@GetMapping(RUTA_INGREDIENTES)
@@ -103,7 +107,7 @@ public class IndexController {
 	public String listadoPlatos(Model modelo) {
 		modelo.addAttribute("platos", servicio.listadoPlatos());
 
-		return VISTA_PLATO;
+		return "platos";
 	}
 
 	@GetMapping("plato/{id}/ingredientes")
@@ -147,6 +151,13 @@ public class IndexController {
 	@GetMapping("login")
 	public String login() {
 		return "login";
+	}
+	
+	@GetMapping("favoritos/{id}")
+	public String favoritos(@PathVariable Long id) {
+		var plato = servicio.verPlato(id);
+		favoritos.getPlatos().put(id, plato);
+		return "redirect:/"; // favoritos
 	}
 
 }

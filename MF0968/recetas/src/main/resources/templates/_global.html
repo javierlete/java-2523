@@ -9,6 +9,19 @@
 <title th:replace="${titulo}">TITULO</title>
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="css/bootstrap-icons.min.css">
+<style>
+	@media (min-width: 768px) {
+		#favoritos {
+			width: 20rem;
+		}
+	}
+	
+	@media (max-width: 767px) {
+		#favoritos {
+			position: inherit !important;
+		}
+	}
+</style>
 </head>
 <body>
 	<nav
@@ -32,6 +45,19 @@
 				<ul class="navbar-nav mb-2 mb-md-0">
 					<li class="navbar-text" sec:authorize="isAuthenticated()"
 						sec:authentication="name">Usuario</li>
+					<li class="nav-item position-relative"><a href="#" class="nav-link"
+						data-bs-toggle="collapse" data-bs-target="#favoritos">Favoritos</a>
+						<div class="z-3 collapse list-group text-bg-dark position-absolute end-0"
+							id="favoritos">
+							<a th:each="plato: ${favoritos.platos.values}" href="#" class="list-group-item list-group-item-action"
+								aria-current="true">
+								<div class="d-flex w-100 justify-content-between">
+									<h5 class="mb-1" th:text="${plato.nombre}">PLATO</h5>
+									<small th:text="${plato.dificultad.nombre}">DIFICULTAD</small>
+								</div>
+								<p class="mb-1" th:text="${plato.tipoCocina.nombre}">TIPO COCINA</p>
+							</a>
+						</div></li>
 					<li class="nav-item" sec:authorize="!isAuthenticated()"><a
 						class="nav-link" th:href="@{/login}">Inicio sesión</a></li>
 					<li class="nav-item" sec:authorize="isAuthenticated()"><form
@@ -39,7 +65,6 @@
 							<button class="nav-link">Cierre de sesión</button>
 						</form></li>
 				</ul>
-
 			</div>
 		</div>
 	</nav>
@@ -47,7 +72,6 @@
 	<footer class="p-2 text-bg-dark mt-3">
 		<p>&copy;2024 Javier Lete</p>
 	</footer>
-	<script
-		src="js/bootstrap.bundle.min.js"></script>
+	<script src="js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

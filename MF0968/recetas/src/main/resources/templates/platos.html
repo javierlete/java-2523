@@ -13,7 +13,8 @@
 		class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 g-4">
 		<div th:each="plato: ${platos}" class="col">
 			<div class="card h-100">
-				<img th:src="${'https://picsum.photos/300/200?' + plato.id}" class="card-img-top" alt="...">
+				<img th:src="${'https://picsum.photos/300/200?' + plato.id}"
+					class="card-img-top" alt="...">
 				<div class="card-body">
 					<h5 th:text="${plato.nombre}" class="card-title">Card title</h5>
 
@@ -28,12 +29,13 @@
 				<div class="card-footer d-flex justify-content-around">
 					<small class="text-body-secondary"><a
 						class="btn btn-sm btn-primary"
-						th:href="${'plato/' + plato.id + '/ingredientes'}"><i class="bi bi-plus-circle"></i> Ingredientes</a>
-					<a class="btn btn-sm btn-primary"
-						th:href="${'plato/' + plato.id}"><i
+						th:href="${'plato/' + plato.id + '/ingredientes'}"><i
+							class="bi bi-plus-circle"></i> Ingredientes</a> <a
+						class="btn btn-sm btn-primary" th:href="${'plato/' + plato.id}"><i
 							class="bi bi-pencil-square"></i></a> <a class="btn btn-sm btn-danger"
 						th:href="${'platos/' + plato.id + '/borrar'}"><i
-							class="bi bi-trash"></i></a></small>
+							class="bi bi-trash"></i></a> <a class="btn btn-sm btn-primary"
+						th:href="${'favoritos/' + plato.id}"><i class="bi bi-star"></i></a></small>
 				</div>
 			</div>
 		</div>
